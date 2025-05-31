@@ -29,7 +29,7 @@ export async function onAuthenticateUser() {
     const newUser = await prismaClient.user.create({
       data: {
         clerkId: user.id,
-        email: user.emailAddresses[0]?.emailAddress,
+        email: user.emailAddresses[0]?.emailAddress || 'no-email-provided',
         name: user.firstName + ' ' + user.lastName,
         profileImage: user.imageUrl,
       },
@@ -43,7 +43,7 @@ export async function onAuthenticateUser() {
     }
 
     return {
-      status: 200,
+      status: 201,
       user: newUser,
     };
   } catch (error) {
