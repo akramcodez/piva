@@ -233,3 +233,6 @@
     padding: 8px;
   }
 }
+.bg-secondary {
+  background-color: #141414;
+}

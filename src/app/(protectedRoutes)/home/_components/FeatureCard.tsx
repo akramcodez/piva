@@ -4,17 +4,23 @@ import Link from 'next/link';
 type Props = {
   Icon: React.ReactNode;
   heading: string;
+  smHeading: string;
   link: string;
 };
 
-const FeatureCard = ({ Icon, heading, link }: Props) => {
+const FeatureCard = ({ Icon, heading, smHeading, link }: Props) => {
   return (
     <Link
       href={link}
-      className="px-8 py-6 flex flex-col items-center gap-14 rounded-xl border border-border bg-secondary backdrop-blur-xl"
+      className="px-4 py-3 sm:px-5 sm:py-4 flex flex-row sm:flex-col items-start gap-4 lg:gap-6 rounded-xl border border-border bg-secondary backdrop-blur-xl opacity-80 hover:opacity-100"
     >
       {Icon}
-      <p className="font-semibold text-xl text-primary"></p>
+      <p className="hidden lg:block font-semibold text-xl text-primary">
+        {heading}
+      </p>
+      <p className="block lg:hidden font-semibold text-xl text-primary">
+        {smHeading}
+      </p>
     </Link>
   );
 };
