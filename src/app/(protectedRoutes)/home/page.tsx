@@ -23,7 +23,7 @@ const Pages = (props: Props) => {
             Icon={<Upload className="w-6 h-6 sm:w-10 sm:h-10" />}
             heading="Browse or drag a pre-recorded webinar file"
             smHeading="Export"
-            link="#"
+            link="/export"
           />
           <FeatureCard
             Icon={<Webcam className="w-6 h-6 sm:w-10 sm:h-10" />}
@@ -39,7 +39,7 @@ const Pages = (props: Props) => {
           heading="See how far along are your potential customers"
           link="/lead"
         >
-          <div className="p-5 flex flex-col gap-4 items-start border rounded-xl border-border backdrop-blur-3xl">
+          <div className="p-5 flex flex-col gap-4 items-start border rounded-xl border-border backdrop-blur-3xl bg-[#0d0d0d]">
             <div className="w-full flex justify-between items-center gap-3">
               <p className="text-primary font-semibold text-sm">Conversions</p>
               <p className="text-xs text-muted-foreground font-normal">
@@ -81,7 +81,7 @@ const Pages = (props: Props) => {
               alt="Info-card"
               width={350}
               height={350}
-              className="object-cover rounded-xl absolute px-5 mb-20 hidden sm:flex "
+              className="object-cover rounded-xl absolute px-5 mb-20 hidden sm:flex md:flex"
             />
           </div>
         </FeatureSectionLayout>

@@ -6,6 +6,7 @@ import { Button } from '@/components/ui/button';
 import { ArrowLeft, Zap } from 'lucide-react';
 import PurpleIcon from '../PurpleIcon';
 import { User } from '@prisma/client';
+import CreateWebinarButton from '../CreateWebinarButton';
 
 type Props = {
   user: User;
@@ -38,6 +39,7 @@ const Header = ({ user }: Props) => {
         <PurpleIcon className="flex">
           <Zap className="h-4 w-4 sm:h-5 sm:w-5" />
         </PurpleIcon>
+        <CreateWebinarButton />
       </div>
     </div>
   );

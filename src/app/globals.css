@@ -189,7 +189,6 @@
   animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
 }
 
-/* Speaking animation */
 .speaking-animation {
   position: relative;
 }
@@ -251,4 +250,23 @@
   background-size: 200% 200%;
   animation: animatedGradient 4s linear infinite;
   color: white;
+}
+
+*::-webkit-scrollbar {
+  background: transparent;
+  width: 8px;
+}
+
+*::-webkit-scrollbar-thumb {
+  background: #202224;
+  border-radius: 9999px;
+  cursor: pointer;
+}
+
+.scrollbar-hidden::-webkit-scrollbar-thumb {
+  background: transparent;
+}
+
+.scrollbar-hidden:hover::-webkit-scrollbar-thumb {
+  background: #4b5563;
 }

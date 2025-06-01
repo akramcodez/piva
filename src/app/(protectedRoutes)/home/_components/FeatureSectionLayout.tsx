@@ -17,11 +17,11 @@ const FeatureSectionLayout = ({
 }: Props) => {
   return (
     <div
-      className={`p-6 sm:p-10 flex items-center justify-between flex-col gap-10 border rounded-2xl border-border bg-background-10 ${className}`}
+      className={`p-6 sm:p-10 flex items-center justify-between flex-col gap-5 lg:gap-8 border rounded-2xl border-border bg-background-10 ${className}`}
     >
       {children}
       <div className="w-full justify-between items-center flex flex-wrap gap-4 sm:gap-10">
-        <h3 className="sm:w-[80%] font-semibold text-xl lg:text-2xl text-primary">
+        <h3 className="sm:w-[80%] font-semibold text-md lg:text-2xl text-primary">
           {heading}
         </h3>
         <Link

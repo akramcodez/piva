@@ -25,7 +25,7 @@ export const sidebarData = [
   },
   {
     id: 4,
-    title: 'Ai Agents',
+    title: 'AI Agents',
     icon: Sparkle,
     link: '/ai-agents',
   },
