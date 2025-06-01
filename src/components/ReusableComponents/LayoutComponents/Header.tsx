@@ -5,21 +5,7 @@ import { usePathname, useRouter } from 'next/navigation';
 import { Button } from '@/components/ui/button';
 import { ArrowLeft, Zap } from 'lucide-react';
 import PurpleIcon from '../PurpleIcon';
-
-type User = {
-  name: string;
-  id: string;
-  clerkId: string;
-  email: string;
-  profileImage: string;
-  stripeConnectId: string | null;
-  lastLoginAt: Date | null;
-  createdAt: Date;
-  updatedAt: Date;
-  deletedAt: Date | null;
-  subscription: boolean;
-  stripeCustomerId: string | null;
-};
+import { User } from '@prisma/client';
 
 type Props = {
   user: User;
@@ -30,10 +16,10 @@ const Header = ({ user }: Props) => {
   const router = useRouter();
 
   return (
-    <div className="w-full px-2 sm:px-4 pt-6 sm:pt-8 sticky top-0 z-10 flex justify-between items-center flex-wrap gap-2 sm:gap-4 bg-background">
+    <div className="w-full px-2 sm:px-4 pt-6 pb-3 sm:pt-8 sticky top-0 z-10 flex justify-between items-center flex-wrap gap-2 sm:gap-4 bg-background">
       {pathname.includes('pipeline') ? (
         <Button
-          className="bg-primary/10 border border-border rounded-lg text-sm sm:text-base px-2 py-1 sm:px-3 sm:py-1.5 hover:bg-primary/20"
+          className="animated-gradient-bg border border-border rounded-lg text-sm sm:text-base px-2 py-1 sm:px-3 sm:py-1.5"
           variant="outline"
           onClick={() => router.push('/webinar')}
         >
@@ -41,7 +27,10 @@ const Header = ({ user }: Props) => {
           <span className="ml-1 sm:ml-2">Back</span>
         </Button>
       ) : (
-        <div className="px-2 py-1 text-sm sm:text-base flex justify-center font-medium items-center rounded-lg bg-background border border-border text-primary capitalize">
+        <div
+          className="animated-gradient-bg px-2 py-1 text-sm sm:text-base flex justify-center font-medium h-[35px]
+         items-center rounded-lg border border-border capitalize"
+        >
           {pathname.split('/')[1] || 'Home'}
         </div>
       )}

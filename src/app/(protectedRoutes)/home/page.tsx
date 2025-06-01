@@ -4,6 +4,7 @@ import FeatureCard from './_components/FeatureCard';
 import FeatureSectionLayout from './_components/FeatureSectionLayout';
 import Image from 'next/image';
 import { potentialCustomer } from '@/lib/data';
+import UserInfoCard from '@/components/ReusableComponents/UserInfoCard/index';
 
 type Props = {};
 
@@ -68,13 +69,20 @@ const Pages = (props: Props) => {
             className="flex gap-4 items-center h-full w-full justify-center
             relative flex-wrap"
           >
-            {/* {potentialCustomer.slice(0, 2).map((customer, index) => (
+            {potentialCustomer.slice(0, 2).map((customer, index) => (
               <UserInfoCard
                 customer={customer}
                 tags={customer.tags}
                 key={index}
               />
-            ))} */}
+            ))}
+            <Image
+              src={'/glowCard.png'}
+              alt="Info-card"
+              width={350}
+              height={350}
+              className="object-cover rounded-xl absolute px-5 mb-20 hidden sm:flex "
+            />
           </div>
         </FeatureSectionLayout>
       </div>

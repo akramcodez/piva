@@ -1,7 +1,7 @@
 import { House } from 'lucide-react';
 import { UserRound } from 'lucide-react';
 import { Cog } from 'lucide-react';
-// import { CallStatusEnum } from '@prisma/client';
+import { CallStatusEnum } from '@prisma/client';
 import { Sparkle, Webcam } from 'lucide-react';
 
 export const sidebarData = [
@@ -57,7 +57,7 @@ export const potentialCustomer = [
     updatedAt: new Date(),
     deletedAt: null,
     tags: ['New', 'Hot Lead'],
-    // callStatus: CallStatusEnum.COMPLETED,
+    callStatus: CallStatusEnum.COMPLETED,
   },
   {
     id: '2',
@@ -71,7 +71,7 @@ export const potentialCustomer = [
     updatedAt: new Date(),
     deletedAt: null,
     tags: ['New', 'Hot Lead'],
-    // callStatus: CallStatusEnum.COMPLETED,
+    callStatus: CallStatusEnum.COMPLETED,
   },
   {
     id: '3',
@@ -85,7 +85,7 @@ export const potentialCustomer = [
     updatedAt: new Date(),
     deletedAt: null,
     tags: ['New', 'Hot Lead'],
-    // callStatus: CallStatusEnum.COMPLETED,
+    callStatus: CallStatusEnum.COMPLETED,
   },
 ];
 

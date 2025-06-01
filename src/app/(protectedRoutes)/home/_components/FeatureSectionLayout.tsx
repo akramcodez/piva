@@ -5,7 +5,6 @@ import { ArrowUpRight } from 'lucide-react';
 type Props = {
   children: React.ReactNode;
   heading: string;
-  smHeading: string;
   link: string;
   className?: string;
 };
