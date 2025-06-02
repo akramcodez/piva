@@ -10,7 +10,7 @@ import { create } from 'zustand';
 export type WebinarFormState = {
   basicInfo: {
     webinarName?: string;
-    Description?: string;
+    description?: string;
     date?: Date;
     time?: string;
     timeFormet?: 'AM' | 'PM';
@@ -80,7 +80,7 @@ type WebinarStore = {
 const initialFormData: WebinarFormState = {
   basicInfo: {
     webinarName: '',
-    Description: '',
+    description: '',
     date: undefined,
     time: '',
     timeFormet: 'AM',

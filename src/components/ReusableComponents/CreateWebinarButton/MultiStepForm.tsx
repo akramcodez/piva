@@ -5,6 +5,9 @@ import { AlertCircle, Check, ChevronRight, Loader2 } from 'lucide-react';
 import { Separator } from '@/components/ui/separator';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
+import { createWebinar } from '@/actions/webinar';
+import { toast } from 'sonner';
+import { useRouter } from 'next/navigation';
 
 type Step = {
   id: string;
@@ -27,6 +30,8 @@ const MultiStepForm = ({ steps, onComplete }: Props) => {
     setIsModelOpen,
   } = useWebinarStore();
 
+  const router = useRouter();
+
   const [currentStepIndex, setCurrentStepIndex] = useState(0);
   const [completedSteps, setCompletedSteps] = useState<string[]>([]);
   const [validationError, setValidationError] = useState<string | null>(null);
@@ -44,7 +49,42 @@ const MultiStepForm = ({ steps, onComplete }: Props) => {
     }
   };
 
-  const handleNext = () => {};
+  const handleNext = async () => {
+    setValidationError(null);
+    const isValid = validateStep(currentStep.id as keyof typeof formData);
+
+    if (!isValid) {
+      setValidationError('Please fill in all required fields');
+      return;
+    }
+
+    if (!completedSteps.includes(currentStep.id)) {
+      setCompletedSteps([...completedSteps, currentStep.id]);
+    }
+
+    if (isLastStep) {
+      try {
+        setIsSubmitting(true);
+        const result = await createWebinar(formData);
+        if (result.status === 200 && result.webinarId) {
+          toast.success('Webinar created successfully');
+          onComplete(result.webinarId);
+        } else {
+          toast.error(result.message || 'Failed to create webinar');
+          setValidationError(result.message);
+        }
+        router.refresh();
+      } catch (error) {
+        console.error('Error creating webinar:', error);
+        toast.error('An error occurred while creating the webinar');
+        setValidationError('An error occurred while creating the webinar');
+      } finally {
+        setIsSubmitting(false);
+      }
+    } else {
+      setCurrentStepIndex(currentStepIndex + 1);
+    }
+  };
 
   return (
     <div className="flex flex-col items-center bg-[#27272A]/20 border border-border rounded-xl overflow-hidden max-w-6xl mx-auto backdrop-blur-[106px]">
@@ -189,6 +229,7 @@ const MultiStepForm = ({ steps, onComplete }: Props) => {
             isSubmitting ? (
               <>
                 <Loader2 className="animate-spin" />
+                Creating...
               </>
             ) : (
               'Completed'
