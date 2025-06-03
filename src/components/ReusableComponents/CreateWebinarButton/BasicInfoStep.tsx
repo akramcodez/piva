@@ -36,7 +36,7 @@ const BasicInfoStep = (props: Props) => {
           name="webinarName"
           value={webinarName}
           onChange={handleChange}
-          placeholder="Introduction to Mochi"
+          placeholder="Webinar Title"
           className={cn(
             '!bg-background/50 border border-input',
             errors.webinarName && 'border-red-400 focus-visible:ring-red-400',

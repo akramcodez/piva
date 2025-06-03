@@ -89,8 +89,8 @@ const MultiStepForm = ({ steps, onComplete }: Props) => {
   return (
     <div className="flex flex-col items-center bg-[#27272A]/20 border border-border rounded-xl overflow-hidden max-w-6xl mx-auto backdrop-blur-[106px]">
       <div className="flex items-center justify-start">
-        <div className="w-full md:w-1/3 p-6">
-          <div className="space-y-6">
+        <div className="w-full md:w-1/3 p-4 lg:p-6">
+          <div className="space-y-3">
             {steps.map((step, index) => {
               const isCompleted = completedSteps.includes(step.id);
               const isCurrent = index === currentStepIndex;
@@ -166,11 +166,11 @@ const MultiStepForm = ({ steps, onComplete }: Props) => {
                               : 'rgb(156, 163, 175)',
                         }}
                         transition={{ duration: 0.3 }}
-                        className="font-medium"
+                        className="font-medium text-sm lg:text-[17px] mb-2"
                       >
                         {step.title}
                       </motion.h3>
-                      <p className="text-sm text0gray-500">
+                      <p className="text-xs lg:text-sm text-gray-500">
                         {step.description}
                       </p>
                     </div>
@@ -192,11 +192,15 @@ const MultiStepForm = ({ steps, onComplete }: Props) => {
               animate={{ x: 0, opacity: 1 }}
               exit={{ x: -20, opacity: 0 }}
               transition={{ duration: 0.3 }}
-              className="p-6"
+              className="p-4 lg:p-6"
             >
-              <div className="mb-6">
-                <h2 className="text-xl font-semibold">{currentStep.title}</h2>
-                <p className="text-gray-400">{currentStep.description}</p>
+              <div className="mb-4">
+                <h2 className="text-md lg:text-lg font-semibold mb-1">
+                  {currentStep.title}
+                </h2>
+                <p className="text-gray-400 text-xs lg:text-sm">
+                  {currentStep.description}
+                </p>
               </div>
 
               {currentStep.component}
@@ -212,7 +216,7 @@ const MultiStepForm = ({ steps, onComplete }: Props) => {
         </div>
       </div>
 
-      <div className="w-full p-6 flex justify-between">
+      <div className="w-full p-3 lg:p-5 flex justify-between">
         <Button
           variant="outline"
           onClick={handleBack}
@@ -222,22 +226,26 @@ const MultiStepForm = ({ steps, onComplete }: Props) => {
             isFirstStep ? 'opacity-50 cursor-not-allowed' : '',
           )}
         >
-          {isFirstStep ? 'Start' : 'Back'}
+          <span className="text-sm lg:text-md">
+            {isFirstStep ? 'Start' : 'Back'}
+          </span>
         </Button>
         <Button onClick={handleNext} disabled={isSubmitting}>
-          {isLastStep ? (
-            isSubmitting ? (
-              <>
-                <Loader2 className="animate-spin" />
-                Creating...
-              </>
+          <span className="text-sm lg:text-md">
+            {isLastStep ? (
+              isSubmitting ? (
+                <>
+                  <Loader2 className="animate-spin" />
+                  Creating...
+                </>
+              ) : (
+                'Completed'
+              )
             ) : (
-              'Completed'
-            )
-          ) : (
-            'Next'
-          )}
-          {!isLastStep && <ChevronRight className="ml-1 h-4 w-4" />}
+              'Next'
+            )}
+            {!isLastStep && <ChevronRight className="ml-1 h-4 w-4" />}
+          </span>
         </Button>
       </div>
     </div>

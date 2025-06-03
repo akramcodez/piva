@@ -4,7 +4,6 @@ import React, { useState } from 'react';
 import {
   Dialog,
   DialogContent,
-  DialogHeader,
   DialogTitle,
   DialogTrigger,
 } from '@/components/ui/dialog';
@@ -51,7 +50,7 @@ const CreateWebinarButton = (props: props) => {
           </span>
         </button>
       </DialogTrigger>
-      <DialogContent className="sm:max-w-[900px] p-0 bg-transparent border-none">
+      <DialogContent className="sm:max-w-[900px] lg:w-200 p-0 bg-transparent border-none">
         {isComplete ? (
           <div className="bg-muted text-primary rounded-lg overflow-y-hidden">
             <DialogTitle className="sr-only">Webinar Created</DialogTitle>
