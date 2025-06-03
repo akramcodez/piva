@@ -70,7 +70,7 @@ type WebinarStore = {
     value: WebinarFormState['additionalInfo'][K],
   ) => void;
 
-  validateStep: (step: keyof WebinarFormState) => void;
+  validateStep: (step: keyof WebinarFormState) => boolean;
 
   getStepvalidationError: (step: keyof WebinarFormState) => validationError;
 

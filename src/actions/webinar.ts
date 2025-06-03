@@ -67,22 +67,26 @@ export const createWebinar = async (formData: WebinarFormState) => {
       };
     }
 
+    const data: any = {
+      title: formData.basicInfo.webinarName,
+      description: formData.basicInfo.description || '',
+      startTime: combinedDataTime,
+      tags: formData.cta.tags || [],
+      ctaType: formData.cta.ctaType as CtaTypeEnum,
+      aiAgentId: formData.cta.aiAgent || null,
+      priceId: formData.cta.priceId || null,
+      lockChat: formData.additionalInfo.lockChat || false,
+      couponCode: formData.additionalInfo.couponEnabled
+        ? formData.additionalInfo.couponCode
+        : null,
+      couponEnabled: formData.additionalInfo.couponEnabled || false,
+    };
+    if (presenterId) {
+      data.presenterId = presenterId;
+    }
+
     const webinar = await prismaClient.webinar.create({
-      data: {
-        title: formData.basicInfo.webinarName,
-        description: formData.basicInfo.description || '',
-        startTime: combinedDataTime,
-        tags: formData.cta.tags || [],
-        ctaType: formData.cta.ctaType as CtaTypeEnum,
-        aiAgentId: formData.cta.aiAgent || null,
-        priceId: formData.cta.priceId || null,
-        lockChat: formData.additionalInfo.lockChat || false,
-        couponCode: formData.additionalInfo.couponEnabled
-          ? formData.additionalInfo.couponCode
-          : null,
-        couponEnabled: formData.additionalInfo.couponEnabled || false,
-        presenterId: presenterId,
-      },
+      data: data,
     });
     revalidatePath('/');
     return {
