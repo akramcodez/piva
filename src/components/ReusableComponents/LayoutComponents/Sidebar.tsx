@@ -2,7 +2,7 @@
 
 import { usePathname } from 'next/navigation';
 import { Triangle } from 'lucide-react';
-import React from 'react';
+import React, { useState } from 'react';
 import { sidebarData } from '@/lib/data';
 import Link from 'next/link';
 
@@ -13,6 +13,20 @@ import {
   Tooltip,
   TooltipTrigger,
 } from '@/components/ui/tooltip';
+
+const UserButtonWrapper = () => {
+  const [isMounted, setIsMounted] = useState(false);
+
+  React.useEffect(() => {
+    setIsMounted(true);
+  }, []);
+
+  if (!isMounted) {
+    return null;
+  }
+
+  return <UserButton afterSignOutUrl="/" />;
+};
 
 type Props = {};
 
@@ -50,7 +64,7 @@ const Sidebar = (props: Props) => {
             </TooltipProvider>
           ))}
         </div>
-        <UserButton />
+        <UserButtonWrapper />
       </div>
     </div>
   );

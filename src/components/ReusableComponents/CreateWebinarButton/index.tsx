@@ -27,6 +27,11 @@ const CreateWebinarButton = (props: props) => {
       description: 'Please fill out the standard info needed for your webinar',
       component: <BasicInfoStep />,
     },
+    // {
+    //   id: 'cta',
+    //   title: 'CTA',
+    //   description
+    // }
   ];
 
   const handleComplete = (webinarId: string) => {

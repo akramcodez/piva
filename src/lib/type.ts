@@ -7,7 +7,7 @@ export type ValidationResult = {
 
 export const validateBasicInfo = (data: {
   webinarName?: string;
-  Description?: string;
+  description?: string;
   date?: Date;
   time?: string;
   timeFormet?: 'AM' | 'PM';
@@ -18,8 +18,8 @@ export const validateBasicInfo = (data: {
     errors.webinarName = 'Webinar Name is required';
   }
 
-  if (!data.Description?.trim()) {
-    errors.Description = 'Description is required';
+  if (!data.description?.trim()) {
+    errors.description = 'Description is required';
   }
 
   if (!data.date) {

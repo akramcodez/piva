@@ -19,8 +19,8 @@ import {
   SelectItem,
   SelectTrigger,
   SelectValue,
+  SelectContent,
 } from '@/components/ui/select';
-import { SelectContent } from '@radix-ui/react-select';
 
 type Props = {};
 
@@ -57,7 +57,7 @@ const BasicInfoStep = (props: Props) => {
   };
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-4 lg:space-y-6">
       <div className="space-y-2">
         <Label
           htmlFor="webinarName"
@@ -97,11 +97,10 @@ const BasicInfoStep = (props: Props) => {
             'min-h-[100px] !bg-background/50 border border-input',
             errors.description && 'border-red-400 focus-visible:ring-red-400',
           )}
-        >
-          {errors.description && (
-            <p className="text-sm text-red-400">{errors.description}</p>
-          )}
-        </Textarea>
+        ></Textarea>
+        {errors.description && (
+          <p className="text-xs text-red-400">{errors.description}</p>
+        )}
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -138,7 +137,7 @@ const BasicInfoStep = (props: Props) => {
               />
             </PopoverContent>
           </Popover>
-          {errors.date && <p className="text-sm text-red-400">{errors.date}</p>}
+          {errors.date && <p className="text-xs text-red-400">{errors.date}</p>}
         </div>
 
         <div className="space-y-2">
@@ -166,20 +165,24 @@ const BasicInfoStep = (props: Props) => {
               <SelectTrigger className="w-20 !bg-background/50 border border-input">
                 <SelectValue placeholder="AM" />
               </SelectTrigger>
-              <SelectContent className="!bg-background border border-input ml-10 relative left-29 top-10">
+              <SelectContent className="bg-background border rounded-md border-input">
                 <SelectItem value="AM">AM</SelectItem>
                 <SelectItem value="PM">PM</SelectItem>
               </SelectContent>
             </Select>
           </div>
-          {errors.time && <p className="text-sm text-red-400">{errors.time}</p>}
+          {errors.time && <p className="text-xs text-red-400">{errors.time}</p>}
         </div>
       </div>
 
-      <div className="flex items-center gap-2 text-sm text-gray-400 mt-4">
-        <div className="flex items-center">
+      <div className="flex items-center gap-3 text-sm text-gray-400 mt-4">
+        <div className="hidden sm:flex items-center">
           <Upload className="h-4 w-4 mr-2" />
-          Upload a video makes this webinar pre-recorded
+          Upload file for pre-recorded webinar
+        </div>
+        <div className="flex sm:hidden items-center">
+          <Upload className="h-4 w-4 mr-2" />
+          Upload
         </div>
         <Button
           variant="outline"
