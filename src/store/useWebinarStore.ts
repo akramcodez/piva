@@ -60,10 +60,13 @@ type WebinarStore = {
     value: WebinarFormState['basicInfo'][K],
   ) => void;
 
-  updateCTAField: <K extends keyof WebinarFormState['cta']>(
+  updateCTA: <K extends keyof WebinarFormState['cta']>(
     field: K,
     value: WebinarFormState['cta'][K],
   ) => void;
+
+  addTag: (tag: string) => void;
+  removeTag: (tag: string) => void;
 
   updateAdditionalInfo: <K extends keyof WebinarFormState['additionalInfo']>(
     field: K,
@@ -145,7 +148,7 @@ export const useWebinarStore = create<WebinarStore>((set, get) => ({
     });
   },
 
-  updateCTAField: (field, value) => {
+  updateCTA: (field, value) => {
     set((state) => {
       const newCTA = { ...state.formData.cta, [field]: value };
 
@@ -164,6 +167,36 @@ export const useWebinarStore = create<WebinarStore>((set, get) => ({
     });
   },
 
+  addTag: (tag: string) =>
+    set((state) => {
+      const newCTA = {
+        ...state.formData.cta,
+        tags: [...(state.formData.cta.tags || []), tag],
+      };
+
+      return {
+        formData: {
+          ...state.formData,
+          cta: newCTA,
+        },
+      };
+    }),
+
+  removeTag: (tag: string) =>
+    set((state) => {
+      const newCTA = {
+        ...state.formData.cta,
+        tags: (state.formData.cta.tags || []).filter((t) => t !== tag),
+      };
+
+      return {
+        formData: {
+          ...state.formData,
+          cta: newCTA,
+        },
+      };
+    }),
+
   updateAdditionalInfo: (field, value) => {
     set((state) => {
       const newAdditionalInfo = {
@@ -176,11 +209,11 @@ export const useWebinarStore = create<WebinarStore>((set, get) => ({
       return {
         formData: {
           ...state.formData,
-          addionalInfo: newAdditionalInfo,
+          additionalInfo: newAdditionalInfo,
         },
         validation: {
           ...state.validation,
-          addionalInfo: validationResult,
+          additionalInfo: validationResult,
         },
       };
     });

@@ -11,6 +11,8 @@ import { useWebinarStore } from '@/store/useWebinarStore';
 import { Plus } from 'lucide-react';
 import MultiStepForm from './MultiStepForm';
 import BasicInfoStep from './BasicInfoStep';
+import CTAStep from './CTAStep';
+import AdditionalInformation from './AdditionalInformation';
 
 type props = {};
 
@@ -24,14 +26,21 @@ const CreateWebinarButton = (props: props) => {
     {
       id: 'basicInfo',
       title: 'Basic Information',
-      description: 'Please fill out the standard info needed for your webinar',
+      description: 'Standard webinar details',
       component: <BasicInfoStep />,
     },
-    // {
-    //   id: 'cta',
-    //   title: 'CTA',
-    //   description
-    // }
+    {
+      id: 'cta',
+      title: 'CTA',
+      description: "Webinar's customer endpoint",
+      component: <CTAStep assistants={[]} stripeProducts={[]} />,
+    },
+    {
+      id: 'additionalInfo',
+      title: 'Additional Information',
+      description: 'Fill Additional Information',
+      component: <AdditionalInformation />,
+    },
   ];
 
   const handleComplete = (webinarId: string) => {
@@ -55,7 +64,7 @@ const CreateWebinarButton = (props: props) => {
           </span>
         </button>
       </DialogTrigger>
-      <DialogContent className="sm:max-w-[900px] lg:w-200 p-0 bg-transparent border-none">
+      <DialogContent className="p-0 bg-transparent border-none">
         {isComplete ? (
           <div className="bg-muted text-primary rounded-lg overflow-y-hidden">
             <DialogTitle className="sr-only">Webinar Created</DialogTitle>

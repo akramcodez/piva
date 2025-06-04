@@ -1,3 +1,5 @@
+'use client';
+
 import React from 'react';
 import { useWebinarStore } from '@/store/useWebinarStore';
 import { Label } from '@/components/ui/label';

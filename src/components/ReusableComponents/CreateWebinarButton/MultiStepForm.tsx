@@ -243,7 +243,7 @@ const MultiStepForm = ({ steps, onComplete }: Props) => {
           </span>
         </Button>
         <Button onClick={handleNext} disabled={isSubmitting}>
-          <span className="text-sm lg:text-md">
+          <span className="flex items-center text-sm lg:text-md">
             {isLastStep ? (
               isSubmitting ? (
                 <>
