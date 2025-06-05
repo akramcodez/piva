@@ -44,14 +44,6 @@ const BasicInfoStep = (props: Props) => {
 
   const handleDateChange = (newDate: Date | undefined) => {
     updateBasicInfo('date', newDate);
-    if (newDate) {
-      const today = new Date();
-      today.setHours(0, 0, 0, 0);
-      if (newDate < today) {
-        console.error('Webinar data cannot be in the past');
-        toast.error('Webinar data cannot be in the past');
-      }
-    }
   };
 
   const handleFormetChange = (value: string) => {
@@ -59,7 +51,7 @@ const BasicInfoStep = (props: Props) => {
   };
 
   return (
-    <div className="space-y-4 lg:space-y-6">
+    <div className="space-y-4">
       <div className="space-y-2">
         <Label
           htmlFor="webinarName"
@@ -105,7 +97,7 @@ const BasicInfoStep = (props: Props) => {
         )}
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 gap-4">
         <div className="space-y-2">
           <Label className={errors.date ? 'text-red-400' : ''}>
             Webinar Date <span className="text-red-400">*</span>

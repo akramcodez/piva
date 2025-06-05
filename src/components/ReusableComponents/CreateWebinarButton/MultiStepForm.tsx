@@ -87,10 +87,11 @@ const MultiStepForm = ({ steps, onComplete }: Props) => {
   };
 
   return (
-    <div className="flex flex-col items-center bg-[#27272A]/20 border border-border rounded-xl overflow-hidden max-w-6xl mx-auto backdrop-blur-[106px]">
-      <div className="flex items-center justify-start">
-        <div className="w-full md:w-1/3 p-4 lg:p-6">
-          <div className="space-y-3">
+    <div className="flex flex-col h-full">
+      <div className="flex flex-col md:flex-row flex-1 overflow-hidden">
+        {/* Left side - Steps */}
+        <div className="w-full md:w-1/3 p-4 border-b md:border-b-0 md:border-r border-border bg-background/50">
+          <div className="space-y-4">
             {steps.map((step, index) => {
               const isCompleted = completedSteps.includes(step.id);
               const isCurrent = index === currentStepIndex;
@@ -182,7 +183,7 @@ const MultiStepForm = ({ steps, onComplete }: Props) => {
                       >
                         {step.title}
                       </motion.h3>
-                      <p className="text-xs lg:text-sm text-gray-500">
+                      <p className="text-xs text-gray-500">
                         {step.description}
                       </p>
                     </div>
@@ -192,43 +193,43 @@ const MultiStepForm = ({ steps, onComplete }: Props) => {
             })}
           </div>
         </div>
-        <Separator
-          orientation="vertical"
-          className="data-[orientation=vertical]:h-1/2"
-        />
-        <div className="w-full md:w-2/3">
-          <AnimatePresence mode="wait">
-            <motion.div
-              key={currentStep.id}
-              initial={{ x: 20, opacity: 0 }}
-              animate={{ x: 0, opacity: 1 }}
-              exit={{ x: -20, opacity: 0 }}
-              transition={{ duration: 0.3 }}
-              style={{ padding: '1rem 1.5rem' }}
-            >
-              <div className="mb-4">
-                <h2 className="text-md lg:text-lg font-semibold mb-1">
-                  {currentStep.title}
-                </h2>
-                <p className="text-gray-400 text-xs lg:text-sm">
-                  {currentStep.description}
-                </p>
-              </div>
 
-              {currentStep.component}
-
-              {validationError && (
-                <div className="mt-4 p-3 bg-red-900/30 border border-red-800 rounded-md flex items-stert gap-2 text-red-300">
-                  <AlertCircle className="h-5 w-5 mt-0.5" />
-                  <p>{validationError}</p>
+        {/* Right side - Content */}
+        <div className="w-full md:w-2/3 lg:w-2/3 xl:w-2/3 p-4 lg:p-6 overflow-y-auto">
+          <div className="max-w-5xl mx-auto">
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={currentStep.id}
+                initial={{ x: 20, opacity: 0 }}
+                animate={{ x: 0, opacity: 1 }}
+                exit={{ x: -20, opacity: 0 }}
+                transition={{ duration: 0.3 }}
+              >
+                <div className="mb-3">
+                  <h2 className="text-base lg:text-lg font-semibold mb-1">
+                    {currentStep.title}
+                  </h2>
+                  <p className="text-gray-400 text-xs lg:text-sm">
+                    {currentStep.description}
+                  </p>
                 </div>
-              )}
-            </motion.div>
-          </AnimatePresence>
+
+                {currentStep.component}
+
+                {validationError && (
+                  <div className="mt-3 lg:mt-4 p-3 bg-red-900/30 border border-red-800 rounded-md flex items-start gap-2 text-red-300">
+                    <AlertCircle className="h-5 w-5 mt-0.5 flex-shrink-0" />
+                    <p className="text-sm lg:text-md">{validationError}</p>
+                  </div>
+                )}
+              </motion.div>
+            </AnimatePresence>
+          </div>
         </div>
       </div>
 
-      <div className="w-full p-3 lg:p-5 flex justify-between">
+      {/* Bottom buttons */}
+      <div className="flex items-center justify-between gap-4 p-4 border-t border-border bg-background/50">
         <Button
           variant="outline"
           onClick={handleBack}
@@ -238,12 +239,10 @@ const MultiStepForm = ({ steps, onComplete }: Props) => {
             isFirstStep ? 'opacity-50 cursor-not-allowed' : '',
           )}
         >
-          <span className="text-sm lg:text-md">
-            {isFirstStep ? 'Start' : 'Back'}
-          </span>
+          <span className="text-sm">{isFirstStep ? 'Cancel' : 'Back'}</span>
         </Button>
         <Button onClick={handleNext} disabled={isSubmitting}>
-          <span className="flex items-center text-sm lg:text-md">
+          <span className="flex items-center text-sm">
             {isLastStep ? (
               isSubmitting ? (
                 <>

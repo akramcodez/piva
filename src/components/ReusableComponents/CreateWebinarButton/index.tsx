@@ -49,31 +49,32 @@ const CreateWebinarButton = (props: props) => {
       `${process.env.NEXT_PUBLIC_BASE_URL}/live-webinar/${webinarId}`,
     );
   };
+
   return (
     <Dialog open={isModelOpen} onOpenChange={setIsModelOpen}>
       <DialogTrigger asChild>
         <button
           className="rounded-xl flex gap-2 items-center hover:cursor-pointer px-3 py-1.5
-        border border-border bg-primary/10 backdrop-blur-sm text-sm font-normal text-primary
-        hover:bg-primary-20"
+          border border-border bg-primary/10 backdrop-blur-sm text-primary
+          hover:bg-primary-20"
           onClick={() => setIsModelOpen(true)}
         >
-          <Plus />
-          <span className="text-sm lg:text-md lg:font-semibold">
-            Create Webinar
-          </span>
+          <Plus className="h-4 w-4" />
+          <span className="text-sm lg:text-base">Create Webinar</span>
         </button>
       </DialogTrigger>
-      <DialogContent className="p-0 bg-transparent border-none">
+      <DialogContent className="p-0 bg-transparent border-none w-[95vw] sm:w-[90vw] md:w-[85vw] lg:w-[85vw] xl:w-[85vw] overflow-hidden">
         {isComplete ? (
-          <div className="bg-muted text-primary rounded-lg overflow-y-hidden">
+          <div className="bg-muted text-primary rounded-lg h-full">
             <DialogTitle className="sr-only">Webinar Created</DialogTitle>
             {/* <SucessStep/> */}
           </div>
         ) : (
           <>
-            <DialogTitle className="sr-only"></DialogTitle>
-            <MultiStepForm steps={steps} onComplete={handleComplete} />
+            <DialogTitle className="sr-only">Create Webinar</DialogTitle>
+            <div className="bg-[#27272A]/20 border border-border rounded-xl h-full backdrop-blur-[106px]">
+              <MultiStepForm steps={steps} onComplete={handleComplete} />
+            </div>
           </>
         )}
       </DialogContent>

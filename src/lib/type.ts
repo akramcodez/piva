@@ -24,6 +24,12 @@ export const validateBasicInfo = (data: {
 
   if (!data.date) {
     errors.date = 'Date is required';
+  } else {
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    if (data.date < today) {
+      errors.date = 'Webinar date cannot be in the past';
+    }
   }
 
   if (!data.time?.trim()) {
@@ -32,6 +38,21 @@ export const validateBasicInfo = (data: {
     const timeRegex = /^([01]?[0-9]|2[0-3]):[0-5][0-9]$/;
     if (!timeRegex.test(data.time)) {
       errors.time = 'Invalid time format. Use HH:MM';
+    } else if (data.date) {
+      const [hours, minutes] = data.time.split(':').map(Number);
+      const selectedDateTime = new Date(data.date);
+      selectedDateTime.setHours(
+        data.timeFormet === 'PM' && hours !== 12 ? hours + 12 : hours,
+        minutes,
+      );
+
+      const currentDate = new Date();
+      if (
+        data.date.toDateString() === currentDate.toDateString() &&
+        selectedDateTime < currentDate
+      ) {
+        errors.time = 'Webinar time cannot be in the past';
+      }
     }
   }
 
@@ -70,7 +91,7 @@ export const validateAdditionalInfo = (data: {
 }): ValidationResult => {
   const errors: validationError = {};
 
-  if (!data.couponCode?.trim()) {
+  if (data.couponEnabled && !data.couponCode?.trim()) {
     errors.couponCode = 'Coupon Code is required';
   }
 

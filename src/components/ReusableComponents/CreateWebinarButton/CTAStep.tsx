@@ -9,9 +9,12 @@ import { X } from 'lucide-react';
 import { CtaTypeEnum } from '@prisma/client';
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 
-type Props = {};
+type Props = {
+  assistants: any[];
+  stripeProducts: any[];
+};
 
-const CTAStep = (props: Props) => {
+const CTAStep = ({ assistants, stripeProducts }: Props) => {
   const { formData, updateCTA, addTag, removeTag, getStepvalidationError } =
     useWebinarStore();
   const { ctaLabel, tags, aiAgent, priceId, ctaType } = formData.cta;
@@ -36,7 +39,7 @@ const CTAStep = (props: Props) => {
   };
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-4 md:space-y-4">
       <div className="space-y-2">
         <Label
           htmlFor="ctaLabel"
