@@ -1,4 +1,5 @@
 import type { Attendee } from '@prisma/client';
+import { AttendedTypeEnum, CallStatusEnum } from '@prisma/client';
 
 export type validationError = Record<string, string>;
 
@@ -103,7 +104,26 @@ export const validateAdditionalInfo = (data: {
   };
 };
 
+export type AttendanceUser = {
+  id: string;
+  name: string;
+  email: string;
+  attendedAt: Date;
+  stripeConnectId: string | null;
+  callStatus: CallStatusEnum;
+};
+
 export type AttendanceData = {
   count: number;
-  users: Attendee[];
+  users: AttendanceUser[];
+};
+
+//remove this if not using in future
+export type WebinarAttendanceResponse = {
+  success: boolean;
+  data?: Record<AttendedTypeEnum, AttendanceData>;
+  ctaType?: string;
+  tags?: string[];
+  status?: number;
+  message?: string;
 };

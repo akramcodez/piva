@@ -3,13 +3,14 @@
 import { prismaClient } from '@/lib/prismaClient';
 import { AttendanceData } from '@/lib/type';
 import { AttendedTypeEnum, CtaTypeEnum } from '@prisma/client';
+import { revalidatePath } from 'next/cache';
 
-const getWebinarAttendence = async (
+export const getWebinarAttendence = async (
   webinarId: string,
   options: {
     includeUsers?: boolean;
     userLimit?: number;
-  } = { includeUsers: true, userLimit: 10 },
+  } = { includeUsers: true, userLimit: 100 },
 ) => {
   try {
     const webinar = await prismaClient.webinar.findUnique({
@@ -72,8 +73,99 @@ const getWebinarAttendence = async (
         users: [],
       };
     }
-  } catch (error) {}
+
+    if (options.includeUsers) {
+      for (const type of Object.values(AttendedTypeEnum)) {
+        if (
+          (type === AttendedTypeEnum.ADDED_TO_CART &&
+            webinar.ctaType === CtaTypeEnum.BOOK_A_CALL) ||
+          (type === AttendedTypeEnum.BREAKOUT_ROOM &&
+            webinar.ctaType !== CtaTypeEnum.BOOK_A_CALL)
+        ) {
+          continue;
+        }
+        const queryType =
+          webinar.ctaType === CtaTypeEnum.BOOK_A_CALL &&
+          type === AttendedTypeEnum.BREAKOUT_ROOM
+            ? AttendedTypeEnum.ADDED_TO_CART
+            : type;
+
+        if (result[type].count > 0) {
+          const attendances = await prismaClient.attendance.findMany({
+            where: {
+              webinarId,
+              attendedType: queryType,
+            },
+            include: {
+              webinar: {
+                include: {
+                  presenter: true,
+                },
+              },
+              user: {
+                select: {
+                  id: true,
+                  name: true,
+                  email: true,
+                  callStatus: true,
+                },
+              },
+            },
+            take: options.userLimit,
+            orderBy: {
+              createdAt: 'desc',
+            },
+          });
+
+          result[type].users = attendances
+            .map((attendance) => {
+              if (!attendance.user || !attendance.webinar?.presenter) {
+                console.error(
+                  `Missing required relations for attendance ${attendance.id}`,
+                );
+                return null;
+              }
+
+              return {
+                id: attendance.user.id,
+                name: attendance.user.name,
+                email: attendance.user.email,
+                attendedAt: attendance.joinedAt,
+                stripeConnectId: null,
+                callStatus: attendance.user.callStatus,
+              };
+            })
+            .filter((user): user is NonNullable<typeof user> => user !== null);
+        }
+      }
+    }
+
+    // revalidatePath(`/webinars/${webinarId}/pipeline`);
+    return {
+      success: true,
+      data: result,
+      ctaType: webinar.ctaType,
+      tags: webinar.tags || [],
+    };
+  } catch (error) {
+    console.error('Error fetching webinar attendance data:', error);
+    return {
+      success: false,
+      message: 'Failed to fetch webinar attendance',
+    };
+  }
 };
 
-//C:\Users\SK AKRAM\piva.ai\src\app\(protectedRoutes)\webinars\[webinarId]\pipeline\page.tsx
-//C:\Users\SK AKRAM\piva.ai\src\actions\attendence.ts
+//check here error comes in future
+// result[type].users = attendances
+//             .map((attendance) => ({
+
+//               return {
+//                 id: attendance.user.id,
+//                 name: attendance.user.name,
+//                 email: attendance.user.email,
+//                 attendedAt: attendance.joinedAt,
+//                 stripeConnectId: null,
+//                 callStatus: attendance.user.callStatus,
+//               }
+//             }))
