@@ -25,7 +25,7 @@ const Header = ({ user }: Props) => {
           onClick={() => router.push('/webinar')}
         >
           <ArrowLeft className="h-4 w-4 sm:h-5 sm:w-5" />
-          <span className="ml-1 sm:ml-2">Back</span>
+          <span className="ml-1 sm:ml-2">Back to webinar</span>
         </Button>
       ) : (
         <div
