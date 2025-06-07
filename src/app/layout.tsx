@@ -10,7 +10,7 @@ const manrope = Manrope({
 });
 
 export const metadata: Metadata = {
-  title: 'piva.ai',
+  title: 'pivaAi',
   description: 'Talk with AI',
 };
 

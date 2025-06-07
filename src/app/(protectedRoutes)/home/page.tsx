@@ -20,13 +20,13 @@ const Pages = (props: Props) => {
         </div>
         <div className="flex gap-3 sm:gap-5 w-full justify-evenly items-center">
           <FeatureCard
-            Icon={<Upload className="w-6 h-6 sm:w-10 sm:h-10" />}
+            Icon={<Upload className="w-5 h-5 sm:w-10 sm:h-10" />}
             heading="Browse or drag a pre-recorded webinar file"
             smHeading="Export"
             link="/export"
           />
           <FeatureCard
-            Icon={<Webcam className="w-6 h-6 sm:w-10 sm:h-10" />}
+            Icon={<Webcam className="w-5 h-5 sm:w-10 sm:h-10" />}
             heading="Browse or drag a pre-recorded webinar file"
             smHeading="Webinar"
             link="/webinars"

@@ -1,0 +1,132 @@
+export const demoData = {
+  success: true,
+  data: {
+    REGISTERED: {
+      count: 4,
+      users: [
+        {
+          id: '46b35931-ef65-4948-8d93-c853a63aebad',
+          name: 'John Doe',
+          email: 'johndoe@gmail.com',
+          profileImage: null,
+          attendedAt: new Date('2023-10-01T10:00:00Z'),
+          callStatus: 'COMPLETED',
+        },
+        {
+          id: '57c46042-fg76-5059-9e04-d964b74becbe',
+          name: 'Jane Smith',
+          email: 'janesmith@gmail.com',
+          profileImage:
+            'https://tse1.mm.bing.net/th?id=OIP.uYZwgDpBuBgKBNC-AqmWPAAAAA&pid=Api&P=0&h=180',
+          attendedAt: new Date('2023-10-01T11:00:00Z'),
+          callStatus: 'COMPLETED',
+        },
+        {
+          id: 'a1b2c3d4-e5f6-4948-8d93-123456789abc',
+          name: 'Robert Wilson',
+          email: 'rwilson@gmail.com',
+          profileImage: null,
+          attendedAt: new Date('2023-10-01T14:00:00Z'),
+          callStatus: 'PENDING',
+        },
+        {
+          id: 'b2c3d4e5-f6g7-5059-9e04-234567890def',
+          name: 'Sarah Davis',
+          email: 'sdavis@gmail.com',
+          profileImage: null,
+          attendedAt: new Date('2023-10-01T15:00:00Z'),
+          callStatus: 'PENDING',
+        },
+      ],
+    },
+    ATTENDED: {
+      count: 3,
+      users: [
+        {
+          id: '68d57153-gh87-6160-0f15-e075c85cfcf',
+          name: 'Mike Johnson',
+          email: 'mikej@gmail.com',
+          profileImage: null,
+          attendedAt: new Date('2023-10-01T12:00:00Z'),
+          callStatus: 'PENDING',
+        },
+        {
+          id: 'c3d4e5f6-g7h8-6160-0f15-345678901ghi',
+          name: 'Emma Brown',
+          email: 'ebrown@gmail.com',
+          profileImage: 'https://example.com/profile2.jpg',
+          attendedAt: new Date('2023-10-01T13:00:00Z'),
+          callStatus: 'COMPLETED',
+        },
+        {
+          id: 'd4e5f6g7-h8i9-7271-1g26-456789012hij',
+          name: 'Tom Anderson',
+          email: 'tanderson@gmail.com',
+          profileImage: null,
+          attendedAt: new Date('2023-10-01T14:30:00Z'),
+          callStatus: 'COMPLETED',
+        },
+      ],
+    },
+    FOLLOW_UP: {
+      count: 3,
+      users: [
+        {
+          id: 'e5f6g7h8-i9j0-8382-2h37-567890123ijk',
+          name: 'Lisa Parker',
+          email: 'lparker@gmail.com',
+          profileImage: 'https://example.com/profile3.jpg',
+          attendedAt: new Date('2023-10-02T09:00:00Z'),
+          callStatus: 'PENDING',
+        },
+        {
+          id: 'f6g7h8i9-j0k1-9493-3i48-678901234jkl',
+          name: 'David Miller',
+          email: 'dmiller@gmail.com',
+          profileImage: null,
+          attendedAt: new Date('2023-10-02T10:00:00Z'),
+          callStatus: 'SCHEDULED',
+        },
+        {
+          id: 'g7h8i9j0-k1l2-0504-4j59-789012345klm',
+          name: 'Rachel Green',
+          email: 'rgreen@gmail.com',
+          profileImage: null,
+          attendedAt: new Date('2023-10-02T11:00:00Z'),
+          callStatus: 'COMPLETED',
+        },
+      ],
+    },
+    BREAKOUT_ROOM: {
+      count: 2,
+      users: [
+        {
+          id: 'h8i9j0k1-l2m3-1615-5k60-890123456lmn',
+          name: 'Chris Taylor',
+          email: 'ctaylor@gmail.com',
+          profileImage: 'https://example.com/profile4.jpg',
+          attendedAt: new Date('2023-10-03T15:00:00Z'),
+          callStatus: 'IN_PROGRESS',
+        },
+        {
+          id: 'i9j0k1l2-m3n4-2726-6l71-901234567mno',
+          name: 'Amanda White',
+          email: 'awhite@gmail.com',
+          profileImage: null,
+          attendedAt: new Date('2023-10-03T16:00:00Z'),
+          callStatus: 'SCHEDULED',
+        },
+      ],
+    },
+  },
+  tags: [
+    'New',
+    'VIP',
+    'Follow-up',
+    'Interested',
+    'Premium',
+    'Early Bird',
+    'Need Support',
+    'Technical Issue',
+  ],
+};

@@ -5,6 +5,7 @@ import React from 'react';
 import { getWebinarAttendence } from '@/actions/attendence';
 import PipelineLayout from './_components/PipelineLayout';
 import { formatColumnTitle } from './_components/utils';
+import { demoData } from './_components/test/data';
 
 type Props = {
   params: { webinarId: string };
@@ -13,6 +14,9 @@ type Props = {
 const Page = async ({ params }: Props) => {
   const { webinarId } = await params;
   const pipelineData = await getWebinarAttendence(webinarId);
+
+  // const pipelineData = demoData;
+  // (Use only for test)
 
   if (!pipelineData.data) {
     return (
@@ -31,7 +35,11 @@ const Page = async ({ params }: Props) => {
         heading="Webinar Pipeline"
         placeholder="Search Name, Tag or Email"
       >
-        <div className="flex overflow-x-auto pb-4 gap-4 md:gap-6">
+        <div
+          className="flex flex-wrap mt-3 pb-1 lg:pb-2 gap-3 md:gap-4 [&::-webkit-scrollbar]:h-1.5 
+            [&::-webkit-scrollbar-thumb]:bg-gray-300 [&::-webkit-scrollbar-thumb]:rounded-full 
+            [&::-webkit-scrollbar-track]:bg-transparent"
+        >
           {Object.entries(pipelineData.data).map(([columnType, columnData]) => {
             const title = formatColumnTitle(columnType as AttendedTypeEnum);
             if (!title) return null;

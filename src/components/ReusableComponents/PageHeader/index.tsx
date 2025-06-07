@@ -40,8 +40,8 @@ const PageHeader = ({
           </PurpleIcon>
         </div>
 
-        <div className="w-full flex flex-wrap gap-6 items-center justify-between">
-          <div className="w-full md:flex-1 flex items-center gap-2 border rounded-md p-1 shadow-sm">
+        <div className="w-full flex flex-col gap-4 items-start justify-start">
+          <div className="w-full md:flex-1 lg:w-[60vw] flex items-center gap-2 border rounded-md p-1 shadow-sm">
             <Search className="h-7 w-7 text-gray-500 pl-2" />
             <Input
               type="text"
@@ -49,7 +49,11 @@ const PageHeader = ({
               className="flex-1 border-none outline-none"
             />
           </div>
-          <div className="w-full md:max-w-[25%] overflow-x-auto">
+          <div
+            className="w-full overflow-x-auto flex flex-wrap [&::-webkit-scrollbar]:h-1.5 
+            [&::-webkit-scrollbar-thumb]:bg-gray-300 [&::-webkit-scrollbar-thumb]:rounded-full 
+            [&::-webkit-scrollbar-track]:bg-transparent"
+          >
             {children}
           </div>
         </div>

@@ -39,7 +39,7 @@ const Page = async () => {
         leftIcon={<HomeIcon className="w-3 h-3" />}
         mainIcon={<WebcamIcon className="w-12 h-12" />}
         rightIcon={<Layers className="w-4 h-4" />}
-        heading="The home to all your webinars"
+        heading="ALL Your Webinars"
         placeholder="Search Option..."
       >
         <TabsList className="bg-transparent space-x-3 flex justify-evenly">

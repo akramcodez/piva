@@ -22,10 +22,10 @@ const Header = ({ user }: Props) => {
         <Button
           className="animated-gradient-bg border border-border rounded-lg text-sm sm:text-base px-2 py-1 sm:px-3 sm:py-1.5"
           variant="outline"
-          onClick={() => router.push('/webinar')}
+          onClick={() => router.push('/webinars')}
         >
           <ArrowLeft className="h-4 w-4 sm:h-5 sm:w-5" />
-          <span className="ml-1 sm:ml-2">Back to webinar</span>
+          <span className="ml-1 sm:ml-2">Webinars</span>
         </Button>
       ) : (
         <div
