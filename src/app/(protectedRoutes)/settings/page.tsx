@@ -1,0 +1,114 @@
+import { onAuthenticateUser } from '@/actions/auth';
+import {
+  LucideAlertCircle,
+  LucideArrowRight,
+  LucideCheckCircle2,
+} from 'lucide-react';
+import Link from 'next/link';
+import { redirect } from 'next/navigation';
+import React from 'react';
+
+type Props = {};
+
+const page = async (props: Props) => {
+  const userExist = await onAuthenticateUser();
+
+  if (!userExist.user) {
+    redirect('/sign-in');
+  }
+
+  const isConnected = !!userExist?.user?.stripeConnectId;
+
+  return (
+    <div className="w-full mx-auto px-4">
+      <h1 className="text-md lg:text-2xl font-bold mb-3 lg:mb-4">
+        Payment Integtation
+      </h1>
+      <div className="w-full p-4 lg:p-5 border border-input rounded-lg bg-background shodow-sm">
+        <div className="flex items-center mb-4">
+          <div
+            className="h-10 w-10 rounded-full bg-gradient-to-r from-purple-500 to-indigo-600 
+            flex items-center justify-center mr-4"
+          >
+            <svg
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M12 2L8.91 8.26L2 9.27L7 14.14L5.82 21.02L12 17.77L18.18 21.02L17 14.14L22 9.27L15.09 8.26L12 2Z"
+                fill="white"
+              />
+            </svg>
+          </div>
+          <div>
+            <h2 className="font-semibold text-primary text-md lg:text-xl">
+              Stripe Connect
+            </h2>
+            <p className="text-muted-foreground text-xs lg:test-sm">
+              Connect your Stripe account to accept payments
+            </p>
+          </div>
+        </div>
+
+        <div className="my-4 p-4 bg-muted rounded-md">
+          <div className="flex items-start">
+            <div className="mt-3">
+              {isConnected ? (
+                <LucideCheckCircle2
+                  className="h-4 w-4 lg:h-5 lg:w-5 text-green-500 
+                mt-0.5 mr-3 flex-shrink-0"
+                />
+              ) : (
+                <LucideAlertCircle
+                  className="h-4 w-4 lg:h-5 lg:w-5 text-amber-500 
+                mt-0.5 mr-3 flex-shrink-0"
+                />
+              )}
+            </div>
+            <div>
+              <p className="font-medium mb-1 leading-tight lg:text-xl text-sm">
+                {isConnected
+                  ? 'Your Stripe account is connected'
+                  : 'Your Stripe account is not connected yet'}
+              </p>
+              <p className="text-xs lg:text-sm text-muted-foreground">
+                {isConnected
+                  ? 'You can now accept payments through your application'
+                  : 'Cannot your Stripe account to start processing payments and managing subscriptions'}
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div
+          className="flex flex-col sm:flex-row items-center
+        justify-between gap-4"
+        >
+          <div className="text-sm text-muted-foreground">
+            {isConnected
+              ? 'You can reconnect anytime if needed'
+              : "You'll be redirected to Stripe to complete the connection"}
+          </div>
+          <Link
+            // href={stripeLink}
+            href={'#'}
+            className={`px-5 py-2.5 rounded-md font-medium text-sm 
+            flex items-center gap-2 transition-colors ${
+              isConnected
+                ? 'bg-muted hover:bg-muted/80 text-foreground'
+                : 'bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-600 hover:to-indigo-600 text-white'
+            }`}
+          >
+            {isConnected ? 'Reconnect' : 'Connect with Stripe'}
+            <LucideArrowRight size={16} />
+          </Link>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default page;

@@ -18,9 +18,9 @@ export default async function Layout({ children }: Props) {
   return (
     <div className="flex w-full min-h-screen">
       <Sidebar />
-      <div className="flex flex-col w-full h-screen overflow-auto scroll-auto px-4 sm:px-6 md:px-6 lg:px-10 xl:px-16 2xl:px-20">
+      <div className="flex flex-col w-full h-screen overflow-auto scroll-auto px-3 sm:px-3 md:px-6 lg:px-10 xl:px-16 2xl:px-20">
         <Header user={userExist.user} />
-        <div className="flex-1 py-10">{children}</div>
+        <div className="flex-1 py-3 md:py-6 lg:py-8">{children}</div>
       </div>
     </div>
   );

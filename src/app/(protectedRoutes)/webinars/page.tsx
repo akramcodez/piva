@@ -2,7 +2,7 @@ import { onAuthenticateUser } from '@/actions/auth';
 import { getWebinarByPresenterId } from '@/actions/webinar';
 import PageHeader from '@/components/ReusableComponents/PageHeader';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { HomeIcon, WebcamIcon, Layers } from 'lucide-react';
+import { UserRound, WebcamIcon, Layers } from 'lucide-react';
 import { redirect } from 'next/navigation';
 import React from 'react';
 import WebinarCard from './_components/WebinarCard';
@@ -36,7 +36,7 @@ const Page = async () => {
   return (
     <Tabs defaultValue="all" className="w-full flex flex-col gap-8">
       <PageHeader
-        leftIcon={<HomeIcon className="w-3 h-3" />}
+        leftIcon={<UserRound className="w-3 h-3" />}
         mainIcon={<WebcamIcon className="w-12 h-12" />}
         rightIcon={<Layers className="w-4 h-4" />}
         heading="ALL Your Webinars"
