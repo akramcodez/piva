@@ -246,7 +246,7 @@ const MultiStepForm = ({ steps, onComplete }: Props) => {
             {isLastStep ? (
               isSubmitting ? (
                 <>
-                  <Loader2 className="animate-spin" />
+                  <Loader2 className="animate-spin mr-0.5" />
                   Creating...
                 </>
               ) : (

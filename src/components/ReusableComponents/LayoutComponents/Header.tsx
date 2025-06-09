@@ -7,12 +7,14 @@ import { ArrowLeft, Zap } from 'lucide-react';
 import PurpleIcon from '../PurpleIcon';
 import { User } from '@prisma/client';
 import CreateWebinarButton from '../CreateWebinarButton';
+import Stripe from 'stripe';
 
 type Props = {
   user: User;
+  stripeProducts: Stripe.Product[] | [];
 };
 
-const Header = ({ user }: Props) => {
+const Header = ({ user, stripeProducts }: Props) => {
   const pathname = usePathname();
   const router = useRouter();
 
@@ -39,7 +41,7 @@ const Header = ({ user }: Props) => {
         <PurpleIcon className="flex">
           <Zap className="h-4 w-4 sm:h-5 sm:w-5" />
         </PurpleIcon>
-        <CreateWebinarButton />
+        <CreateWebinarButton stripeProducts={stripeProducts} />
       </div>
     </div>
   );
