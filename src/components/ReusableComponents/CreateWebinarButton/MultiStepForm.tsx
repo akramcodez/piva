@@ -2,12 +2,12 @@ import { useWebinarStore } from '@/store/useWebinarStore';
 import React, { useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { AlertCircle, Check, ChevronRight, Loader2 } from 'lucide-react';
-import { Separator } from '@/components/ui/separator';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 import { createWebinar } from '@/actions/webinar';
 import { toast } from 'sonner';
 import { useRouter } from 'next/navigation';
+import { redirect } from 'next/dist/server/api-utils';
 
 type Step = {
   id: string;
@@ -73,7 +73,7 @@ const MultiStepForm = ({ steps, onComplete }: Props) => {
           toast.error(result.message || 'Failed to create webinar');
           setValidationError(result.message);
         }
-        router.refresh();
+        router.push('/webinars');
       } catch (error) {
         console.error('Error creating webinar:', error);
         toast.error('An error occurred while creating the webinar');
