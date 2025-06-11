@@ -7,7 +7,10 @@ import { ArrowLeft, Zap } from 'lucide-react';
 import PurpleIcon from '../PurpleIcon';
 import { User } from '@prisma/client';
 import CreateWebinarButton from '../CreateWebinarButton';
+import { Plus } from 'lucide-react';
 import Stripe from 'stripe';
+import Link from 'next/link';
+import { getStripeOAuthLink } from '@/lib/stripe/util';
 
 type Props = {
   user: User;
@@ -17,6 +20,9 @@ type Props = {
 const Header = ({ user, stripeProducts }: Props) => {
   const pathname = usePathname();
   const router = useRouter();
+  const isStripeConnected = user.stripeConnectId;
+
+  const stripeLink = getStripeOAuthLink('api/stripe-connect', user.id);
 
   return (
     <div className="w-full px-2 sm:px-4 pt-6 pb-3 sm:pt-8 sticky top-0 z-10 flex justify-between items-center flex-wrap gap-2 sm:gap-4 bg-background">
@@ -41,7 +47,20 @@ const Header = ({ user, stripeProducts }: Props) => {
         <PurpleIcon className="flex">
           <Zap className="h-4 w-4 sm:h-5 sm:w-5" />
         </PurpleIcon>
-        <CreateWebinarButton stripeProducts={stripeProducts} />
+        {isStripeConnected ? (
+          <CreateWebinarButton stripeProducts={stripeProducts} />
+        ) : (
+          <div
+            className="rounded-xl hover:cursor-pointer px-3 py-1.5
+          border border-border bg-primary/10 backdrop-blur-sm text-primary
+          hover:bg-primary-20"
+          >
+            <Link href={stripeLink} className="flex items-center gap-2">
+              <Plus className="h-4 w-4" />
+              <span className="text-sm lg:text-base">Create Webinar</span>
+            </Link>
+          </div>
+        )}
       </div>
     </div>
   );
