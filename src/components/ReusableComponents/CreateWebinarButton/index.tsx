@@ -14,13 +14,14 @@ import BasicInfoStep from './BasicInfoStep';
 import CTAStep from './CTAStep';
 import AdditionalInformation from './AdditionalInformation';
 import Stripe from 'stripe';
+import SucessStep from './SucessStep';
 
 type Props = {
   stripeProducts: Stripe.Product[] | [];
 };
 
 const CreateWebinarButton = ({ stripeProducts }: Props) => {
-  const { isModelOpen, setIsModelOpen, isComplete, setIsComplete } =
+  const { isModelOpen, setIsModelOpen, isComplete, setIsComplete, resetForm } =
     useWebinarStore();
 
   const [webinarLink, setWebinarLink] = useState('');
@@ -53,6 +54,10 @@ const CreateWebinarButton = ({ stripeProducts }: Props) => {
     );
   };
 
+  const handleCreateNew = () => {
+    resetForm();
+  };
+
   return (
     <Dialog open={isModelOpen} onOpenChange={setIsModelOpen}>
       <DialogTrigger asChild>
@@ -70,7 +75,10 @@ const CreateWebinarButton = ({ stripeProducts }: Props) => {
         {isComplete ? (
           <div className="bg-muted text-primary rounded-lg h-full">
             <DialogTitle className="sr-only">Webinar Created</DialogTitle>
-            {/* <SucessStep/> */}
+            <SucessStep
+              webinarLink={webinarLink}
+              onCreateNew={handleCreateNew}
+            />
           </div>
         ) : (
           <>

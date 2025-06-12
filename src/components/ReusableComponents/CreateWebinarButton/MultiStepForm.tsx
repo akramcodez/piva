@@ -7,7 +7,6 @@ import { cn } from '@/lib/utils';
 import { createWebinar } from '@/actions/webinar';
 import { toast } from 'sonner';
 import { useRouter } from 'next/navigation';
-import { redirect } from 'next/dist/server/api-utils';
 
 type Step = {
   id: string;
@@ -73,7 +72,7 @@ const MultiStepForm = ({ steps, onComplete }: Props) => {
           toast.error(result.message || 'Failed to create webinar');
           setValidationError(result.message);
         }
-        router.push('/webinars');
+        router.refresh();
       } catch (error) {
         console.error('Error creating webinar:', error);
         toast.error('An error occurred while creating the webinar');

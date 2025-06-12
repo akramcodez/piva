@@ -49,7 +49,7 @@ const Page = async (props: Props) => {
   return (
     <div className="w-full mx-auto px-4">
       <h1 className="text-md lg:text-2xl font-bold mb-3 lg:mb-4">
-        Payment Integration
+        DEMO Payment Integration
       </h1>
       <div className="w-full p-4 lg:p-5 border border-input rounded-lg bg-background shadow-sm">
         <div className="flex items-center mb-4">

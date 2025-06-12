@@ -168,18 +168,14 @@ const BasicInfoStep = (props: Props) => {
         </div>
       </div>
 
-      <div className="flex items-center gap-3 text-sm text-gray-400 mt-4">
-        <div className="hidden sm:flex items-center">
-          <Upload className="h-4 w-4 mr-2" />
-          Upload file for pre-recorded webinar
-        </div>
-        <div className="flex sm:hidden items-center">
+      <div className="flex items-center justify-end gap-3 text-sm text-gray-400 mt-4">
+        <div className="flex items-center">
           <Upload className="h-4 w-4 mr-2" />
           Upload
         </div>
         <Button
           variant="outline"
-          className="ml-auto relative border border-input hover:bg-background"
+          className="relative border border-input hover:bg-background"
         >
           Upload File
           <Input
