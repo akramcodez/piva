@@ -1,3 +1,5 @@
+'use client';
+
 import { useWebinarStore } from '@/store/useWebinarStore';
 import React, { useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';

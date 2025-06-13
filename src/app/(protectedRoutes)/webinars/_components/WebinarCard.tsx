@@ -12,15 +12,19 @@ type Props = {
 const WebinarCard = ({ webinar }: Props) => {
   return (
     <div className="flex grid-3 flex-col items-start w-full">
-      <Link href={`/live-webinar/${webinar?.id}`}>
-        <Image
-          src={'/darkthumbnail.png'}
-          alt={'webinar'}
-          height={100}
-          width={400}
-        />
+      <Link href={`/live-webinar/${webinar?.id}`} className="w-full">
+        <div className="w-full h-full flex items-center">
+          <div className="w-full h-45 relative rounded-xl overflow-hidden mb-4 border border-border">
+            <Image
+              src={'/webinarMainPic.jpg'}
+              alt={'webinar'}
+              fill
+              className="object-cover blur1px"
+            />
+          </div>
+        </div>
       </Link>
-      <div className="w-full flex justify-between gap-3 items-center">
+      <div className="w-full flex justify-between gap-3 items-center px-2">
         <Link
           href={`/live-webinar/${webinar?.id}`}
           className="flex flex-col gap-2 items-start"

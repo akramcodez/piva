@@ -270,3 +270,7 @@
 .scrollbar-hidden:hover::-webkit-scrollbar-thumb {
   background: #4b5563;
 }
+
+.blur1px {
+  filter: blur(1px);
+}
