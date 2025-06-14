@@ -34,10 +34,9 @@ export const createWebinar = async (formData: WebinarFormState) => {
       return { status: 401, message: 'Unauthorized' };
     }
 
-    // todo
-    // if(!user.user?.subscription) {
-    //     return { status: 403, message: "Subcription Required" }
-    // }
+    if (!user.user?.subscription) {
+      return { status: 402, message: 'Subcription Required' };
+    }
 
     const presenterId = user.user?.id;
     console.log('Form Data', formData, presenterId);

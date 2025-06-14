@@ -1,4 +1,4 @@
-import type { Attendee } from '@prisma/client';
+import type { User, Webinar } from '@prisma/client';
 import { AttendedTypeEnum, CallStatusEnum } from '@prisma/client';
 
 export type validationError = Record<string, string>;
@@ -126,4 +126,8 @@ export type WebinarAttendanceResponse = {
   tags?: string[];
   status?: number;
   message?: string;
+};
+
+export type WebinarWithPresenter = Webinar & {
+  presenter: User;
 };

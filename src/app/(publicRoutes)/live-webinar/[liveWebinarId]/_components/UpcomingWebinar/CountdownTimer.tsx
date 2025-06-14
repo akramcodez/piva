@@ -95,7 +95,7 @@ const CountdownTimer = ({
   return (
     <div className={cn('text-center', className)}>
       {!isExpired && (
-        <div className="flex items-center justify-center gap-4 mb-8">
+        <div className="flex items-center justify-center gap-4 mb-3">
           {timeLeft.days > 0 && (
             <div className="space-y-2">
               <p className="text-sm text-muted-foreground">Days</p>
