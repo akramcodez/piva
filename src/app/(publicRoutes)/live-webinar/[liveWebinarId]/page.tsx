@@ -2,6 +2,7 @@ import { onAuthenticateUser } from '@/actions/auth';
 import { getWebinarById } from '@/actions/webinar';
 import React from 'react';
 import RenderWebinar from './_components/RenderWebinar';
+import { WebinarWithPresenter } from '@/lib/type';
 
 type Props = {
   params: Promise<{
@@ -16,7 +17,9 @@ const Page = async ({ params, searchParams }: Props) => {
   const { liveWebinarId } = await params;
   const { error } = await searchParams;
 
-  const webinarData = await getWebinarById(liveWebinarId);
+  const webinarData = (await getWebinarById(
+    liveWebinarId,
+  )) as WebinarWithPresenter;
   if (!webinarData) {
     return (
       <div className="w-full min-h-screen flex justify-center items-center text-lg sm:text-4xl"></div>

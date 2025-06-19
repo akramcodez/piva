@@ -274,3 +274,28 @@
 .blur1px {
   filter: blur(1px);
 }
+
+@import 'stream-chat-react/dist/css/v2/index.css' layer(stream);
+
+@layer stream-overrides {
+  .str-chat__message-list {
+    background-color: #141414 !important;
+    border-radius: 0.5rem !important;
+  }
+
+  .str-chat__message-input {
+    background-color: #141414 !important;
+    color: white !important;
+    border-radius: 0.5rem !important;
+  }
+
+  .str-chat__message-textarea {
+    background-color: #141414 !important;
+    color: white !important;
+    border: none !important;
+  }
+
+  .str-chat__message-textarea::placeholder {
+    color: #9ca3af !important; /* Light gray for placeholder */
+  }
+}

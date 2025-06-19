@@ -2,17 +2,17 @@
 
 import React, { useEffect } from 'react';
 import { User, WebinarStatusEnum } from '@prisma/client';
-import { Webinar } from '@prisma/client';
 import WebinarUpcomingState from './UpcomingWebinar/WebinarUpcomingState';
 import { usePathname, useRouter } from 'next/navigation';
 import { useAttendeeStore } from '@/store/useAttendeeStore';
 import { toast } from 'sonner';
 import LiveStreamState from './LiveWebinar/LiveStreamState';
+import { WebinarWithPresenter } from '@/lib/type';
 
 type Props = {
   error: string | undefined;
   user: User | null;
-  webinar: Webinar;
+  webinar: WebinarWithPresenter;
   apikey: string;
   token: string;
   callId: string;

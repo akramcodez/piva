@@ -144,7 +144,7 @@ const WaitListComponent = ({
                   type="email"
                   placeholder="Your Email"
                   value={email}
-                  onChange={(e) => setName(e.target.value)}
+                  onChange={(e) => setEmail(e.target.value)}
                   required
                 />
               </React.Fragment>

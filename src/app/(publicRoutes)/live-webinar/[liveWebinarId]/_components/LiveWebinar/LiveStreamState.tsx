@@ -6,6 +6,7 @@ import {
 import { WebinarWithPresenter } from '@/lib/type';
 import { User } from '@prisma/client';
 import React from 'react';
+import CustomLivestreamPlayer from './CustomLivestreamPlayer';
 
 type Props = {
   apikey: string;
@@ -18,7 +19,22 @@ type Props = {
 const hostUser: StreamUser = { id: process.env.NEXT_PUBLIC_STREAM_USER_ID! };
 
 const LiveStreamState = ({ apikey, token, callId, webinar, user }: Props) => {
-  return <div>LiveStreamState</div>;
+  const client = new StreamVideoClient({
+    apiKey: apikey,
+    user: hostUser,
+    token,
+  });
+  return (
+    <StreamVideo client={client}>
+      <CustomLivestreamPlayer
+        callId={callId}
+        callType="livestream"
+        webinar={webinar}
+        username={user.name}
+        token={token}
+      />
+    </StreamVideo>
+  );
 };
 
 export default LiveStreamState;
