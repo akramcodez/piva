@@ -34,6 +34,7 @@ export async function GET(request: NextRequest) {
         where: { id: state },
         data: {
           stripeConnectId: response.stripe_user_id,
+          subscription: true,
         },
       });
 

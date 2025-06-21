@@ -34,3 +34,5 @@ const PipelineLayout = ({ title, count, users, tags }: PipelineLayoutProps) => {
 };
 
 export default PipelineLayout;
+
+// TODO: improve design

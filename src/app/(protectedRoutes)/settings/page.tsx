@@ -36,6 +36,7 @@ const Page = async (props: Props) => {
         where: { id: userExist.user.id },
         data: {
           stripeConnectId: null,
+          subscription: false,
         },
       });
     } catch (error) {

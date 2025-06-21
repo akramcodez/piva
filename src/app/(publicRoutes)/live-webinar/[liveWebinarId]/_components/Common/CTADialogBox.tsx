@@ -1,3 +1,4 @@
+import { createCheckoutLink } from '@/actions/stripe';
 import { Button } from '@/components/ui/button';
 import {
   Dialog,
@@ -12,6 +13,7 @@ import { WebinarWithPresenter } from '@/lib/type';
 import { ChevronRight, Loader2, Play } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import React, { useState } from 'react';
+import { toast } from 'sonner';
 
 type Props = {
   open?: boolean;
@@ -30,6 +32,36 @@ const CTADialogBox = ({
 }: Props) => {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
+  const handleClick = async () => {
+    try {
+      if (webinar?.ctaType === 'BOOK_A_CALL') {
+        router.push(`/live-webinar/${webinar.id}/call?attendeeId=${userId}`);
+      } else {
+        if (!webinar.priceId || !webinar.presenter.stripeConnectId) {
+          return toast.error('No priceId or stripeConnectId found');
+        }
+
+        const session = await createCheckoutLink(
+          webinar.priceId,
+          webinar.presenter.stripeConnectId,
+          userId,
+          webinar.id,
+          true,
+        );
+        if (!session.sessionUrl) {
+          throw new Error('Session ID not found in response');
+        }
+
+        window.open(session.sessionUrl, '_blank');
+      }
+    } catch (error) {
+      console.log('Error creating checkout link', error);
+      toast.error('Error creating checkout link');
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       {trigger && <DialogTrigger asChild>{trigger}</DialogTrigger>}
@@ -60,7 +92,7 @@ const CTADialogBox = ({
         </div>
 
         <DialogFooter className="flex justify-between items-center mt-4 sm:mt-0">
-          <DialogClose>Close</DialogClose>
+          <DialogClose className="mr-2">Close</DialogClose>
           <Button
             onClick={handleClick}
             disabled={loading}

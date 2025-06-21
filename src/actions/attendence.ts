@@ -258,3 +258,38 @@ export const registerAttendee = async ({
     };
   }
 };
+
+export const changeAttendenceType = async (
+  attendeeId: string,
+  webinarId: string,
+  attendeeType: AttendedTypeEnum,
+) => {
+  try {
+    const attendance = await prismaClient.attendance.update({
+      where: {
+        attendeeId_webinarId: {
+          attendeeId,
+          webinarId,
+        },
+      },
+      data: {
+        attendedType: attendeeType,
+      },
+    });
+
+    return {
+      success: true,
+      status: 200,
+      message: 'Attendance type updated sucessfully',
+      data: attendance,
+    };
+  } catch (error) {
+    console.error('Error updating attendence type: error');
+    return {
+      success: false,
+      status: 500,
+      message: 'Failed to update attendence type',
+      error,
+    };
+  }
+};
