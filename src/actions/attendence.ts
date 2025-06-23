@@ -19,6 +19,7 @@ export const getWebinarAttendence = async (
         id: true,
         ctaType: true,
         tags: true,
+        presenter: true,
         _count: {
           select: {
             attendances: true,
@@ -97,19 +98,7 @@ export const getWebinarAttendence = async (
               attendedType: queryType,
             },
             include: {
-              webinar: {
-                include: {
-                  presenter: true,
-                },
-              },
-              user: {
-                select: {
-                  id: true,
-                  name: true,
-                  email: true,
-                  callStatus: true,
-                },
-              },
+              user: true,
             },
             take: options.userLimit,
             orderBy: {
@@ -117,25 +106,16 @@ export const getWebinarAttendence = async (
             },
           });
 
-          result[type].users = attendances
-            .map((attendance) => {
-              if (!attendance.user || !attendance.webinar?.presenter) {
-                console.error(
-                  `Missing required relations for attendance ${attendance.id}`,
-                );
-                return null;
-              }
-
-              return {
-                id: attendance.user.id,
-                name: attendance.user.name,
-                email: attendance.user.email,
-                attendedAt: attendance.joinedAt,
-                stripeConnectId: null,
-                callStatus: attendance.user.callStatus,
-              };
-            })
-            .filter((user): user is NonNullable<typeof user> => user !== null);
+          result[type].users = attendances.map((attendance) => ({
+            id: attendance.user.id,
+            name: attendance.user.name,
+            email: attendance.user.email,
+            attendedAt: attendance.joinedAt,
+            stripeConnectId: null,
+            callStatus: attendance.user.callStatus,
+            createdAt: attendance.user.createdAt,
+            updatedAt: attendance.user.updatedAt,
+          }));
         }
       }
     }
@@ -146,6 +126,7 @@ export const getWebinarAttendence = async (
       data: result,
       ctaType: webinar.ctaType,
       tags: webinar.tags || [],
+      presenter: webinar.presenter,
     };
   } catch (error) {
     console.error('Error fetching webinar attendance data:', error);
@@ -155,20 +136,6 @@ export const getWebinarAttendence = async (
     };
   }
 };
-
-//check here error comes in future
-// result[type].users = attendances
-//             .map((attendance) => ({
-
-//               return {
-//                 id: attendance.user.id,
-//                 name: attendance.user.name,
-//                 email: attendance.user.email,
-//                 attendedAt: attendance.joinedAt,
-//                 stripeConnectId: null,
-//                 callStatus: attendance.user.callStatus,
-//               }
-//             }))
 
 export const registerAttendee = async ({
   email,
