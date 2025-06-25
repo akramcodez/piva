@@ -109,6 +109,7 @@ export type AttendanceUser = {
   name: string;
   email: string;
   attendedAt: Date;
+  updatedAt: Date;
   stripeConnectId: string | null;
   callStatus: CallStatusEnum;
 };
@@ -130,4 +131,12 @@ export type WebinarAttendanceResponse = {
 
 export type WebinarWithPresenter = Webinar & {
   presenter: User;
+};
+
+export type StreamCallRecording = {
+  fileName: string;
+  url: string;
+  start_time: Date;
+  end_time: Date;
+  session_id: string;
 };

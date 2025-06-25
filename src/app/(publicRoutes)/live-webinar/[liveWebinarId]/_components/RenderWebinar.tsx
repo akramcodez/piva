@@ -15,8 +15,6 @@ type Props = {
   user: User | null;
   webinar: WebinarWithPresenter;
   apikey: string;
-  token: string;
-  callId: string;
 };
 
 const RenderWebinar = ({

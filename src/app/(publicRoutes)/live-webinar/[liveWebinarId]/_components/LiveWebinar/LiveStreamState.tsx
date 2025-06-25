@@ -5,25 +5,52 @@ import {
 } from '@stream-io/video-react-sdk';
 import { WebinarWithPresenter } from '@/lib/type';
 import { User } from '@prisma/client';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import CustomLivestreamPlayer from './CustomLivestreamPlayer';
+import { getTokenForHost } from '@/actions/streamIo';
 
 type Props = {
-  apikey: string;
-  token: string;
+  apiKey: string;
   callId: string;
   webinar: WebinarWithPresenter;
   user: User;
 };
 
-const hostUser: StreamUser = { id: process.env.NEXT_PUBLIC_STREAM_USER_ID! };
+const LiveStreamState = ({ apiKey, callId, webinar, user }: Props) => {
+  const [hostToken, setHostToken] = useState<string | null>();
+  const [client, setClient] = useState<StreamVideoClient | null>(null);
 
-const LiveStreamState = ({ apikey, token, callId, webinar, user }: Props) => {
-  const client = new StreamVideoClient({
-    apiKey: apikey,
-    user: hostUser,
-    token,
-  });
+  useEffect(() => {
+    const init = async () => {
+      try {
+        const token = await getTokenForHost(
+          webinar.presenterId,
+          webinar.presenter.name,
+          webinar.presenter.profileImage,
+        );
+
+        const hostUser: StreamUser = {
+          id: webinar.presenterId,
+          name: webinar.presenter.name,
+          image: webinar.presenter.profileImage,
+        };
+
+        const streamClient = new StreamVideoClient({
+          apiKey,
+          user: hostUser,
+          token,
+        });
+
+        setHostToken(token);
+        setClient(streamClient);
+      } catch (err) {}
+    };
+    init();
+  }, [apiKey, webinar]);
+
+  if (!client || !hostToken)
+    return console.log('Client or HostToken is required');
+
   return (
     <StreamVideo client={client}>
       <CustomLivestreamPlayer
@@ -31,7 +58,7 @@ const LiveStreamState = ({ apikey, token, callId, webinar, user }: Props) => {
         callType="livestream"
         webinar={webinar}
         username={user.name}
-        token={token}
+        token={hostToken}
       />
     </StreamVideo>
   );

@@ -1,7 +1,7 @@
 import React from 'react';
 import { AttendanceUser } from '@/lib/type';
 import { Badge } from '@/components/ui/badge';
-import UserInfoCard2 from '@/components/ReusableComponents/UserInfoCard2/index';
+import PipelineCard from '@/components/ReusableComponents/PipelineCard/index';
 
 type PipelineLayoutProps = {
   title: string;
@@ -22,11 +22,11 @@ const PipelineLayout = ({ title, count, users, tags }: PipelineLayoutProps) => {
       </div>
 
       <div
-        className="space-y-3 max-h-[70vh] overflow-y-auto pr-2
+        className="space-y-3 w-full max-h-[70vh] overflow-y-auto
       scrollbar-hidden"
       >
         {users.map((user, index) => (
-          <UserInfoCard2 key={index} customer={user} tags={tags} />
+          <PipelineCard key={index} customer={user} tags={tags} />
         ))}
       </div>
     </div>

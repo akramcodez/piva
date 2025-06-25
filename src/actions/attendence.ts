@@ -201,6 +201,7 @@ export const registerAttendee = async ({
         attendedType: AttendedTypeEnum.REGISTERED,
         attendeeId: attendee.id,
         webinarId: webinarId,
+        updatedAt: new Date(),
       },
       include: {
         user: true,

@@ -6,19 +6,27 @@ import { UserRound, WebcamIcon, Layers } from 'lucide-react';
 import { redirect } from 'next/navigation';
 import React from 'react';
 import WebinarCard from './_components/WebinarCard';
-import { Webinar } from '@prisma/client';
+import { Webinar, WebinarStatusEnum } from '@prisma/client';
 
 //todo : fix the tab trigger style
 
-type Props = {};
+type Props = {
+  searchParams: Promise<{
+    webinarStatus: string;
+  }>;
+};
 
-const Page = async () => {
+const Page = async ({ searchParams }: Props) => {
+  const { webinarStatus } = await searchParams;
   const checkUser = await onAuthenticateUser();
   if (!checkUser) {
     redirect('/');
   }
 
-  const webinars = await getWebinarByPresenterId(checkUser?.user?.id ?? '');
+  const webinars = await getWebinarByPresenterId(
+    checkUser?.user?.id ?? '',
+    webinarStatus as WebinarStatusEnum,
+  );
 
   const filterWebinars = (webinars: Webinar[], type: 'upcoming' | 'ended') => {
     const currentTime = new Date();
