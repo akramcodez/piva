@@ -1,3 +1,5 @@
+'use client';
+
 import {
   StreamVideo,
   StreamVideoClient,
@@ -48,8 +50,9 @@ const LiveStreamState = ({ apiKey, callId, webinar, user }: Props) => {
     init();
   }, [apiKey, webinar]);
 
-  if (!client || !hostToken)
-    return console.log('Client or HostToken is required');
+  if (!client || !hostToken) {
+    return <div>Error</div>; //TODO
+  }
 
   return (
     <StreamVideo client={client}>

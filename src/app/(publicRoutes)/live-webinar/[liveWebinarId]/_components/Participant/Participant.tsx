@@ -17,12 +17,12 @@ import { v4 as uuidv4 } from 'uuid';
 import LiveWebinarView from '../Common/LiveWebinarView';
 
 type Props = {
-  apikey: string;
+  apiKey: string;
   callId: string;
   webinar: WebinarWithPresenter;
 };
 
-const Participant = ({ apikey, callId, webinar }: Props) => {
+const Participant = ({ apiKey, callId, webinar }: Props) => {
   const { attendee } = useAttendeeStore();
   const [showChat, setShowChat] = useState(true);
   const [client, setClient] = useState<StreamVideoClient | null>(null);
@@ -53,7 +53,7 @@ const Participant = ({ apikey, callId, webinar }: Props) => {
         setToken(userToken);
 
         const streamClient = new StreamVideoClient({
-          apiKey: apikey,
+          apiKey,
           user,
           token: userToken,
         });
@@ -102,7 +102,7 @@ const Participant = ({ apikey, callId, webinar }: Props) => {
           });
       }
     };
-  }, [apikey, callId, attendee, call, client]);
+  }, [apiKey, callId, attendee, call, client, webinar.id]);
 
   if (!attendee) {
     <div className="flex items-center justify-center h-screen bg-background text-foreground">
@@ -216,6 +216,7 @@ const Participant = ({ apikey, callId, webinar }: Props) => {
           webinar={webinar}
           username={attendee?.name || 'Guest'}
           userId={attendee?.id || `${uuidv4()}`}
+          call={call}
           userToken={token}
         />
       </StreamCall>

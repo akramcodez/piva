@@ -197,3 +197,26 @@ export async function changeWebinarStatus(
     };
   }
 }
+
+export const deleteWebinar = async (webinarId: string) => {
+  try {
+    const webinar = await prismaClient.webinar.delete({
+      where: {
+        id: webinarId,
+      },
+    });
+    return {
+      status: 200,
+      success: true,
+      message: 'Webinar deleted successfully',
+      data: webinar,
+    };
+  } catch (error) {
+    console.error('Error deleting webinar status:', error);
+    return {
+      status: 500,
+      success: false,
+      message: 'Failed to delete webinar',
+    };
+  }
+};

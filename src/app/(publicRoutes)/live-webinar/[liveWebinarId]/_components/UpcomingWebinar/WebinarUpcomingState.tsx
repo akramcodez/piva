@@ -11,6 +11,7 @@ import { changeWebinarStatus } from '@/actions/webinar';
 import { toast } from 'sonner';
 import { useRouter } from 'next/navigation';
 import { format } from 'date-fns';
+import { createAndStartStream } from '@/actions/streamIo';
 
 type Props = {
   webinar: Webinar;
@@ -42,6 +43,11 @@ const WebinarUpcomingState = ({ webinar, currentUser }: Props) => {
   const handleStartWebinar = async () => {
     setLoading(true);
     try {
+      if (!currentUser?.id) {
+        throw new Error('User not authenticated');
+      }
+
+      await createAndStartStream(webinar);
       const res = await changeWebinarStatus(webinar.id, 'LIVE');
       if (!res.status) {
         throw new Error(res.message);
@@ -125,7 +131,7 @@ const WebinarUpcomingState = ({ webinar, currentUser }: Props) => {
         <div className="w-full justify-center flex gap-2 flex-wrap items-center">
           <Button
             variant={'outline'}
-            className="rounded-md bg-secondary backdrop-blur-2xl"
+            className="rounded-md bg-secondary hover-bg-secondary backdrop-blur-2xl"
           >
             <Calendar className="mr-2" />
             {format(new Date(webinar.startTime), 'dd MMMM yyyy')}

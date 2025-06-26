@@ -68,7 +68,7 @@ const Page = async ({ searchParams }: Props) => {
 
       <TabsContent
         value="all"
-        className="w-full grid grid-cols-1 sm:grid-cols-3 xl:grid-cols-4 place-items-center gap-x-6 gap-y-10"
+        className="w-full grid grid-cols-1 sm:grid-cols-3 xl:grid-cols-4 gap-x-6 gap-y-10"
       >
         {webinars?.length > 0 ? (
           webinars.map((webinar: Webinar, index: number) => (
@@ -86,7 +86,7 @@ const Page = async ({ searchParams }: Props) => {
 
       <TabsContent
         value="upcoming"
-        className="w-full grid grid-cols-1 sm:grid-cols-3 xl:grid-cols-4 place-items-center gap-x-6 gap-y-10"
+        className="w-full grid grid-cols-1 sm:grid-cols-3 xl:grid-cols-4  gap-x-6 gap-y-10"
       >
         {upcomingWebinars?.length > 0 ? (
           upcomingWebinars.map((webinar: Webinar) => (
@@ -101,7 +101,7 @@ const Page = async ({ searchParams }: Props) => {
 
       <TabsContent
         value="ended"
-        className="w-full grid grid-cols-1 sm:grid-cols-3 xl:grid-cols-4 place-items-center gap-x-6 gap-y-10"
+        className="w-full grid grid-cols-1 sm:grid-cols-3 xl:grid-cols-4 gap-x-6 gap-y-10"
       >
         {endedWebinars?.length > 0 ? (
           endedWebinars.map((webinar: Webinar) => (

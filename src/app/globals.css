@@ -233,6 +233,10 @@
   background-color: #141414;
 }
 
+.hover-bg-secondary:hover {
+  background-color: #202020;
+}
+
 @keyframes animatedGradient {
   0% {
     background-position: 0% 50%;
