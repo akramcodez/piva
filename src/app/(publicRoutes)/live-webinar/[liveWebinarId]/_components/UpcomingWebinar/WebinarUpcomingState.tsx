@@ -53,11 +53,17 @@ const WebinarUpcomingState = ({ webinar, currentUser }: Props) => {
         throw new Error(res.message);
       }
 
-      toast.success('Webinar started sucessfully');
+      toast.success('Webinar started successfully');
       router.refresh();
-    } catch (error) {
-      console.log(error);
-      toast.error('Something went wrong');
+    } catch (error: any) {
+      console.error('Error starting webinar:', error);
+      if (error.message === 'You already have a live stream running') {
+        toast.error(
+          'You already have another live webinar running. Please end it before starting this one.',
+        );
+      } else {
+        toast.error('Something went wrong while starting the webinar.');
+      }
     } finally {
       setLoading(false);
     }

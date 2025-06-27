@@ -76,11 +76,11 @@ const WebinarCard = ({ webinar }: Props) => {
             href={`/webinars/${webinar?.id}/pipeline`}
             className="flex px-3 py-1.5 rounded-md border-[0.5px] border-border bg-secondary hover-bg-secondary"
           >
-            <Layers className="w-3 h-3 text-primary" />
+            <Layers className="w-4 h-4 text-primary" />
           </Link>
           <Button
             onClick={handleDeleteWebinar}
-            className="flex px-3 py-1.5 rounded-md border-[0.5px] border-border bg-red-900/70 hover:bg-red-800"
+            className="flex px-3 py-1.5 rounded-md border-[0.5px] border-border bg-red-900/50 hover:bg-red-800"
           >
             {isDeleting ? (
               <Loader2 className="w-3 h-3 text-primary animate-spin" />
