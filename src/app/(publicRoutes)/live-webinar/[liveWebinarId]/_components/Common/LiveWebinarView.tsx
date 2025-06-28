@@ -61,8 +61,8 @@ const LiveWebinarView = ({
       if (!res.success) {
         throw new Error(res.message);
       }
-      router.push('/');
       toast.success('Webinar ended successfully');
+      router.push('/');
     } catch (error) {
       console.error('Error ending stream', error);
       toast.success('Error ending stream');
@@ -131,14 +131,14 @@ const LiveWebinarView = ({
     });
 
     call.on('call.rtmp_broadcast_failed', () => {
-      //handle failure
+      //TODO handle failure
       toast.success('Stream Failed to start. Please try again');
     });
   }, [call]);
 
-  useEffect(() => {
-    //TODO: feature start recording
-  }, [call]);
+  // useEffect(() => {
+  //   //TODO: feature start recording
+  // }, [call]);
 
   if (!chatClient || !channel) return null;
 
@@ -283,7 +283,7 @@ const LiveWebinarView = ({
         <ObsDialogBox
           open={obsDialogBox}
           onOpenChange={setObsDialogBox}
-          rtmpURL={`rtmp://ingress.strem-io-video.com:443/${process.env.NEXT_PUBLIC_STREAM_API_KEY}.livestream${webinar.id}`}
+          rtmpURL={`rtmps://ingress.stream-io-video.com:443/${process.env.NEXT_PUBLIC_STREAM_API_KEY}.livestream.${webinar.id}`}
           streamKey={userToken}
         />
       )}

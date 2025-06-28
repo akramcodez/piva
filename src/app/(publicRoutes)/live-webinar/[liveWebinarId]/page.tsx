@@ -28,7 +28,7 @@ const Page = async ({ params, searchParams }: Props) => {
   const checkUser = await onAuthenticateUser();
 
   //TODO: Create api keys
-  const apiKey = process.env.NEXT_PUBLIC_STREAM_API_KEY as string;
+  const apiKey = process.env.NEXT_PUBLIC_STREAM_API_KEY as string; //Main_check
 
   return (
     <div className="w-full h-screen ">
