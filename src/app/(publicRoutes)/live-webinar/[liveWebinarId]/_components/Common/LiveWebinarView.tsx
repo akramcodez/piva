@@ -44,7 +44,7 @@ const LiveWebinarView = ({
   const participants = useParticipants();
   const [chatClient, setChatClient] = useState<StreamChat | null>(null);
   const [channel, setChannel] = useState<any>(null);
-  const [dialogOpen, setDialogOpen] = useState(true);
+  const [dialogOpen, setDialogOpen] = useState(false);
   const [loading, setLoading] = useState(false);
   const [obsDialogBox, setObsDialogBox] = useState(false);
   const router = useRouter();
@@ -120,21 +120,24 @@ const LiveWebinarView = ({
         if (event.type === 'open_cta_dialog' && !isHost) {
           setDialogOpen(true);
         }
+        if (event.type === 'start_live') {
+          window.location.reload();
+        }
       });
     }
   }, [chatClient, channel, isHost]);
 
-  useEffect(() => {
-    call.on('call.rtmp_broadcast_started', () => {
-      toast.success('Webinar started successfully');
-      router.refresh();
-    });
+  // useEffect(() => {
+  //   call.on('call.rtmp_broadcast_started', () => {
+  //     toast.success('Webinar started successfully');
+  //     router.refresh();
+  //   });
 
-    call.on('call.rtmp_broadcast_failed', () => {
-      //TODO handle failure
-      toast.success('Stream Failed to start. Please try again');
-    });
-  }, [call]);
+  //   call.on('call.rtmp_broadcast_failed', () => {
+  //     //TODO handle failure
+  //     toast.success('Stream Failed to start. Please try again');
+  //   });
+  // }, [call]);
 
   // useEffect(() => {
   //   //TODO: feature start recording
@@ -220,6 +223,17 @@ const LiveWebinarView = ({
                   className="mr-2"
                 >
                   Get Obs Creds
+                </Button>
+                <Button
+                  onClick={async () => {
+                    await channel.sendEvent({
+                      type: 'start_live',
+                    });
+                  }}
+                  variant="outline"
+                  className="mr-2"
+                >
+                  Go Live
                 </Button>
                 <Button onClick={handleEndStream} disabled={loading}>
                   {loading ? (

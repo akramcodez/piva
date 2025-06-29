@@ -300,6 +300,6 @@
   }
 
   .str-chat__message-textarea::placeholder {
-    color: #9ca3af !important; /* Light gray for placeholder */
+    color: #9ca3af !important;
   }
 }

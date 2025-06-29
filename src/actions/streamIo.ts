@@ -4,6 +4,7 @@ import { Attendee, Webinar } from '@prisma/client';
 import { getStreamClient } from '@/lib/stream/streamClient';
 import { UserRequest } from '@stream-io/node-sdk';
 import { prismaClient } from '@/lib/prismaClient';
+//check: why the stream go live isn't automatically starting
 
 export const getStreamIoToken = async (attendee: Attendee | null) => {
   try {
@@ -85,7 +86,7 @@ export const createAndStartStream = async (webinar: Webinar) => {
       },
     });
 
-    console.log('Stream created and started sucessfully');
+    console.log('Stream started sucessfully');
   } catch (err) {
     console.error('Error creating and starting stream: ', err);
     throw new Error('Failed to create and start stream');

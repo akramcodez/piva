@@ -10,7 +10,7 @@ import {
   DialogTrigger,
 } from '@/components/ui/dialog';
 import { WebinarWithPresenter } from '@/lib/type';
-import { ChevronRight, Loader2, Play } from 'lucide-react';
+import { ChevronRight, Loader2, ShoppingCart } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import React, { useState } from 'react';
 import { toast } from 'sonner';
@@ -76,22 +76,24 @@ const CTADialogBox = ({
               : 'You will be redirected to checkout'}
           </p>
         </DialogHeader>
-        <div className="flex mt-4 space-x-4">
-          <div className="w-16 h-16 bg-muted rounded-md flex items-center justify-center">
-            <div className="w-8 h-8 rounded-full bg-background flex items-center justify-center">
-              <Play />
+        <div className="flex items-center space-x-4">
+          <div className="flex mt-4 space-x-4">
+            <div className="w-16 h-16 bg-gradient-to-br from-zinc-800 to-zinc-700 rounded-xl shadow-lg hover:scale-105 transition-transform duration-300 ease-in-out flex items-center justify-center">
+              <div className="w-10 h-10 rounded-full bg-black/80 shadow-inner border border-zinc-600 flex items-center justify-center">
+                <ShoppingCart className="text-white w-5 h-5" />
+              </div>
             </div>
+          </div>
+
+          <div className="flex-1">
+            <h3 className="text-sm font-medium">{webinar.title}</h3>
+            <p className="text-sm text-muted-foreground mt-1">
+              {webinar.description}
+            </p>
           </div>
         </div>
 
-        <div className="flex-1">
-          <h3 className="text-sm font-medium">{webinar.title}</h3>
-          <p className="text-sm text-muted-foreground mt-3">
-            {webinar.description}
-          </p>
-        </div>
-
-        <DialogFooter className="flex justify-between items-center mt-4 sm:mt-0">
+        <DialogFooter className="flex flex-row justify-end items-center mt-4 sm:mt-0">
           <DialogClose className="mr-2">Close</DialogClose>
           <Button
             onClick={handleClick}
