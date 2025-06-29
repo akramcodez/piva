@@ -5,6 +5,7 @@ import React, { useEffect, useState } from 'react';
 import { cn } from '@/lib/utils';
 import { changeWebinarStatus } from '@/actions/webinar';
 import { clearInterval, setInterval } from 'node:timers';
+import { useRouter } from 'next/navigation';
 
 type Props = {
   targetDate: Date;
@@ -20,6 +21,7 @@ const CountdownTimer = ({
   webinarStatus,
 }: Props) => {
   const [isExpired, setIsExpired] = useState(false);
+  const router = useRouter();
   const [timeLeft, setTimeLeft] = useState({
     days: 0,
     hours: 0,
@@ -92,9 +94,17 @@ const CountdownTimer = ({
     return () => clearInterval(timer);
   }, [targetDate, isExpired, webinarId, webinarStatus]);
 
+  useEffect(() => {
+    // Check if the countdown has expired AND the webinar status is LIVE
+    if (isExpired && webinarStatus === WebinarStatusEnum.LIVE) {
+      console.log('Countdown expired and webinar is LIVE, refreshing page...');
+      router.refresh(); // Refresh the page to load the LIVE state component
+    }
+  }, [isExpired, webinarStatus, router]); // Dependencies for this effect
+
   return (
     <div className={cn('text-center', className)}>
-      {!isExpired && (
+      {!isExpired ? (
         <div className="flex items-center justify-center gap-4 mb-3">
           {timeLeft.days > 0 && (
             <div className="space-y-2">
@@ -145,6 +155,12 @@ const CountdownTimer = ({
             </div>
           </div>
         </div>
+      ) : (
+        webinarStatus !== WebinarStatusEnum.LIVE && (
+          <p className="text-xl font-semibold text-primary text-center mb-3">
+            Waiting for the host to start...
+          </p>
+        )
       )}
     </div>
   );

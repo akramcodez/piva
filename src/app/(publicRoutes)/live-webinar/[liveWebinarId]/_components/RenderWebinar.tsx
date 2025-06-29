@@ -34,8 +34,8 @@ const RenderWebinar = ({ error, user, webinar, apiKey }: Props) => {
           {user?.id === webinar.presenterId ? (
             <LiveStreamState
               apiKey={apiKey}
-              callId={webinar.id}
               webinar={webinar}
+              callId={webinar.id}
               user={user}
             />
           ) : attendee ? (

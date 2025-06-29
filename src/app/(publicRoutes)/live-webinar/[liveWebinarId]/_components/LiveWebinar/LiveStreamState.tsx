@@ -45,14 +45,14 @@ const LiveStreamState = ({ apiKey, callId, webinar, user }: Props) => {
 
         setHostToken(token);
         setClient(streamClient);
-      } catch (err) {}
+      } catch (error) {
+        console.log('Error initializating Stream Client: ', error);
+      }
     };
     init();
   }, [apiKey, webinar]);
 
-  if (!client || !hostToken) {
-    return <div>Error</div>; //TODO
-  }
+  if (!client || !hostToken) return null;
 
   return (
     <StreamVideo client={client}>

@@ -127,17 +127,17 @@ const LiveWebinarView = ({
     }
   }, [chatClient, channel, isHost]);
 
-  // useEffect(() => {
-  //   call.on('call.rtmp_broadcast_started', () => {
-  //     toast.success('Webinar started successfully');
-  //     router.refresh();
-  //   });
+  useEffect(() => {
+    call.on('call.rtmp_broadcast_started', () => {
+      toast.success('Webinar started successfully');
+      router.refresh();
+    });
 
-  //   call.on('call.rtmp_broadcast_failed', () => {
-  //     //TODO handle failure
-  //     toast.success('Stream Failed to start. Please try again');
-  //   });
-  // }, [call]);
+    call.on('call.rtmp_broadcast_failed', () => {
+      //TODO handle failure
+      toast.success('Stream Failed to start. Please try again');
+    });
+  }, [call]);
 
   // useEffect(() => {
   //   //TODO: feature start recording

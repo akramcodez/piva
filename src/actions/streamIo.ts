@@ -4,7 +4,6 @@ import { Attendee, Webinar } from '@prisma/client';
 import { getStreamClient } from '@/lib/stream/streamClient';
 import { UserRequest } from '@stream-io/node-sdk';
 import { prismaClient } from '@/lib/prismaClient';
-//check: why the stream go live isn't automatically starting
 
 export const getStreamIoToken = async (attendee: Attendee | null) => {
   try {
@@ -68,12 +67,14 @@ export const createAndStartStream = async (webinar: Webinar) => {
         webinarStatus: 'LIVE',
       },
     });
-    //TODO:
+
     if (checkWebinar.length > 0) {
       throw new Error('You already have a live stream running');
     }
 
     const call = getStreamClient.video.call('livestream', webinar.id);
+
+    // Create the call
     await call.getOrCreate({
       data: {
         created_by_id: webinar.presenterId,
@@ -86,7 +87,15 @@ export const createAndStartStream = async (webinar: Webinar) => {
       },
     });
 
-    console.log('Stream started sucessfully');
+    await call.goLive();
+
+    // await prismaClient.webinar.update({
+    //   where: { id: webinar.id },
+    //   data: { webinarStatus: 'LIVE' },
+    // });  //check
+
+    console.log('Stream created and started successfully');
+    return { success: true, callId: webinar.id };
   } catch (err) {
     console.error('Error creating and starting stream: ', err);
     throw new Error('Failed to create and start stream');
