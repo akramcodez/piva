@@ -46,7 +46,6 @@ const ProductDialog = ({
     ProductStatusEnum.ACTIVE,
   );
   const [imageUrl, setImageUrl] = useState('');
-  const [webinarId, setWebinarId] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -84,7 +83,6 @@ const ProductDialog = ({
         setCurrency(CurrencyEnum.USD);
         setStatus(ProductStatusEnum.ACTIVE);
         setImageUrl('');
-        setWebinarId('');
         if (onOpenChange) {
           onOpenChange(false);
         }

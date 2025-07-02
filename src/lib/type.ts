@@ -140,3 +140,17 @@ export type StreamCallRecording = {
   end_time: Date;
   session_id: string;
 };
+
+export type ClientProduct = {
+  id: string;
+  name: string;
+  description: string | null;
+  price: number;
+  currency: string;
+  status: string;
+  image: string | null;
+  ownerId: string;
+  totalSales: number;
+  createdAt: string;
+  updatedAt: string;
+};

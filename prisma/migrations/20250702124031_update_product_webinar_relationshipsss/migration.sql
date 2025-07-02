@@ -10,6 +10,12 @@ CREATE TYPE "WebinarStatusEnum" AS ENUM ('SCHEDULED', 'WAITING_ROOM', 'LIVE', 'E
 -- CreateEnum
 CREATE TYPE "CallStatusEnum" AS ENUM ('PENDING', 'InProgress', 'COMPLETED');
 
+-- CreateEnum
+CREATE TYPE "ProductStatusEnum" AS ENUM ('ACTIVE', 'INACTIVE');
+
+-- CreateEnum
+CREATE TYPE "CurrencyEnum" AS ENUM ('USD', 'EUR', 'GBP', 'CAD', 'AUD', 'INR');
+
 -- CreateTable
 CREATE TABLE "User" (
     "id" UUID NOT NULL DEFAULT gen_random_uuid(),
@@ -55,6 +61,7 @@ CREATE TABLE "Webinar" (
     "updatedAt" TIMESTAMP(3) NOT NULL,
     "deletedAt" TIMESTAMP(3),
     "attendeeId" UUID,
+    "productId" UUID,
 
     CONSTRAINT "Webinar_pkey" PRIMARY KEY ("id")
 );
@@ -86,6 +93,23 @@ CREATE TABLE "Attendance" (
     CONSTRAINT "Attendance_pkey" PRIMARY KEY ("id")
 );
 
+-- CreateTable
+CREATE TABLE "Product" (
+    "id" UUID NOT NULL DEFAULT gen_random_uuid(),
+    "name" VARCHAR(255) NOT NULL,
+    "description" TEXT,
+    "price" DECIMAL(10,2) NOT NULL,
+    "currency" "CurrencyEnum" NOT NULL DEFAULT 'USD',
+    "status" "ProductStatusEnum" NOT NULL DEFAULT 'ACTIVE',
+    "image" VARCHAR(500),
+    "ownerId" UUID NOT NULL,
+    "totalSales" INTEGER NOT NULL DEFAULT 0,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3) NOT NULL,
+
+    CONSTRAINT "Product_pkey" PRIMARY KEY ("id")
+);
+
 -- CreateIndex
 CREATE UNIQUE INDEX "User_clerkId_key" ON "User"("clerkId");
 
@@ -108,6 +132,9 @@ CREATE INDEX "Webinar_aiAgentId_idx" ON "Webinar"("aiAgentId");
 CREATE INDEX "Webinar_startTime_idx" ON "Webinar"("startTime");
 
 -- CreateIndex
+CREATE INDEX "Webinar_productId_idx" ON "Webinar"("productId");
+
+-- CreateIndex
 CREATE UNIQUE INDEX "Attendee_email_key" ON "Attendee"("email");
 
 -- CreateIndex
@@ -119,6 +146,15 @@ CREATE INDEX "Attendance_attendedType_idx" ON "Attendance"("attendedType");
 -- CreateIndex
 CREATE UNIQUE INDEX "Attendance_attendeeId_webinarId_key" ON "Attendance"("attendeeId", "webinarId");
 
+-- CreateIndex
+CREATE INDEX "Product_ownerId_idx" ON "Product"("ownerId");
+
+-- CreateIndex
+CREATE INDEX "Product_status_idx" ON "Product"("status");
+
+-- CreateIndex
+CREATE INDEX "Product_createdAt_idx" ON "Product"("createdAt");
+
 -- AddForeignKey
 ALTER TABLE "Webinar" ADD CONSTRAINT "Webinar_presenterId_fkey" FOREIGN KEY ("presenterId") REFERENCES "User"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
@@ -126,7 +162,13 @@ ALTER TABLE "Webinar" ADD CONSTRAINT "Webinar_presenterId_fkey" FOREIGN KEY ("pr
 ALTER TABLE "Webinar" ADD CONSTRAINT "Webinar_attendeeId_fkey" FOREIGN KEY ("attendeeId") REFERENCES "Attendee"("id") ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
+ALTER TABLE "Webinar" ADD CONSTRAINT "Webinar_productId_fkey" FOREIGN KEY ("productId") REFERENCES "Product"("id") ON DELETE SET NULL ON UPDATE CASCADE;
+
+-- AddForeignKey
 ALTER TABLE "Attendance" ADD CONSTRAINT "Attendance_attendeeId_fkey" FOREIGN KEY ("attendeeId") REFERENCES "Attendee"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "Attendance" ADD CONSTRAINT "Attendance_webinarId_fkey" FOREIGN KEY ("webinarId") REFERENCES "Webinar"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "Product" ADD CONSTRAINT "Product_ownerId_fkey" FOREIGN KEY ("ownerId") REFERENCES "User"("id") ON DELETE CASCADE ON UPDATE CASCADE;

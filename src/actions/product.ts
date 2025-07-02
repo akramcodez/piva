@@ -10,7 +10,6 @@ type CreateProductInput = {
   currency: CurrencyEnum;
   status: ProductStatusEnum;
   imageUrl?: string;
-  webinarId?: string;
   ownerId: string;
 };
 
@@ -43,6 +42,7 @@ export const createProduct = async (
         status: data.status,
         image: data.imageUrl,
         ownerId: data.ownerId,
+        updatedAt: new Date(),
       },
     });
 
@@ -82,5 +82,42 @@ export const getProductsByOwnerId = async (
   } catch (error) {
     console.error('Error fetching products:', error);
     return [];
+  }
+};
+
+export const changeStatusOfProduct = async (productId: string) => {
+  try {
+    if (!productId) {
+      return { success: false, message: 'Product ID is required.' };
+    }
+
+    const product = await prismaClient.product.findUnique({
+      where: { id: productId },
+    });
+
+    if (!product) {
+      return { success: false, message: 'Product not found.' };
+    }
+
+    const newStatus =
+      product.status === ProductStatusEnum.ACTIVE
+        ? ProductStatusEnum.INACTIVE
+        : ProductStatusEnum.ACTIVE;
+
+    await prismaClient.product.update({
+      where: { id: productId },
+      data: {
+        status: newStatus,
+        updatedAt: new Date(),
+      },
+    });
+
+    return {
+      success: true,
+      message: `Product status changed to ${newStatus}.`,
+    };
+  } catch (error) {
+    console.error('Error changing product status:', error);
+    return { success: false, message: 'Failed to change product status.' };
   }
 };

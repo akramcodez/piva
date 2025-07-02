@@ -19,10 +19,7 @@ const Page = async (props: Props) => {
 
   const productsForClient = products.map((product) => ({
     ...product,
-    price:
-      product.price instanceof Decimal
-        ? product.price.toNumber()
-        : product.price,
+    price: Number(product.price),
     createdAt: product.createdAt.toISOString(),
     updatedAt: product.updatedAt.toISOString(),
   }));
