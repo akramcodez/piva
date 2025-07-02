@@ -6,7 +6,7 @@ import { useWebinarStore } from '@/store/useWebinarStore';
 import { cn } from '@/lib/utils';
 import React, { useState } from 'react';
 import { Search, X } from 'lucide-react';
-import { CtaTypeEnum } from '@prisma/client';
+import { CtaTypeEnum, Product, ProductStatusEnum } from '@prisma/client';
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import {
   Select,
@@ -18,7 +18,7 @@ import {
 import Stripe from 'stripe';
 
 type Props = {
-  stripeProducts: Stripe.Product[] | [];
+  stripeProducts: Product[] | [];
 };
 
 const CTAStep = ({ stripeProducts }: Props) => {
@@ -48,6 +48,10 @@ const CTAStep = ({ stripeProducts }: Props) => {
   const handleProductChange = (value: string) => {
     updateCTA('priceId', value);
   };
+
+  const activeStripeProducts = stripeProducts.filter(
+    (product) => product.status === ProductStatusEnum.ACTIVE,
+  );
 
   return (
     <div className="space-y-4 md:space-y-4">
@@ -147,11 +151,11 @@ const CTAStep = ({ stripeProducts }: Props) => {
               <SelectValue placeholder="Select an product" />
             </SelectTrigger>
             <SelectContent className="bg-background border border-input max-h-48">
-              {stripeProducts?.length > 0 ? (
-                stripeProducts.map((product) => (
+              {activeStripeProducts?.length > 0 ? (
+                activeStripeProducts.map((product) => (
                   <SelectItem
                     key={product.id}
-                    value={product?.default_price?.toString() || product.id}
+                    value={product.id}
                     className="!bg-background/50 hover:!bg-white/10"
                   >
                     {product.name}

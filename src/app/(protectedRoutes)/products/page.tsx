@@ -3,8 +3,6 @@ import { onAuthenticateUser } from '@/actions/auth';
 import { redirect } from 'next/navigation';
 import ProductPage from './ProductPage/ProductPage';
 import { getProductsByOwnerId } from '@/actions/product';
-import { Product, User } from '@prisma/client'; // Import Product and User types (needed for the 'products' variable)
-import { Decimal } from '@prisma/client/runtime/library'; // Import Decimal type
 
 type Props = {};
 

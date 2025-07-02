@@ -74,11 +74,11 @@ export const createWebinar = async (formData: WebinarFormState) => {
       tags: formData.cta.tags || [],
       ctaType: formData.cta.ctaType as CtaTypeEnum,
       aiAgentId: formData.cta.aiAgent || null,
-      priceId: formData.cta.priceId || null,
       lockChat: formData.additionalInfo.lockChat || false,
       couponCode: formData.additionalInfo.couponEnabled
         ? formData.additionalInfo.couponCode
         : null,
+      priceId: formData.cta.priceId || null,
       couponEnabled: formData.additionalInfo.couponEnabled || false,
     };
     if (presenterId) {

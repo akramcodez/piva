@@ -15,9 +15,10 @@ import CTAStep from './CTAStep';
 import AdditionalInformation from './AdditionalInformation';
 import Stripe from 'stripe';
 import SucessStep from './SucessStep';
+import { Product } from '@prisma/client';
 
 type Props = {
-  stripeProducts: Stripe.Product[] | [];
+  stripeProducts: Product[] | [];
 };
 
 const CreateWebinarButton = ({ stripeProducts }: Props) => {

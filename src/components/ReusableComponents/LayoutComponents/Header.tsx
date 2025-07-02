@@ -5,7 +5,7 @@ import { usePathname, useRouter } from 'next/navigation';
 import { Button } from '@/components/ui/button';
 import { ArrowLeft, Zap } from 'lucide-react';
 import PurpleIcon from '../PurpleIcon';
-import { User } from '@prisma/client';
+import { Product, User } from '@prisma/client';
 import CreateWebinarButton from '../CreateWebinarButton';
 import { Plus } from 'lucide-react';
 import Stripe from 'stripe';
@@ -13,7 +13,7 @@ import { toast } from 'sonner';
 
 type Props = {
   user: User;
-  stripeProducts: Stripe.Product[] | [];
+  stripeProducts: Product[] | [];
 };
 
 const Header = ({ user, stripeProducts }: Props) => {

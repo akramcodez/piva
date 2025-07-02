@@ -121,3 +121,23 @@ export const changeStatusOfProduct = async (productId: string) => {
     return { success: false, message: 'Failed to change product status.' };
   }
 };
+
+export const findOneProduct = async (
+  productId: string,
+): Promise<Product | null> => {
+  try {
+    if (!productId) {
+      console.error('Product ID is required to find a product.');
+      return null;
+    }
+
+    const product = await prismaClient.product.findUnique({
+      where: { id: productId },
+    });
+
+    return product;
+  } catch (error) {
+    console.error('Error finding product by ID:', error);
+    return null;
+  }
+};
