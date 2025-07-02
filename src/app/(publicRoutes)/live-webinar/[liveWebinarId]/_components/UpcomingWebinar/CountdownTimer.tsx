@@ -95,12 +95,11 @@ const CountdownTimer = ({
   }, [targetDate, isExpired, webinarId, webinarStatus]);
 
   useEffect(() => {
-    // Check if the countdown has expired AND the webinar status is LIVE
-    if (isExpired && webinarStatus === WebinarStatusEnum.LIVE) {
+    if (isExpired) {
       console.log('Countdown expired and webinar is LIVE, refreshing page...');
-      router.refresh(); // Refresh the page to load the LIVE state component
+      router.refresh();
     }
-  }, [isExpired, webinarStatus, router]); // Dependencies for this effect
+  }, [isExpired, webinarStatus, router]);
 
   return (
     <div className={cn('text-center', className)}>

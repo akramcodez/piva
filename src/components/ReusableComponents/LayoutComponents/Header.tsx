@@ -9,8 +9,7 @@ import { User } from '@prisma/client';
 import CreateWebinarButton from '../CreateWebinarButton';
 import { Plus } from 'lucide-react';
 import Stripe from 'stripe';
-import Link from 'next/link';
-import { getStripeOAuthLink } from '@/lib/stripe/util';
+import { toast } from 'sonner';
 
 type Props = {
   user: User;
@@ -22,7 +21,12 @@ const Header = ({ user, stripeProducts }: Props) => {
   const router = useRouter();
   const isStripeConnected = user.stripeConnectId;
 
-  const stripeLink = getStripeOAuthLink('api/stripe-connect', user.id);
+  const handleCreateWebinarClick = () => {
+    toast.warning(
+      'Please connect your Stripe account in settings to create webinars.',
+    );
+    router.push('/settings');
+  };
 
   return (
     <div className="w-full px-2 sm:px-4 pt-6 pb-3 sm:pt-8 sticky top-0 z-10 flex justify-between items-center flex-wrap gap-2 sm:gap-4 bg-background">
@@ -50,16 +54,16 @@ const Header = ({ user, stripeProducts }: Props) => {
         {isStripeConnected ? (
           <CreateWebinarButton stripeProducts={stripeProducts} />
         ) : (
-          <div
+          <Button
             className="rounded-xl hover:cursor-pointer px-3 py-1.5
           border border-border bg-primary/10 backdrop-blur-sm text-primary
-          hover:bg-primary-20"
+          hover:bg-primary-20 flex items-center gap-2"
+            onClick={handleCreateWebinarClick}
+            variant="outline"
           >
-            <Link href={stripeLink} className="flex items-center gap-2">
-              <Plus className="h-4 w-4" />
-              <span className="text-sm lg:text-base">Create Webinar</span>
-            </Link>
-          </div>
+            <Plus className="h-4 w-4" />
+            <span className="text-sm lg:text-base">Create Webinar</span>
+          </Button>
         )}
       </div>
     </div>

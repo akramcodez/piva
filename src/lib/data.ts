@@ -1,4 +1,12 @@
-import { House, Sparkle, Webcam, UserRound, Cog, Star } from 'lucide-react';
+import {
+  House,
+  Sparkle,
+  Webcam,
+  UserRound,
+  Cog,
+  Star,
+  ShoppingCart,
+} from 'lucide-react';
 import { CallStatusEnum } from '@prisma/client';
 
 export const sidebarData = [
@@ -26,16 +34,21 @@ export const sidebarData = [
     icon: Sparkle,
     link: '/ai-agents',
   },
-
   {
     id: 5,
+    title: 'Products',
+    icon: ShoppingCart,
+    link: '/products',
+  },
+  {
+    id: 6,
     title: 'Settings',
     icon: Cog,
     link: '/settings',
   },
 
   {
-    id: 6,
+    id: 7,
     title: 'Give It Star',
     icon: Star,
     link: 'https://github.com/akramcodez/pivaAi',
