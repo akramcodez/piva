@@ -1,6 +1,6 @@
 'use client';
 
-import { WebinarWithPresenter } from '@/lib/type';
+import { ClientProduct, WebinarWithPresenter } from '@/lib/type';
 import {
   useStreamVideoClient,
   Call,
@@ -15,6 +15,7 @@ type Props = {
   callType: string;
   webinar: WebinarWithPresenter;
   token: string;
+  product?: ClientProduct | null;
 };
 
 const CustomLivestreamPlayer = ({
@@ -23,6 +24,7 @@ const CustomLivestreamPlayer = ({
   callType,
   webinar,
   token,
+  product,
 }: Props) => {
   const client = useStreamVideoClient();
   const [call, setCall] = useState<Call>();
@@ -57,6 +59,7 @@ const CustomLivestreamPlayer = ({
         userId={webinar.presenter.id}
         userToken={token}
         call={call}
+        product={product}
       />
     </StreamCall>
   );

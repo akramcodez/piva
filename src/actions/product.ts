@@ -1,7 +1,12 @@
 'use server';
 
 import { prismaClient } from '@/lib/prismaClient';
-import { Product, CurrencyEnum, ProductStatusEnum } from '@prisma/client';
+import {
+  Product,
+  CurrencyEnum,
+  ProductStatusEnum,
+  AttendedTypeEnum,
+} from '@prisma/client'; // Import AttendedTypeEnum
 
 type CreateProductInput = {
   name: string;
@@ -139,5 +144,70 @@ export const findOneProduct = async (
   } catch (error) {
     console.error('Error finding product by ID:', error);
     return null;
+  }
+};
+
+export const buyProduct = async (
+  productId: string,
+  userId: string,
+  webinarId: string,
+): Promise<{ success: boolean; message?: string }> => {
+  try {
+    if (!productId || !userId || !webinarId) {
+      return {
+        success: false,
+        message: 'Product ID, User ID, and Webinar ID are required.',
+      };
+    }
+
+    const product = await prismaClient.product.findUnique({
+      where: { id: productId },
+    });
+
+    if (!product) {
+      return { success: false, message: 'Product not found.' };
+    }
+
+    const attendee = await prismaClient.attendee.findUnique({
+      where: { id: userId },
+    });
+
+    if (!attendee) {
+      console.error(`Attendee not found with ID: ${userId}`);
+      return { success: false, message: 'Attendee not found.' };
+    }
+
+    const attendance = await prismaClient.attendance.upsert({
+      where: {
+        attendeeId_webinarId: {
+          attendeeId: attendee.id,
+          webinarId: webinarId,
+        },
+      },
+      update: {
+        attendedType: AttendedTypeEnum.CONVERTED,
+        updatedAt: new Date(),
+      },
+      create: {
+        attendeeId: attendee.id,
+        webinarId: webinarId,
+        attendedType: AttendedTypeEnum.CONVERTED,
+      },
+    });
+
+    await prismaClient.product.update({
+      where: { id: productId },
+      data: {
+        totalSales: {
+          increment: 1,
+        },
+        updatedAt: new Date(),
+      },
+    });
+
+    return { success: true, message: 'Purchase intent recorded.' };
+  } catch (error) {
+    console.error('Error recording purchase intent:', error);
+    return { success: false, message: 'Failed to record purchase intent.' };
   }
 };

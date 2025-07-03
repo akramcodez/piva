@@ -2,7 +2,9 @@ import { onAuthenticateUser } from '@/actions/auth';
 import { getWebinarById } from '@/actions/webinar';
 import React from 'react';
 import RenderWebinar from './_components/RenderWebinar';
-import { WebinarWithPresenter } from '@/lib/type';
+import { ClientProduct, WebinarWithPresenter } from '@/lib/type';
+import { findOneProduct } from '@/actions/product';
+import { Product } from '@prisma/client';
 
 type Props = {
   params: Promise<{
@@ -33,6 +35,19 @@ const Page = async ({ params, searchParams }: Props) => {
   //TODO: Create api keys
   const apiKey = process.env.NEXT_PUBLIC_STREAM_API_KEY as string; //check
 
+  const rawProduct: Product | null = webinarData.priceId
+    ? await findOneProduct(webinarData.priceId)
+    : null;
+
+  const product: ClientProduct | null = rawProduct
+    ? {
+        ...rawProduct,
+        price: Number(rawProduct.price),
+        createdAt: rawProduct.createdAt.toISOString(),
+        updatedAt: rawProduct.updatedAt.toISOString(),
+      }
+    : null;
+
   return (
     <div className="w-full h-screen ">
       <RenderWebinar
@@ -40,6 +55,7 @@ const Page = async ({ params, searchParams }: Props) => {
         user={checkUser.user || null}
         webinar={webinarData}
         apiKey={apiKey}
+        product={product}
       />
     </div>
   );

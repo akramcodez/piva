@@ -2,7 +2,7 @@
 
 import { getStreamIoToken } from '@/actions/streamIo';
 import { Button } from '@/components/ui/button';
-import { WebinarWithPresenter } from '@/lib/type';
+import { ClientProduct, WebinarWithPresenter } from '@/lib/type';
 import { useAttendeeStore } from '@/store/useAttendeeStore';
 import {
   StreamVideoClient,
@@ -20,9 +20,10 @@ type Props = {
   apiKey: string;
   callId: string;
   webinar: WebinarWithPresenter;
+  product?: ClientProduct | null;
 };
 
-const Participant = ({ apiKey, callId, webinar }: Props) => {
+const Participant = ({ apiKey, callId, webinar, product }: Props) => {
   const { attendee } = useAttendeeStore();
   const [showChat, setShowChat] = useState(true);
   const [client, setClient] = useState<StreamVideoClient | null>(null);
@@ -218,6 +219,7 @@ const Participant = ({ apiKey, callId, webinar }: Props) => {
           userId={attendee?.id || `${uuidv4()}`}
           call={call}
           userToken={token}
+          product={product}
         />
       </StreamCall>
     </StreamVideo>

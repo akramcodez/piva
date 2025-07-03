@@ -7,7 +7,11 @@ import { usePathname, useRouter } from 'next/navigation';
 import { useAttendeeStore } from '@/store/useAttendeeStore';
 import { toast } from 'sonner';
 import LiveStreamState from './LiveWebinar/LiveStreamState';
-import { StreamCallRecording, WebinarWithPresenter } from '@/lib/type';
+import {
+  ClientProduct,
+  StreamCallRecording,
+  WebinarWithPresenter,
+} from '@/lib/type';
 import Participant from './Participant/Participant';
 
 type Props = {
@@ -15,9 +19,10 @@ type Props = {
   user: User | null;
   webinar: WebinarWithPresenter;
   apiKey: string;
+  product?: ClientProduct | null;
 };
 
-const RenderWebinar = ({ error, user, webinar, apiKey }: Props) => {
+const RenderWebinar = ({ error, user, webinar, apiKey, product }: Props) => {
   const router = useRouter();
   const pathname = usePathname();
   const { attendee } = useAttendeeStore();
@@ -37,12 +42,14 @@ const RenderWebinar = ({ error, user, webinar, apiKey }: Props) => {
               webinar={webinar}
               callId={webinar.id}
               user={user}
+              product={product}
             />
           ) : attendee ? (
             <Participant
               apiKey={apiKey}
               webinar={webinar}
               callId={webinar.id}
+              product={product}
             />
           ) : (
             <WebinarUpcomingState

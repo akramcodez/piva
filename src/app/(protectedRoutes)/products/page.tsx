@@ -3,6 +3,7 @@ import { onAuthenticateUser } from '@/actions/auth';
 import { redirect } from 'next/navigation';
 import ProductPage from './ProductPage/ProductPage';
 import { getProductsByOwnerId } from '@/actions/product';
+import { ClientProduct } from '@/lib/type';
 
 type Props = {};
 
@@ -15,7 +16,7 @@ const Page = async (props: Props) => {
 
   const products = await getProductsByOwnerId(userExist.user.id);
 
-  const productsForClient = products.map((product) => ({
+  const productsForClient: ClientProduct[] = products.map((product) => ({
     ...product,
     price: Number(product.price),
     createdAt: product.createdAt.toISOString(),

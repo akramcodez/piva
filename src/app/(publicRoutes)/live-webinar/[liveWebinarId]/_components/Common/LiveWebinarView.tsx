@@ -1,6 +1,6 @@
 'use client';
 
-import { WebinarWithPresenter } from '@/lib/type';
+import { ClientProduct, WebinarWithPresenter } from '@/lib/type';
 import { Loader2, MessageSquare, User, Users } from 'lucide-react';
 import {
   ParticipantView,
@@ -17,6 +17,7 @@ import { useRouter } from 'next/navigation';
 import { changeWebinarStatus } from '@/actions/webinar';
 import { toast } from 'sonner';
 import ObsDialogBox from './ObsDialogBox';
+import PurchaseDialogBox from './PurchaseDialogBox';
 
 type Props = {
   showChat: boolean;
@@ -27,6 +28,7 @@ type Props = {
   userId: string;
   call: Call;
   userToken: string;
+  product?: ClientProduct | null;
 };
 
 const LiveWebinarView = ({
@@ -38,6 +40,7 @@ const LiveWebinarView = ({
   userId,
   call,
   userToken,
+  product,
 }: Props) => {
   const { useParticipants, useParticipantCount } = useCallStateHooks();
   const viewCount = useParticipantCount();
@@ -47,6 +50,7 @@ const LiveWebinarView = ({
   const [dialogOpen, setDialogOpen] = useState(false);
   const [loading, setLoading] = useState(false);
   const [obsDialogBox, setObsDialogBox] = useState(false);
+  const [purchaseDialog, setPurchaseDialog] = useState(false);
   const router = useRouter();
 
   const handleEndStream = async () => {
@@ -282,11 +286,12 @@ const LiveWebinarView = ({
         )}
       </div>
 
-      {/* TODO: add cta dialog box */}
       {dialogOpen && (
         <CTADialogBox
           open={dialogOpen}
           onOpenChange={setDialogOpen}
+          setPurchaseDialog={setPurchaseDialog}
+          purchase={purchaseDialog}
           webinar={webinar}
           userId={userId}
         />
@@ -298,6 +303,16 @@ const LiveWebinarView = ({
           onOpenChange={setObsDialogBox}
           rtmpURL={`rtmps://ingress.stream-io-video.com:443/${process.env.NEXT_PUBLIC_STREAM_API_KEY}.livestream.${webinar.id}`}
           streamKey={userToken}
+        />
+      )}
+
+      {purchaseDialog && (
+        <PurchaseDialogBox
+          open={purchaseDialog}
+          onOpenChange={setPurchaseDialog}
+          product={product}
+          userId={userId}
+          webinarId={webinar.id}
         />
       )}
     </div>

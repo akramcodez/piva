@@ -10,10 +10,11 @@ import CreateWebinarButton from '../CreateWebinarButton';
 import { Plus } from 'lucide-react';
 import Stripe from 'stripe';
 import { toast } from 'sonner';
+import { ClientProduct } from '@/lib/type';
 
 type Props = {
   user: User;
-  stripeProducts: Product[] | [];
+  stripeProducts: ClientProduct[] | [];
 };
 
 const Header = ({ user, stripeProducts }: Props) => {

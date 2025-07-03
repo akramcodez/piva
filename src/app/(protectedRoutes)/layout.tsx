@@ -4,6 +4,7 @@ import { redirect } from 'next/navigation';
 import Sidebar from '@/components/ReusableComponents/LayoutComponents/Sidebar';
 import Header from '@/components/ReusableComponents/LayoutComponents/Header';
 import { getProductsByOwnerId } from '@/actions/product';
+import { ClientProduct } from '@/lib/type';
 
 type Props = {
   children: ReactNode;
@@ -16,7 +17,14 @@ export default async function Layout({ children }: Props) {
     redirect('/sign-in');
   }
 
-  const stripeProducts = await getProductsByOwnerId(userExist.user.id);
+  const stripeProductsRaw = await getProductsByOwnerId(userExist.user.id);
+
+  const stripeProducts: ClientProduct[] = stripeProductsRaw.map((product) => ({
+    ...product,
+    price: Number(product.price),
+    createdAt: product.createdAt.toISOString(),
+    updatedAt: product.updatedAt.toISOString(),
+  }));
 
   return (
     <div className="flex w-full min-h-screen">

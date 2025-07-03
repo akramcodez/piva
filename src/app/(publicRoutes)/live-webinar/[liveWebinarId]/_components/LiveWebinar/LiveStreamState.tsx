@@ -5,7 +5,7 @@ import {
   StreamVideoClient,
   User as StreamUser,
 } from '@stream-io/video-react-sdk';
-import { WebinarWithPresenter } from '@/lib/type';
+import { ClientProduct, WebinarWithPresenter } from '@/lib/type';
 import { User } from '@prisma/client';
 import React, { useEffect, useState } from 'react';
 import CustomLivestreamPlayer from './CustomLivestreamPlayer';
@@ -16,9 +16,10 @@ type Props = {
   callId: string;
   webinar: WebinarWithPresenter;
   user: User;
+  product?: ClientProduct | null;
 };
 
-const LiveStreamState = ({ apiKey, callId, webinar, user }: Props) => {
+const LiveStreamState = ({ apiKey, callId, webinar, user, product }: Props) => {
   const [hostToken, setHostToken] = useState<string | null>();
   const [client, setClient] = useState<StreamVideoClient | null>(null);
 
@@ -62,6 +63,7 @@ const LiveStreamState = ({ apiKey, callId, webinar, user }: Props) => {
         webinar={webinar}
         username={user.name}
         token={hostToken}
+        product={product}
       />
     </StreamVideo>
   );

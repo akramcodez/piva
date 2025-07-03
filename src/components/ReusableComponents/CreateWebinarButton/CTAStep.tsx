@@ -16,9 +16,10 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import Stripe from 'stripe';
+import { ClientProduct } from '@/lib/type';
 
 type Props = {
-  stripeProducts: Product[] | [];
+  stripeProducts: ClientProduct[] | [];
 };
 
 const CTAStep = ({ stripeProducts }: Props) => {
