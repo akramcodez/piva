@@ -143,14 +143,7 @@ const PurchaseDialogBox = ({
             </Button>
           </DialogClose>
           <Button onClick={handlePurchaseClick} disabled={loading || !product}>
-            {loading ? (
-              <>
-                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                Processing...
-              </>
-            ) : (
-              'Purchase'
-            )}
+            Purchase
           </Button>
         </DialogFooter>
       </DialogContent>
@@ -176,7 +169,7 @@ const PurchaseDialogBox = ({
               {loading ? (
                 <>
                   <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                  OK
+                  Processing...
                 </>
               ) : (
                 'OK'

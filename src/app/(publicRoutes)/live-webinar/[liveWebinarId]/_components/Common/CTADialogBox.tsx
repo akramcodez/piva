@@ -72,7 +72,7 @@ const CTADialogBox = ({
           <p className="text-sm text-muted-foreground mt-3">
             {webinar?.ctaType === 'BOOK_A_CALL'
               ? 'You will be redirected to a call on another page'
-              : 'You will be redirected to checkout'}
+              : 'Product details will open in a new dialog'}
           </p>
         </DialogHeader>
         <div className="flex items-center space-x-4">

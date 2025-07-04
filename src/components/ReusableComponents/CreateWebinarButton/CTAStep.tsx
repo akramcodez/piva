@@ -17,12 +17,15 @@ import {
 } from '@/components/ui/select';
 import Stripe from 'stripe';
 import { ClientProduct } from '@/lib/type';
+import { Assistant } from '@vapi-ai/server-sdk/api';
+import Link from 'next/link';
 
 type Props = {
   stripeProducts: ClientProduct[] | [];
+  assistants: Assistant[] | [];
 };
 
-const CTAStep = ({ stripeProducts }: Props) => {
+const CTAStep = ({ stripeProducts, assistants }: Props) => {
   const { formData, updateCTA, addTag, removeTag, getStepvalidationError } =
     useWebinarStore();
   const { ctaLabel, tags, aiAgent, priceId, ctaType } = formData.cta;
@@ -48,6 +51,10 @@ const CTAStep = ({ stripeProducts }: Props) => {
 
   const handleProductChange = (value: string) => {
     updateCTA('priceId', value);
+  };
+
+  const handleSelectAgent = (value: string) => {
+    updateCTA('aiAgent', value);
   };
 
   const activeStripeProducts = stripeProducts.filter(
@@ -115,7 +122,7 @@ const CTAStep = ({ stripeProducts }: Props) => {
       <div className="space-y-2 w-full">
         <Label>CTA Type</Label>
         <Tabs defaultValue={CtaTypeEnum.BOOK_A_CALL} className="w-full">
-          <TabsList>
+          <TabsList className="w-full">
             <TabsTrigger
               value={CtaTypeEnum.BOOK_A_CALL}
               className="w-1/2 date-[state=active]:!bg-background/50"
@@ -134,43 +141,85 @@ const CTAStep = ({ stripeProducts }: Props) => {
         </Tabs>
       </div>
 
-      <div className="space-y-2">
-        <Label>Attach an Product</Label>
-        <div className="relative">
-          <div className="mb-2">
-            <div className="relative">
-              <Search className="absolute left-3 top-2.5 h-4 w-4 text-gray-500" />
-              <Input
-                placeholder="Search agents"
-                className="pl-9 !bg-background/50 border border-input"
-              />
+      {ctaType === CtaTypeEnum.BOOK_A_CALL && (
+        <div className="space-y-2">
+          <Label>Attach an Ai Agent</Label>
+          <div className="relative">
+            <div className="mb-2">
+              <div className="relative">
+                <Search className="absolute left-3 top-2.5 h-4 w-4" />
+                <Input
+                  placeholder="Search Agent"
+                  className="pl-9 !bg-background/50 border border-input"
+                />
+              </div>
             </div>
-          </div>
+            <Select value={aiAgent} onValueChange={handleSelectAgent}>
+              <SelectTrigger className="w-full !bg-background/50 border border-input">
+                <SelectValue placeholder="Select an Agent" />
+              </SelectTrigger>
 
-          <Select value={priceId} onValueChange={handleProductChange}>
-            <SelectTrigger className="w-full !bg-background/50 border border-input">
-              <SelectValue placeholder="Select an product" />
-            </SelectTrigger>
-            <SelectContent className="bg-background border border-input max-h-48">
-              {activeStripeProducts?.length > 0 ? (
-                activeStripeProducts.map((product) => (
-                  <SelectItem
-                    key={product.id}
-                    value={product.id}
-                    className="!bg-background/50 hover:!bg-white/10"
-                  >
-                    {product.name}
+              <SelectContent className="bg-background border border-input max-h-40">
+                {assistants?.length > 0 ? (
+                  assistants.map((assistant) => (
+                    <SelectItem
+                      key={assistant.id}
+                      value={assistant.id}
+                      className="!bg-background/50 hover:!bg-white/10"
+                    >
+                      {assistant.name}
+                    </SelectItem>
+                  ))
+                ) : (
+                  <SelectItem value="No Agent Available" disabled>
+                    No Agents Available
                   </SelectItem>
-                ))
-              ) : (
-                <SelectItem value="no-products" disabled>
-                  Create product in stripe
-                </SelectItem>
-              )}
-            </SelectContent>
-          </Select>
+                )}
+              </SelectContent>
+            </Select>
+          </div>
         </div>
-      </div>
+      )}
+
+      {ctaType === CtaTypeEnum.BUY_NOW && (
+        <div className="space-y-2">
+          <Label>Attach an Product</Label>
+          <div className="relative">
+            <div className="mb-2">
+              <div className="relative">
+                <Search className="absolute left-3 top-2.5 h-4 w-4 text-gray-500" />
+                <Input
+                  placeholder="Search Product"
+                  className="pl-9 !bg-background/50 border border-input"
+                />
+              </div>
+            </div>
+
+            <Select value={priceId} onValueChange={handleProductChange}>
+              <SelectTrigger className="w-full !bg-background/50 border border-input">
+                <SelectValue placeholder="Select an product" />
+              </SelectTrigger>
+              <SelectContent className="bg-background border border-input max-h-48">
+                {activeStripeProducts?.length > 0 ? (
+                  activeStripeProducts.map((product) => (
+                    <SelectItem
+                      key={product.id}
+                      value={product.id}
+                      className="!bg-background/50 hover:!bg-white/10"
+                    >
+                      {product.name}
+                    </SelectItem>
+                  ))
+                ) : (
+                  <SelectItem value="no-products" disabled>
+                    <Link href={'/products'}>Create product</Link>
+                  </SelectItem>
+                )}
+              </SelectContent>
+            </Select>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

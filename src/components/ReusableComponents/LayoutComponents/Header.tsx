@@ -11,13 +11,15 @@ import { Plus } from 'lucide-react';
 import Stripe from 'stripe';
 import { toast } from 'sonner';
 import { ClientProduct } from '@/lib/type';
+import { Assistant } from '@vapi-ai/server-sdk/api';
 
 type Props = {
   user: User;
   stripeProducts: ClientProduct[] | [];
+  assistants: Assistant[] | [];
 };
 
-const Header = ({ user, stripeProducts }: Props) => {
+const Header = ({ user, stripeProducts, assistants }: Props) => {
   const pathname = usePathname();
   const router = useRouter();
   const isStripeConnected = user.stripeConnectId;
@@ -53,7 +55,10 @@ const Header = ({ user, stripeProducts }: Props) => {
           <Zap className="h-4 w-4 sm:h-5 sm:w-5" />
         </PurpleIcon>
         {isStripeConnected ? (
-          <CreateWebinarButton stripeProducts={stripeProducts} />
+          <CreateWebinarButton
+            stripeProducts={stripeProducts}
+            assistants={assistants}
+          />
         ) : (
           <Button
             className="rounded-xl hover:cursor-pointer px-3 py-1.5

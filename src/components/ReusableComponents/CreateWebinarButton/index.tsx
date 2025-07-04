@@ -17,12 +17,14 @@ import Stripe from 'stripe';
 import SucessStep from './SucessStep';
 import { Product } from '@prisma/client';
 import { ClientProduct } from '@/lib/type';
+import { Assistant } from '@vapi-ai/server-sdk/api';
 
 type Props = {
   stripeProducts: ClientProduct[] | [];
+  assistants: Assistant[] | [];
 };
 
-const CreateWebinarButton = ({ stripeProducts }: Props) => {
+const CreateWebinarButton = ({ stripeProducts, assistants }: Props) => {
   const { isModelOpen, setIsModelOpen, isComplete, setIsComplete, resetForm } =
     useWebinarStore();
 
@@ -39,7 +41,9 @@ const CreateWebinarButton = ({ stripeProducts }: Props) => {
       id: 'cta',
       title: 'CTA',
       description: "Webinar's customer endpoint",
-      component: <CTAStep stripeProducts={stripeProducts} />,
+      component: (
+        <CTAStep stripeProducts={stripeProducts} assistants={assistants} />
+      ),
     },
     {
       id: 'additionalInfo',
