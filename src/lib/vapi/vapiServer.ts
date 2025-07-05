@@ -5,7 +5,7 @@ const payload = {
   orgId: process.env.VAPI_ORG_ID,
   token: {
     // This is the scope  of the token
-    tags: 'private',
+    tag: 'private',
   },
 };
 

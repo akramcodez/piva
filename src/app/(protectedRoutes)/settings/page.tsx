@@ -14,7 +14,7 @@ import { Button } from '@/components/ui/button';
 
 type Props = {};
 
-const Page = async (props: Props) => {
+const page = async (props: Props) => {
   const userExist = await onAuthenticateUser();
 
   if (!userExist.user) {
@@ -128,7 +128,7 @@ const Page = async (props: Props) => {
               className={`px-5 py-2.5 rounded-md font-medium text-sm 
             flex items-center justify-center gap-2 transition-colors ${
               isConnected
-                ? 'bg-muted hover:bg-muted/80 text-foreground'
+                ? 'bg-muted hoverthemeBgLight text-foreground'
                 : 'bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-600 hover:to-indigo-600 text-white'
             }`}
             >
@@ -182,4 +182,4 @@ const Page = async (props: Props) => {
   );
 };
 
-export default Page;
+export default page;

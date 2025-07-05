@@ -16,7 +16,7 @@ type Props = {
   }>;
 };
 
-const Page = async ({ searchParams }: Props) => {
+const page = async ({ searchParams }: Props) => {
   const { webinarStatus } = await searchParams;
   const checkUser = await onAuthenticateUser();
   if (!checkUser) {
@@ -117,4 +117,4 @@ const Page = async ({ searchParams }: Props) => {
   );
 };
 
-export default Page;
+export default page;

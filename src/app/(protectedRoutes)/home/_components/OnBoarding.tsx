@@ -10,7 +10,7 @@ const OnBoarding = () => {
         <Link
           key={index}
           href={step.link}
-          className="flex items-center gap-1.5 text-sm sm:text-base text-muted-foreground hover:text-primary transition-colors"
+          className="flex items-center gap-1.5 text-sm sm:text-base text-muted-foreground hoverthemeColor transition-colors"
         >
           <CircleCheckBig className="h-3 w-3 sm:h-4 sm:w-4" />
           <span>{step.title}</span>

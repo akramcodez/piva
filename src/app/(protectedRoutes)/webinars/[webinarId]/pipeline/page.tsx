@@ -11,7 +11,7 @@ type Props = {
   params: { webinarId: string };
 };
 
-const Page = async ({ params }: Props) => {
+const page = async ({ params }: Props) => {
   const { webinarId } = await params;
   const pipelineData = await getWebinarAttendence(webinarId);
 
@@ -60,4 +60,4 @@ const Page = async ({ params }: Props) => {
   );
 };
 
-export default Page;
+export default page;

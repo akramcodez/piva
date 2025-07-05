@@ -15,7 +15,7 @@ type Props = {
   }>;
 };
 
-const Page = async ({ params, searchParams }: Props) => {
+const page = async ({ params, searchParams }: Props) => {
   const { liveWebinarId } = await params;
   const { error } = await searchParams;
 
@@ -61,4 +61,4 @@ const Page = async ({ params, searchParams }: Props) => {
   );
 };
 
-export default Page;
+export default page;

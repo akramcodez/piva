@@ -11,7 +11,7 @@ const manrope = Manrope({
 });
 
 export const metadata: Metadata = {
-  title: 'pivaAi',
+  title: 'Piva',
   description: 'Talk with AI',
 };
 

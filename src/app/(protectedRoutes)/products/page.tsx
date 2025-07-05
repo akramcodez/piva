@@ -7,7 +7,7 @@ import { ClientProduct } from '@/lib/type';
 
 type Props = {};
 
-const Page = async (props: Props) => {
+const page = async (props: Props) => {
   const userExist = await onAuthenticateUser();
 
   if (!userExist?.user) {
@@ -26,4 +26,4 @@ const Page = async (props: Props) => {
   return <ProductPage user={userExist.user} products={productsForClient} />;
 };
 
-export default Page;
+export default page;

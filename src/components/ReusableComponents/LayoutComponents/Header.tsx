@@ -47,7 +47,9 @@ const Header = ({ user, stripeProducts, assistants }: Props) => {
           className="animated-gradient-bg px-2 py-1 text-sm sm:text-base flex justify-center font-medium h-[35px]
          items-center rounded-lg border border-border capitalize"
         >
-          {pathname.split('/')[1] || 'Home'}
+          <button className="cursor-pointer" onClick={() => router.refresh()}>
+            {pathname.split('/')[1] || 'Home'}
+          </button>
         </div>
       )}
       <div className="flex gap-4 sm:gap-6 items-center flex-wrap">

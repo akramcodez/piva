@@ -8,7 +8,7 @@ import UserInfoCard from '@/components/ReusableComponents/UserInfoCard/index';
 
 type Props = {};
 
-const Page = (props: Props) => {
+const page = (props: Props) => {
   return (
     <div className="w-full mx-auto h-full px-2 sm:px-4">
       <div className="w-full flex flex-col sm:flex-row justify-between items-center gap-6 sm:gap-10">
@@ -90,4 +90,4 @@ const Page = (props: Props) => {
   );
 };
 
-export default Page;
+export default page;

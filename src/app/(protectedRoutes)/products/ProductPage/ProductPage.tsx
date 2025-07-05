@@ -86,8 +86,8 @@ const ProductPage = ({ user, products }: Props) => {
               key={product.id}
               className={`overflow-hidden flex flex-col pt-0 pb-3 ${
                 product.status === 'ACTIVE'
-                  ? 'border-[1px] border-green-500'
-                  : 'border-[1px] border-red-500'
+                  ? 'border-[2px] border-green-500'
+                  : 'border-[2px] border-red-500'
               }`}
             >
               <CardHeader className="p-0">

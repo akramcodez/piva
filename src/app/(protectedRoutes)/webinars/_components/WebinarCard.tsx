@@ -41,7 +41,7 @@ const WebinarCard = ({ webinar }: Props) => {
     <div className="flex grid-3 flex-col items-start w-full">
       <Link href={`/live-webinar/${webinar?.id}`} className="w-full">
         <div className="w-full h-full flex items-center">
-          <div className="w-full h-45 relative rounded-xl overflow-hidden mb-4 border-[3px]">
+          <div className="w-full h-45 relative rounded-xl overflow-hidden mb-4 border-[3px] hoverthemeBorder">
             <Image
               src={'/webinar.jpg'}
               alt={'webinar'}
@@ -51,7 +51,7 @@ const WebinarCard = ({ webinar }: Props) => {
           </div>
         </div>
       </Link>
-      <div className="w-full flex justify-between gap-3 items-center px-2">
+      <div className="w-full flex justify-between gap-3 items-start px-2">
         <Link
           href={`/live-webinar/${webinar?.id}`}
           className="flex flex-col gap-2 items-start"
@@ -74,7 +74,7 @@ const WebinarCard = ({ webinar }: Props) => {
         <div className="space-y-2">
           <Link
             href={`/webinars/${webinar?.id}/pipeline`}
-            className="flex px-3 py-1.5 rounded-md border-[0.5px] border-border bg-secondary hover-bg-secondary"
+            className="flex px-3 py-1.5 rounded-md border-[0.5px] border-border bg-secondary hoverthemeBgLight"
           >
             <Layers className="w-4 h-4 text-primary" />
           </Link>

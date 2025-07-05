@@ -14,7 +14,7 @@ import { leadData } from './__tests__/data';
 
 type Props = {};
 
-const Page = (props: Props) => {
+const page = (props: Props) => {
   return (
     <div className="w-full flex flex-col gap-8">
       <PageHeader
@@ -28,7 +28,7 @@ const Page = (props: Props) => {
       </PageHeader>
       <Table suppressHydrationWarning>
         <TableHeader>
-          <TableRow>
+          <TableRow className="hoverthemeBgLight">
             <TableHead className="text-sm text-muted-forground">Name</TableHead>
             <TableHead className="text-sm text-muted-forground">
               Email
@@ -43,7 +43,11 @@ const Page = (props: Props) => {
         </TableHeader>
         <TableBody>
           {leadData?.map((lead, idx) => (
-            <TableRow key={idx} className="border-0" suppressHydrationWarning>
+            <TableRow
+              key={idx}
+              className="border-0 hoverthemeBgLight"
+              suppressHydrationWarning
+            >
               <TableCell className="font-medium" suppressHydrationWarning>
                 {lead?.name}
               </TableCell>
@@ -64,4 +68,4 @@ const Page = (props: Props) => {
   );
 };
 
-export default Page;
+export default page;

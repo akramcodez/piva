@@ -26,7 +26,7 @@ const FeatureSectionLayout = ({
         </h3>
         <Link
           href={link}
-          className="text-primary font-semibold text-lg flex items-center justify-center rounded-md opacity-50 gap-1 hover:opacity-100"
+          className="text-primary font-semibold text-lg flex items-center justify-center rounded-md opacity-50 gap-1 hoverthemeColor"
         >
           View <ArrowUpRight />
         </Link>
