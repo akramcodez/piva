@@ -169,8 +169,12 @@
   background-color: #2c8c876d;
 }
 
+.themeBgLight {
+  background-color: #2c8c8723;
+}
+
 .hoverthemeBgLight:hover {
-  background-color: #2c8c8731;
+  background-color: #2c8c8737;
 }
 
 .themeColor {

@@ -1,5 +1,7 @@
+import { ScrollArea } from '@/components/ui/scroll-area';
 import { Settings } from 'lucide-react';
 import React from 'react';
+import ModelConfiguration from './ModelConfiguration';
 
 type Props = {};
 
@@ -12,6 +14,10 @@ const ModelSelection = (props: Props) => {
         </span>
         <span className="uppercase text-sm font-medium">MODEL</span>
       </div>
+
+      <ScrollArea>
+        <ModelConfiguration />
+      </ScrollArea>
     </div>
   );
 };
