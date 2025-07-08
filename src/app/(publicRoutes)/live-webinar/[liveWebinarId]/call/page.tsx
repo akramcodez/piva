@@ -3,6 +3,8 @@ import { getWebinarById } from '@/actions/webinar';
 import { redirect } from 'next/navigation';
 import React from 'react';
 import { CallStatusEnum, WebinarStatusEnum } from '@prisma/client';
+import { WebinarWithPresenter } from '@/lib/type';
+import AutoConnectCall from './_components/AutoConnectCall';
 
 type Props = {
   params: Promise<{
@@ -52,7 +54,14 @@ const page = async ({ params, searchParams }: Props) => {
     redirect(`live-webinar/${liveWebinarId}?error=call-not-pending`);
   }
 
-  return <div>page</div>;
+  return (
+    <AutoConnectCall
+      userName={attendee.data.name}
+      assistantId={webinar.aiAgentId}
+      webinar={webinar as WebinarWithPresenter}
+      userId={attendeeId}
+    />
+  );
 };
 
 export default page;

@@ -184,11 +184,13 @@ const LiveWebinarView = ({
         <div className="flex-1 rounded-lg overflow-hidden border border-border flex flex-col bg-card">
           <div className="flex-1 relative overflow-hidden">
             {hostParticipant ? (
-              <div className={`w-full h-full`}>
-                <ParticipantView
-                  participant={hostParticipant}
-                  className="w-full h-full object-cover !max-w-full"
-                />
+              <div className="w-full h-full flex items-center justify-center">
+                <div className="relative w-full h-full max-w-[200px] max-h-[200px] aspect-square">
+                  <ParticipantView
+                    participant={hostParticipant}
+                    className="w-full h-full !object-cover"
+                  />
+                </div>
               </div>
             ) : (
               <div
