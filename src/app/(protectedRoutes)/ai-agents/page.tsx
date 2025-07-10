@@ -3,9 +3,7 @@ import React from 'react';
 import AiAgentsSidebar from './_components/AiAgentsSidebar';
 import ModelSelection from './_components/ModelSelection';
 
-type Props = {};
-
-const page = async (props: Props) => {
+const page = async () => {
   const allAgents = await getAllAssistants();
 
   return (

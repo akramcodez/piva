@@ -5,9 +5,7 @@ import ProductPage from './ProductPage/ProductPage';
 import { getProductsByOwnerId } from '@/actions/product';
 import { ClientProduct } from '@/lib/type';
 
-type Props = {};
-
-const page = async (props: Props) => {
+const page = async () => {
   const userExist = await onAuthenticateUser();
 
   if (!userExist?.user) {

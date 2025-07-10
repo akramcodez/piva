@@ -1,15 +1,17 @@
 'use client';
 
 import React, { useEffect, useState, useRef } from 'react';
-import { WebinarWithPresenter } from '@/lib/type';
+import { ClientProduct, WebinarWithPresenter } from '@/lib/type';
 import { vapi } from '@/lib/vapi/vapiclient';
 import { changeCallStatus } from '@/actions/attendence';
 import { CallStatusEnum } from '@prisma/client';
 import { toast } from 'sonner';
-import { Clock, Loader2, Mic, MicOff } from 'lucide-react';
+import { Clock, Loader2, Mic, MicOff, PhoneOff } from 'lucide-react';
 import { RiRobot3Line } from 'react-icons/ri';
 import { cn } from '@/lib/utils';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { Button } from '@/components/ui/button';
+import PurchaseDialogBox from '../../_components/Common/PurchaseDialogBox';
 
 const CallStatus = {
   CONNECTING: 'CONNECTING',
@@ -24,6 +26,7 @@ type Props = {
   callTimeLimit?: number;
   webinar: WebinarWithPresenter;
   userId: string;
+  product?: ClientProduct | null;
 };
 
 const AutoConnectCall = ({
@@ -33,12 +36,27 @@ const AutoConnectCall = ({
   callTimeLimit = 180,
   webinar,
   userId,
+  product,
 }: Props) => {
   const [callStatus, setCallStatus] = useState(CallStatus.CONNECTING);
   const [assistantIsSpeaking, setAssistantIsSpeaking] = useState(false);
   const [userIsSpeaking, setUserIsSpeaking] = useState(false);
   const [isMicMuted, setMicMuted] = useState(false);
   const [timeRemaining, setTimeRemaining] = useState(callTimeLimit);
+  const [purchaseDialog, setPurchaseDialog] = useState(false);
+
+  const toggleMicMute = () => {
+    if (refs.current.audioStream) {
+      refs.current.audioStream.getAudioTracks().forEach((track) => {
+        track.enabled = isMicMuted;
+      });
+    }
+    setMicMuted(!isMicMuted);
+  };
+
+  const handleClick = () => {
+    setPurchaseDialog(true);
+  };
 
   const refs = useRef({
     countdownTimer: undefined as NodeJS.Timeout | undefined,
@@ -76,7 +94,6 @@ const AutoConnectCall = ({
       const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
       refs.current.audioStream = stream;
 
-      // Simple speech detection using AudioContext
       const audioContext = new (window.AudioContext || window.AudioContext)();
       const analyzer = audioContext.createAnalyser();
       analyzer.fftSize = 256;
@@ -84,34 +101,41 @@ const AutoConnectCall = ({
       const microphone = audioContext.createMediaStreamSource(stream);
       microphone.connect(analyzer);
 
-      // Monitor audio levels
       const checkAudioLevel = () => {
         const dataArray = new Uint8Array(analyzer.frequencyBinCount);
         analyzer.getByteFrequencyData(dataArray);
 
-        // Calculate average valume
         const average =
           dataArray.reduce((sum, value) => sum + value, 0) / dataArray.length;
         const normalizedVolume = average / 256;
 
-        // Detect speech based on normalizedVolume
         if (normalizedVolume > 0.15 && !assistantIsSpeaking && !isMicMuted) {
           setUserIsSpeaking(true);
 
-          // Clear previous timeout
           if (refs.current.userSpeakingTimeout) {
             clearTimeout(refs.current.userSpeakingTimeout);
           }
 
-          // Reset after short delay
           refs.current.userSpeakingTimeout = setTimeout(() => {
             setUserIsSpeaking(false);
           }, 500);
         }
       };
 
-      checkAudioLevel();
-    } catch (error) {}
+      let running = true;
+      const loop = () => {
+        if (!running) return;
+        checkAudioLevel();
+        requestAnimationFrame(loop);
+      };
+      loop();
+
+      return () => {
+        running = false;
+      };
+    } catch (error) {
+      console.error('Error in Audio: ', error);
+    }
   };
 
   const stopCall = async () => {
@@ -130,7 +154,36 @@ const AutoConnectCall = ({
     }
   };
 
-  // TODO: vapi call useEffect
+  const startCall = async () => {
+    try {
+      setCallStatus(CallStatus.CONNECTING);
+
+      // Defensive: stop any previous call before starting a new one
+      if (typeof vapi.stop === 'function') {
+        await vapi.stop();
+      }
+
+      await vapi.start(assistantId);
+      const res = await changeCallStatus(userId, CallStatusEnum.InProgress);
+      if (!res.success) {
+        throw new Error('Failed to update call status');
+      }
+      toast.success('Call started successfully');
+    } catch (error) {
+      console.error('Failed to start Call: ', error);
+      toast.error('Failed to start call. Please try again');
+      setCallStatus(CallStatus.FINISHED);
+    }
+  };
+
+  // Main useEffect controls the call
+  useEffect(() => {
+    startCall();
+
+    return () => {
+      stopCall();
+    };
+  }, []);
 
   useEffect(() => {
     const onCallStart = async () => {
@@ -334,18 +387,18 @@ const AutoConnectCall = ({
         )}
       </div>
 
-      <div className="bg-card border-t border-border p-4">
+      <div className="bg-card border-t border-border p-4 rounded-lg">
         <div
           className="max-w-3xl mx-auto flex item-center justify-between 
           flex-wrap gap-3"
         >
           <div className="flex items-center gap-2">
             {callStatus === CallStatus.ACTIVE && (
-              <div className="h-4 w-4 gap-2">
-                <Clock className="h-4 w-4 text-muted-foreground" />
+              <>
+                <Clock className="h-6 w-6 text-muted-foreground" />
                 <span
                   className={cn(
-                    'text-sm font-medium',
+                    'text-sm font-lg',
                     timeRemaining < 30
                       ? 'text-destructive animate-pulse'
                       : timeRemaining < 60
@@ -355,11 +408,64 @@ const AutoConnectCall = ({
                 >
                   {formatTime(timeRemaining)}
                 </span>
-              </div>
+              </>
+            )}
+          </div>
+
+          <div className="flex items-center gap-4">
+            <button
+              onClick={toggleMicMute}
+              className={cn(
+                'p-3 rounded-full transition-all',
+                isMicMuted
+                  ? 'bg-destructive text-primary'
+                  : 'bg-secondary hover:bg-secondary/80 text-foreground border border-border',
+              )}
+              disabled={callStatus !== CallStatus.ACTIVE}
+            >
+              {isMicMuted ? (
+                <MicOff className="h-6 w-6" />
+              ) : (
+                <Mic className="h-6 w-6" />
+              )}
+            </button>
+
+            <button
+              onClick={stopCall}
+              className="p-3 rounded-full bg-destructive text-primary hover:bg-destructive/90 transition-all"
+              aria-label="End call"
+              disabled={callStatus !== CallStatus.ACTIVE}
+            >
+              <PhoneOff className="h-6 w-6" />
+            </button>
+          </div>
+
+          <Button
+            variant={'outline'}
+            onClick={handleClick}
+            className="cursor-pointer mt-2"
+          >
+            Buy Now
+          </Button>
+
+          <div className="hidden md:block">
+            {callStatus === CallStatus.ACTIVE && timeRemaining < 30 && (
+              <span className="text-destructive font-medium">
+                Call ending soon
+              </span>
             )}
           </div>
         </div>
       </div>
+      {purchaseDialog && (
+        <PurchaseDialogBox
+          open={purchaseDialog}
+          onOpenChange={setPurchaseDialog}
+          product={product}
+          userId={webinar.presenterId}
+          webinarId={webinar.id}
+        />
+      )}
     </div>
   );
 };

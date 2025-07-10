@@ -6,9 +6,7 @@ import Image from 'next/image';
 import { potentialCustomer } from '@/lib/data';
 import UserInfoCard from '@/components/ReusableComponents/UserInfoCard/index';
 
-type Props = {};
-
-const page = (props: Props) => {
+const page = () => {
   return (
     <div className="w-full mx-auto h-full px-2 sm:px-4">
       <div className="w-full flex flex-col sm:flex-row justify-between items-center gap-6 sm:gap-10">

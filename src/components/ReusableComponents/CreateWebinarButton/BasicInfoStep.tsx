@@ -23,9 +23,7 @@ import {
   SelectContent,
 } from '@/components/ui/select';
 
-type Props = {};
-
-const BasicInfoStep = (props: Props) => {
+const BasicInfoStep = () => {
   const { formData, updateBasicInfo, getStepvalidationError } =
     useWebinarStore();
 

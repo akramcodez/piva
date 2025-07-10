@@ -12,9 +12,7 @@ import { revalidatePath } from 'next/cache';
 import React from 'react';
 import { Button } from '@/components/ui/button';
 
-type Props = {};
-
-const page = async (props: Props) => {
+const page = async () => {
   const userExist = await onAuthenticateUser();
 
   if (!userExist.user) {

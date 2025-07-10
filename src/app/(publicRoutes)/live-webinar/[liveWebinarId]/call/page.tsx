@@ -2,9 +2,10 @@ import { getAttendeeById } from '@/actions/attendence';
 import { getWebinarById } from '@/actions/webinar';
 import { redirect } from 'next/navigation';
 import React from 'react';
-import { CallStatusEnum, WebinarStatusEnum } from '@prisma/client';
-import { WebinarWithPresenter } from '@/lib/type';
+import { CallStatusEnum, Product, WebinarStatusEnum } from '@prisma/client';
+import { ClientProduct, WebinarWithPresenter } from '@/lib/type';
 import AutoConnectCall from './_components/AutoConnectCall';
+import { findOneProduct } from '@/actions/product';
 
 type Props = {
   params: Promise<{
@@ -54,12 +55,26 @@ const page = async ({ params, searchParams }: Props) => {
     redirect(`live-webinar/${liveWebinarId}?error=call-not-pending`);
   }
 
+  const rawProduct: Product | null = webinar.priceId
+    ? await findOneProduct(webinar.priceId)
+    : null;
+
+  const product: ClientProduct | null = rawProduct
+    ? {
+        ...rawProduct,
+        price: Number(rawProduct.price),
+        createdAt: rawProduct.createdAt.toISOString(),
+        updatedAt: rawProduct.updatedAt.toISOString(),
+      }
+    : null;
+
   return (
     <AutoConnectCall
       userName={attendee.data.name}
       assistantId={webinar.aiAgentId}
       webinar={webinar as WebinarWithPresenter}
       userId={attendeeId}
+      product={product}
     />
   );
 };

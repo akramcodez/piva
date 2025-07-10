@@ -10,9 +10,7 @@ import { CtaTypeEnum } from '@prisma/client';
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Switch } from '@/components/ui/switch';
 
-type Props = {};
-
-const AdditionalInformation = (props: Props) => {
+const AdditionalInformation = () => {
   const { formData, updateAdditionalInfo, getStepvalidationError } =
     useWebinarStore();
   const { lockChat, couponCode, couponEnabled } = formData.additionalInfo;
