@@ -13,8 +13,11 @@ type Props = {
 
 export default async function Layout({ children }: Props) {
   const userExist = await onAuthenticateUser();
-
-  if (!userExist.user) {
+  try {
+    if (!userExist?.user) {
+      redirect('/sign-in');
+    }
+  } catch (error) {
     redirect('/sign-in');
   }
 

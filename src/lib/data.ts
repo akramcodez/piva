@@ -282,3 +282,26 @@ Use friendly, professional tone with subtle authority — be a trusted advisor, 
 
 Be flexible in adjusting how each pillar is framed — but never alter the core offer or guarantees.
 `;
+
+export const navbarOptions = [
+  {
+    id: 1,
+    title: 'Home',
+    link: '#home',
+  },
+  {
+    id: 2,
+    title: 'Features',
+    link: '#features',
+  },
+  {
+    id: 3,
+    title: 'Use',
+    link: '#use',
+  },
+  {
+    id: 4,
+    title: 'Support',
+    link: '#support',
+  },
+];
