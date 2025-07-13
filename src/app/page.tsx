@@ -5,17 +5,17 @@ import Navbar from '@/components/ReusableComponents/LandingPageComponents/Navbar
 
 export default async function Home() {
   const userExist = await onAuthenticateUser();
-  console.log(userExist);
+
   return (
     <div className="flex w-full min-h-screen flex-col font[family-name:var(--font-geist-sans)]">
       <Background />
-      <Navbar />
+      <Navbar user={userExist.user} />
       <main className="flex-1">
         <section
           id="home"
           className="flex items-center justify-center min-h-screen "
         >
-          <LandingHome />
+          <LandingHome user={userExist.user} />
         </section>
         <section
           id="features"
