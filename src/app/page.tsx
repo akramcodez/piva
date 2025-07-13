@@ -1,7 +1,12 @@
 import { onAuthenticateUser } from '@/actions/auth';
 import Background from '@/components/ReusableComponents/Background';
+import Features from '@/components/ReusableComponents/LandingPageComponents/Features';
 import LandingHome from '@/components/ReusableComponents/LandingPageComponents/LandingHome';
 import Navbar from '@/components/ReusableComponents/LandingPageComponents/Navbar';
+import Support from '@/components/ReusableComponents/LandingPageComponents/About';
+import Workflow from '@/components/ReusableComponents/LandingPageComponents/Workflow';
+import About from '@/components/ReusableComponents/LandingPageComponents/About';
+import Footer from '@/components/ReusableComponents/LandingPageComponents/Footer';
 
 export default async function Home() {
   const userExist = await onAuthenticateUser();
@@ -21,21 +26,22 @@ export default async function Home() {
           id="features"
           className="flex items-center justify-center min-h-screen"
         >
-          <h2 className="text-3xl font-bold text-white">Features</h2>
+          <Features />
         </section>
         <section
-          id="use"
+          id="workflow"
           className="flex items-center justify-center min-h-screen"
         >
-          <h2 className="text-3xl font-bold text-white ">Use Cases</h2>
+          <Workflow user={userExist.user} />
         </section>
         <section
-          id="support"
+          id="about"
           className="flex items-center justify-center min-h-screen"
         >
-          <h2 className="text-3xl font-bold text-white">Support</h2>
+          <About />
         </section>
       </main>
+      <Footer />
     </div>
   );
 }

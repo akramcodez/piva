@@ -296,12 +296,12 @@ export const navbarOptions = [
   },
   {
     id: 3,
-    title: 'Use',
-    link: '#use',
+    title: 'Workflow',
+    link: '#workflow',
   },
   {
     id: 4,
-    title: 'Support',
-    link: '#support',
+    title: 'About',
+    link: '#about',
   },
 ];

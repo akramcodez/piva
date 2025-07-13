@@ -13,7 +13,7 @@ type Props = {
 
 const LandingHome = ({ user }: Props) => {
   return (
-    <div className="flex w-full min-h-screen border border-border">
+    <div className="flex w-full min-h-screen">
       <div className="flex flex-col w-full h-screen overflow-auto scroll-auto 2xl:pt-25 pt-10 px-3 sm:px-3 md:px-6 lg:px-10 xl:px-16 2xl:px-20">
         <div className="flex-1 flex flex-col items-center">
           <div className="sm:mt-24 mt-20 themeBorderBig rounded-3xl themeBgLight px-3 py-2 flex items-center gap-2">

@@ -415,3 +415,31 @@
   font-weight: 400;
   font-style: normal;
 }
+
+.animated-border-wrapper {
+  position: relative;
+  padding: 2px;
+  border-radius: 0.5rem;
+  background: linear-gradient(
+    45deg,
+    transparent 0%,
+    #2c8c88 25%,
+    #00d4aa 50%,
+    #2c8c88 75%,
+    transparent 100%
+  );
+  background-size: 400% 400%;
+  animation: gradientBorder 15s linear infinite;
+}
+
+@keyframes gradientBorder {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
