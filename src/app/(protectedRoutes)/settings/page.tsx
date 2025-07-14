@@ -93,7 +93,7 @@ const page = async () => {
                 />
               ) : (
                 <LucideAlertCircle
-                  className="h-4 w-4 lg:h-5 lg:w-5 text-amber-500 
+                  className="h-4 w-4 lg:h-5 lg:w-5 text-red-700 
                 mt-0.5 mr-3 flex-shrink-0"
                 />
               )}

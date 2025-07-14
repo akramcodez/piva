@@ -34,7 +34,7 @@ const ProductPage = ({ user, products }: Props) => {
       setOpenDialog(true);
     } else {
       toast.warning(
-        'Please connect your Stripe account in settings to create products.',
+        'Please connect your Stripe account in settings to create products',
       );
       router.push('/settings');
     }
@@ -79,9 +79,9 @@ const ProductPage = ({ user, products }: Props) => {
           Create Product
         </Button>
       </div>
-      {displayedProducts.length > 0 ? (
-        displayedProducts.map((product) => (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+        {displayedProducts.length > 0 &&
+          displayedProducts.map((product) => (
             <Card
               key={product.id}
               className={`overflow-hidden flex flex-col pt-0 pb-3 ${
@@ -163,10 +163,10 @@ const ProductPage = ({ user, products }: Props) => {
                 </div>
               </CardContent>
             </Card>
-          </div>
-        ))
-      ) : (
-        <div className="h-full w-full flex justify-center  text-muted-foreground text-xl sm:text-3xl">
+          ))}
+      </div>
+      {displayedProducts.length <= 0 && (
+        <div className="h-full w-full flex justify-center text-muted-foreground text-xl sm:text-3xl">
           No Products Available
         </div>
       )}

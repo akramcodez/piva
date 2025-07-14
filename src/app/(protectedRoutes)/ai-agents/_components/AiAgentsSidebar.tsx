@@ -8,21 +8,41 @@ import { Assistant } from '@vapi-ai/server-sdk/api';
 import { Plus, Search } from 'lucide-react';
 import React, { useState } from 'react';
 import CreateAssistantModel from './CreateAssistantModel';
+import { User } from '@prisma/client';
+import { toast } from 'sonner';
+import { useRouter } from 'next/navigation';
 
 type Props = {
   aiAgents: Assistant[] | [];
+  user: User | null;
 };
 
-const AiAgentsSidebar = ({ aiAgents }: Props) => {
+const AiAgentsSidebar = ({ aiAgents, user }: Props) => {
   const [isModelOpen, setIsModelOpen] = useState(false);
   const { assistant, setAssistant } = useAiAgentStore();
+  const router = useRouter();
+
+  const handleCreateAssistantClick = () => {
+    if (user?.stripeConnectId) {
+      setIsModelOpen(true);
+    } else {
+      toast.warning(
+        'Please connect your Stripe account in settings to create Assistants',
+      );
+      router.push('/settings');
+    }
+  };
 
   return (
     <div className="w-[300px] border-r border-border flex flex-col">
       <div className="p-4">
         <Button
-          className="w-full flex items-center gap-2 mb-4 themeBg text-white hoverthemeBg hover:cursor-pointer"
-          onClick={() => setIsModelOpen(true)}
+          className={`w-full flex items-center gap-2 mb-4 text-white hover:cursor-pointer ${
+            user?.stripeConnectId
+              ? 'themeBg hoverthemeBg'
+              : 'bg-card hover:bg-muted border border-border'
+          }`}
+          onClick={handleCreateAssistantClick}
         >
           <Plus /> Create Assistant
         </Button>

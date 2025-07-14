@@ -68,7 +68,7 @@ const Features = (props: Props) => {
       </div>
       <Link
         href="/#workflow"
-        className="flex items-center px-20 py-1 sm:py-1.5 2xl:py-2 mt-8 border-[0.1rem] border-[#2c8c88] rounded-lg themeBg hoverthemeBg cursor-pointer ubuntu-regular"
+        className="flex items-center px-20 py-1 sm:py-1.5 2xl:py-2 mt-8 border-[0.1rem] border-[#2c8c88] rounded-lg themeBg hoverthemeBg cursor-pointer"
       >
         How to Use
       </Link>

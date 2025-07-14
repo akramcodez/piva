@@ -28,7 +28,7 @@ const Header = ({ user, stripeProducts, assistants }: Props) => {
 
   const handleCreateWebinarClick = () => {
     toast.warning(
-      'Please connect your Stripe account in settings to create webinars.',
+      'Please connect your Stripe account in settings to create webinars',
     );
     router.push('/settings');
   };
@@ -38,7 +38,7 @@ const Header = ({ user, stripeProducts, assistants }: Props) => {
       setOpenDialog(true);
     } else {
       toast.warning(
-        'Please connect your Stripe account in settings to create products.',
+        'Please connect your Stripe account in settings to create products',
       );
       router.push('/settings');
     }
@@ -61,7 +61,7 @@ const Header = ({ user, stripeProducts, assistants }: Props) => {
         </Button>
       ) : (
         <div
-          className="animated-gradient-bg px-2 py-1 text-sm sm:text-base flex justify-center font-medium h-[35px]
+          className="animated-gradient-bg px-3 py-1 text-sm sm:text-base flex justify-center font-medium h-[35px]
          items-center rounded-lg border border-border capitalize"
         >
           <button className="cursor-pointer" onClick={() => router.refresh()}>
@@ -88,7 +88,7 @@ const Header = ({ user, stripeProducts, assistants }: Props) => {
             className="rounded-xl hover:cursor-pointer px-2 py-1
           border border-border bg-primary/10 backdrop-blur-sm text-primary
           hover:bg-primary-20 flex items-center gap-2"
-            onClick={handleCreateWebinarClick}
+            onClick={handleCreateProductClick}
             variant="outline"
           >
             <Plus className="h-4 w-4" />

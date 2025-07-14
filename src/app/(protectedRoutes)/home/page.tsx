@@ -6,6 +6,10 @@ import FeatureSectionLayout from './_components/FeatureSectionLayout';
 import Image from 'next/image';
 import { potentialCustomer } from '@/lib/data';
 import UserInfoCard from '@/components/ReusableComponents/UserInfoCard/index';
+import {
+  AIAgentsContent,
+  SettingsContent,
+} from './_components/ExtraComponents';
 
 const page = () => {
   return (
@@ -35,54 +39,17 @@ const page = () => {
 
       <div className="mt-8 sm:mt-10 grid grid-cols-1 md:grid-cols-2 gap-6 rounded-xl bg-background-10">
         <FeatureSectionLayout
-          heading="See how far along are your potential customers"
-          link="/lead"
+          heading="Understand user intent and customize your AI agents accordingly"
+          link="/ai-agents"
         >
-          <div className="p-5 flex flex-col gap-4 items-start border rounded-xl border-border backdrop-blur-3xl bg-[#0d0d0d]">
-            <div className="w-full flex justify-between items-center gap-3">
-              <p className="text-primary font-semibold text-sm">Conversions</p>
-              <p className="text-xs text-muted-foreground font-normal">
-                Conversions
-              </p>
-            </div>
-            <div className="flex flex-col gap-4 items-start">
-              {Array.from({ length: 3 }).map((_, index) => (
-                <Image
-                  src="/featurecard.png"
-                  alt="Info-card"
-                  width={250}
-                  height={250}
-                  className="w-full h-full object-cover rounded-xl"
-                  key={index}
-                />
-              ))}
-            </div>
-          </div>
+          <AIAgentsContent />
         </FeatureSectionLayout>
 
         <FeatureSectionLayout
-          heading="See the list of your current customers"
-          link="/pipeline"
+          heading="Manage your Webinars, Products and add demo Stripe integration"
+          link="/settings"
         >
-          <div
-            className="flex gap-4 items-center h-full w-full justify-center
-            relative flex-wrap"
-          >
-            {potentialCustomer.slice(0, 2).map((customer, index) => (
-              <UserInfoCard
-                customer={customer}
-                tags={customer.tags}
-                key={index}
-              />
-            ))}
-            <Image
-              src={'/glowCard.png'}
-              alt="Info-card"
-              width={350}
-              height={350}
-              className="object-cover rounded-xl absolute px-5 mb-20 hidden sm:flex md:flex"
-            />
-          </div>
+          <SettingsContent />
         </FeatureSectionLayout>
       </div>
     </div>
