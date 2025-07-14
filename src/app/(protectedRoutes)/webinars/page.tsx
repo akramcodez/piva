@@ -77,7 +77,7 @@ const page = async ({ searchParams }: Props) => {
         ) : (
           <div
             className="w-full h=[200px] flex justify-center items-center
-            text-primary font-semibold text-2xl col-span-12"
+            text-muted-foreground font-semibold text-2xl col-span-12"
           >
             No Webinar Found
           </div>

@@ -68,13 +68,13 @@ const CreateWebinarButton = ({ stripeProducts, assistants }: Props) => {
     <Dialog open={isModelOpen} onOpenChange={setIsModelOpen}>
       <DialogTrigger asChild>
         <button
-          className="rounded-xl flex gap-2 items-center hover:cursor-pointer px-3 py-1.5
+          className="rounded-xl flex gap-2 items-center hover:cursor-pointer px-2 py-1
           border border-border animated-gradient-bg backdrop-blur-sm text-primary
           "
           onClick={() => setIsModelOpen(true)}
         >
           <Plus className="h-4 w-4" />
-          <span className="text-sm lg:text-base">Create Webinar</span>
+          <span className="text-sm lg:text-base">Webinar</span>
         </button>
       </DialogTrigger>
       <DialogContent className="p-0 bg-transparent border-none w-[95vw] sm:w-[90vw] md:w-[85vw] lg:w-[85vw] xl:w-[85vw] overflow-hidden">

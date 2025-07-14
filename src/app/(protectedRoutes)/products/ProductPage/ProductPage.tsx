@@ -79,9 +79,9 @@ const ProductPage = ({ user, products }: Props) => {
           Create Product
         </Button>
       </div>
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-        {displayedProducts.length > 0 ? (
-          displayedProducts.map((product) => (
+      {displayedProducts.length > 0 ? (
+        displayedProducts.map((product) => (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
             <Card
               key={product.id}
               className={`overflow-hidden flex flex-col pt-0 pb-3 ${
@@ -163,13 +163,13 @@ const ProductPage = ({ user, products }: Props) => {
                 </div>
               </CardContent>
             </Card>
-          ))
-        ) : (
-          <div className="pl-2 col-span-full text-left text-muted-foreground text-xl">
-            No Products Available
           </div>
-        )}
-      </div>
+        ))
+      ) : (
+        <div className="h-full w-full flex justify-center  text-muted-foreground text-xl sm:text-3xl">
+          No Products Available
+        </div>
+      )}
       {openDialog && (
         <ProductDialog
           open={openDialog}

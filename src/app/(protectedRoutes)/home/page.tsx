@@ -1,4 +1,5 @@
-import { Upload, Webcam } from 'lucide-react';
+import { FaShoppingBag } from 'react-icons/fa';
+import { IoCreateSharp } from 'react-icons/io5';
 import OnBoarding from './_components/OnBoarding';
 import FeatureCard from './_components/FeatureCard';
 import FeatureSectionLayout from './_components/FeatureSectionLayout';
@@ -11,22 +12,22 @@ const page = () => {
     <div className="w-full mx-auto h-full px-2 sm:px-4">
       <div className="w-full flex flex-col sm:flex-row justify-between items-center gap-6 sm:gap-10">
         <div className="space-y-3 sm:space-y-5">
-          <h2 className="text-primary font-medium text-xl sm:text-2xl r">
-            Get maximum conversion from your webinars
+          <h2 className="text-primary font-medium text-xl sm:text-2xl ubuntu-medium">
+            Make your webinars a powerful selling machine
           </h2>
           <OnBoarding />
         </div>
-        <div className="flex gap-3 sm:gap-5 w-full justify-evenly items-center">
+        <div className="flex gap-1 sm:gap-3 lg:gap-5 w-full justify-evenly items-center">
           <FeatureCard
-            Icon={<Upload className="w-5 h-5 sm:w-10 sm:h-10" />}
-            heading="Browse or drag a pre-recorded webinar file"
-            smHeading="Export"
-            link="/export"
+            Icon={<FaShoppingBag className="w-5 h-5 sm:w-10 sm:h-10" />}
+            heading="Create products and attach them to your webinars"
+            smHeading="Products"
+            link="/products"
           />
           <FeatureCard
-            Icon={<Webcam className="w-5 h-5 sm:w-10 sm:h-10" />}
-            heading="Browse or drag a pre-recorded webinar file"
-            smHeading="Webinar"
+            Icon={<IoCreateSharp className="w-5 h-5 sm:w-10 sm:h-10" />}
+            heading="Host webinars and boost your business like never before"
+            smHeading="Webinars"
             link="/webinars"
           />
         </div>

@@ -22,11 +22,11 @@ const LandingHome = ({ user }: Props) => {
               Revolutionizing Sales with AI
             </span>
           </div>
-          <div className="flex flex-col items-center xl:mt-9 sm:mt-6 gap-1">
+          <div className="flex flex-col items-center xl:mt-7 sm:mt-5 gap-1">
             <h3 className="font-semibold xl:text-[70px] sm:text-[60px] mt-4 sm:mt-0 text-5xl ubuntu-medium">
               PIVA
             </h3>
-            <h3 className="font-semibold text-[18px] xl:mt-3 sm:text-3xl ubuntu-regular">
+            <h3 className="font-semibold text-[18px] xl:mt-3 sm:text-3xlr">
               <span className="themeColor font-bold">{'{ '}</span>AI-Powered
               Sales Webinar Platform
               <span className="themeColor font-bold">{' }'}</span>

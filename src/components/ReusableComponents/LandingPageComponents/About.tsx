@@ -16,19 +16,27 @@ const About = (props: Props) => {
       {/* Container for the two sections */}
       <div className="flex flex-col lg:flex-row items-center lg:items-start gap-12 lg:gap-16 max-w-6xl w-full">
         {/* Section About Piva */}
-        <div className="text-center lg:text-left lg:w-1/2 rounded-lg glassBackground themeBorderBig p-5 sm:p-8 sm:py-14">
+        <div className="text-center lg:text-left lg:w-1/2 rounded-lg glassBackground themeBorderBig p-5 sm:p-8 sm:py-10">
           <h3 className="text-xl font-semibold text-white mb-2 sm:mb-4 ubuntu-medium">
             About Piva
           </h3>
 
           <div className="space-y-4">
-            <p className="text-gray-300 text-md leading-relaxed">
+            <p className="text-gray-300 text-md sm:text-[17px] leading-relaxed">
               Piva is an AI-powered platform for sales webinars. It automates
               your webinars and uses AI agents to engage prospects effectively.
             </p>
             <p className="text-gray-400 text-md leading-relaxed">
-              Our mission: Empower sales teams with AI to streamline processes
-              and boost conversions.
+              If you appreciate the work behind this project, consider giving it
+              a ⭐ on GitHub:{' '}
+              <a
+                href="https://github.com/akramcodez/piva"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-blue-400 underline hover:text-blue-300"
+              >
+                github.com/akramcodez/piva
+              </a>
             </p>
           </div>
         </div>

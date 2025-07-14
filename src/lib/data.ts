@@ -1,12 +1,4 @@
-import {
-  House,
-  Sparkle,
-  Webcam,
-  UserRound,
-  Cog,
-  Star,
-  ShoppingCart,
-} from 'lucide-react';
+import { House, Sparkle, Webcam, Cog, Star, ShoppingCart } from 'lucide-react';
 import { CallStatusEnum } from '@prisma/client';
 
 export const sidebarData = [
@@ -24,31 +16,25 @@ export const sidebarData = [
   },
   {
     id: 3,
-    title: 'Leads',
-    icon: UserRound,
-    link: '/lead',
-  },
-  {
-    id: 4,
     title: 'AI Agents',
     icon: Sparkle,
     link: '/ai-agents',
   },
   {
-    id: 5,
+    id: 4,
     title: 'Products',
     icon: ShoppingCart,
     link: '/products',
   },
   {
-    id: 6,
+    id: 5,
     title: 'Settings',
     icon: Cog,
     link: '/settings',
   },
 
   {
-    id: 7,
+    id: 6,
     title: 'Give It Star',
     icon: Star,
     link: 'https://github.com/akramcodez/pivaAi',
@@ -56,9 +42,9 @@ export const sidebarData = [
 ];
 
 export const onBoardingSteps = [
-  { id: 1, title: 'Create a webinar', complete: false, link: '' },
-  { id: 2, title: 'Get leads', complete: false, link: '' },
-  { id: 3, title: 'Conversion status', complete: false, link: '' },
+  { id: 1, title: 'Create webinars', complete: false, link: '/webinars' },
+  { id: 2, title: 'Create Products', complete: false, link: '/products' },
+  { id: 3, title: 'Create Ai Agents', complete: false, link: '/ai-agents' },
 ];
 
 export const potentialCustomer = [

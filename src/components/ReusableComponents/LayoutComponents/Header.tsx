@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React, { useState } from 'react';
 import { usePathname, useRouter } from 'next/navigation';
 import { Button } from '@/components/ui/button';
 import { ArrowLeft, Zap } from 'lucide-react';
@@ -12,6 +12,7 @@ import Stripe from 'stripe';
 import { toast } from 'sonner';
 import { ClientProduct } from '@/lib/type';
 import { Assistant } from '@vapi-ai/server-sdk/api';
+import ProductDialog from '@/app/(protectedRoutes)/products/_components/ProductDialog';
 
 type Props = {
   user: User;
@@ -22,6 +23,7 @@ type Props = {
 const Header = ({ user, stripeProducts, assistants }: Props) => {
   const pathname = usePathname();
   const router = useRouter();
+  const [openDialog, setOpenDialog] = useState(false);
   const isStripeConnected = user.stripeConnectId;
 
   const handleCreateWebinarClick = () => {
@@ -29,6 +31,21 @@ const Header = ({ user, stripeProducts, assistants }: Props) => {
       'Please connect your Stripe account in settings to create webinars.',
     );
     router.push('/settings');
+  };
+
+  const handleCreateProductClick = () => {
+    if (user.stripeConnectId) {
+      setOpenDialog(true);
+    } else {
+      toast.warning(
+        'Please connect your Stripe account in settings to create products.',
+      );
+      router.push('/settings');
+    }
+  };
+
+  const onProductCreated = () => {
+    router.refresh();
   };
 
   return (
@@ -52,10 +69,32 @@ const Header = ({ user, stripeProducts, assistants }: Props) => {
           </button>
         </div>
       )}
-      <div className="flex gap-4 sm:gap-6 items-center flex-wrap">
-        <PurpleIcon className="flex">
-          <Zap className="h-4 w-4 sm:h-5 sm:w-5" />
-        </PurpleIcon>
+      <div className="flex gap-2 sm:gap-3 items-center flex-wrap">
+        {isStripeConnected ? (
+          <Button
+            className={`rounded-xl flex gap-2 items-center hover:cursor-pointer px-2 py-1
+          border border-border backdrop-blur-sm text-primary ${
+            user.stripeConnectId
+              ? 'animated-gradient-bg'
+              : 'bg-card hover:bg-muted'
+          }`}
+            onClick={handleCreateProductClick}
+          >
+            <Plus className="h-4 w-4" />
+            <span className="text-sm lg:text-base">Product</span>
+          </Button>
+        ) : (
+          <Button
+            className="rounded-xl hover:cursor-pointer px-2 py-1
+          border border-border bg-primary/10 backdrop-blur-sm text-primary
+          hover:bg-primary-20 flex items-center gap-2"
+            onClick={handleCreateWebinarClick}
+            variant="outline"
+          >
+            <Plus className="h-4 w-4" />
+            <span className="text-sm lg:text-base">Product</span>
+          </Button>
+        )}
         {isStripeConnected ? (
           <CreateWebinarButton
             stripeProducts={stripeProducts}
@@ -63,17 +102,25 @@ const Header = ({ user, stripeProducts, assistants }: Props) => {
           />
         ) : (
           <Button
-            className="rounded-xl hover:cursor-pointer px-3 py-1.5
+            className="rounded-xl hover:cursor-pointer px-2 py-1
           border border-border bg-primary/10 backdrop-blur-sm text-primary
           hover:bg-primary-20 flex items-center gap-2"
             onClick={handleCreateWebinarClick}
             variant="outline"
           >
             <Plus className="h-4 w-4" />
-            <span className="text-sm lg:text-base">Create Webinar</span>
+            <span className="text-sm lg:text-base">Webinar</span>
           </Button>
         )}
       </div>
+      {openDialog && (
+        <ProductDialog
+          open={openDialog}
+          onOpenChange={setOpenDialog}
+          userId={user.id}
+          onProductCreated={onProductCreated}
+        />
+      )}
     </div>
   );
 };
