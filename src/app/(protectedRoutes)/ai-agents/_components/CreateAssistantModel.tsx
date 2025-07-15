@@ -46,7 +46,7 @@ const CreateAssistantModel = ({ isOpen, onClose }: Props) => {
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="sm:max-w-md bg-muted/80 text-foreground border border-input shadow-xl p-4">
+      <DialogContent className="sm:max-w-md bg-card text-foreground border border-input shadow-xl p-4">
         <DialogHeader>
           <DialogTitle className="text-xl font-semibold">
             Create Assistant

@@ -11,6 +11,12 @@ import React, { useEffect, useState } from 'react';
 import { toast } from 'sonner';
 import ConfigField from './ConfigField';
 import DropDownSelect from './DropDownSelect';
+import {
+  HoverCard,
+  HoverCardContent,
+  HoverCardTrigger,
+} from '@/components/ui/hover-card';
+import Link from 'next/link';
 
 const ModelConfiguration = () => {
   const { assistant } = useAiAgentStore();
@@ -70,16 +76,31 @@ const ModelConfiguration = () => {
             {assistant?.name}
           </h3>
         </div>
-        <Button onClick={handleUpdateAssistant} disabled={loading}>
-          {loading ? (
-            <>
-              <Loader2 className="animate-spin mr-2" />
-              Updating...
-            </>
-          ) : (
-            'Update Assistant'
-          )}
-        </Button>
+        <HoverCard>
+          <HoverCardTrigger>
+            <Button onClick={handleUpdateAssistant} disabled>
+              {/*disabled={loading}*/}
+              {loading ? (
+                <>
+                  <Loader2 className="animate-spin mr-2" />
+                  Updating...
+                </>
+              ) : (
+                'Update Assistant'
+              )}
+            </Button>
+          </HoverCardTrigger>
+          <HoverCardContent className="glassBackground border-[2px] border-border px-2 py-1 mr-2 mt-0.5 [word-spacing:0.2em]">
+            Feature unavailable, Connect with{' '}
+            <Link
+              className="themeColor underline"
+              href="https://x.com/akramcodez"
+            >
+              Akram
+            </Link>{' '}
+            for more details
+          </HoverCardContent>
+        </HoverCard>
       </div>
       <p className="text-neutral-400 mb-6">
         Configure the behaviour of the assistant

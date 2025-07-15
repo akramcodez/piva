@@ -13,9 +13,7 @@ import MultiStepForm from './MultiStepForm';
 import BasicInfoStep from './BasicInfoStep';
 import CTAStep from './CTAStep';
 import AdditionalInformation from './AdditionalInformation';
-import Stripe from 'stripe';
 import SucessStep from './SucessStep';
-import { Product } from '@prisma/client';
 import { ClientProduct } from '@/lib/type';
 import { Assistant } from '@vapi-ai/server-sdk/api';
 
@@ -42,7 +40,12 @@ const CreateWebinarButton = ({ stripeProducts, assistants }: Props) => {
       title: 'CTA',
       description: "Webinar's customer endpoint",
       component: (
-        <CTAStep stripeProducts={stripeProducts} assistants={assistants} />
+        <CTAStep
+          stripeProducts={stripeProducts}
+          assistants={assistants}
+          isModelOpen={isModelOpen}
+          setIsModelOpen={setIsModelOpen}
+        />
       ),
     },
     {
@@ -74,7 +77,7 @@ const CreateWebinarButton = ({ stripeProducts, assistants }: Props) => {
           onClick={() => setIsModelOpen(true)}
         >
           <Plus className="h-4 w-4" />
-          <span className="text-sm lg:text-base">Webinar</span>
+          <span className="text-base">Webinar</span>
         </button>
       </DialogTrigger>
       <DialogContent className="p-0 bg-transparent border-none w-[95vw] sm:w-[90vw] md:w-[85vw] lg:w-[85vw] xl:w-[85vw] overflow-hidden">

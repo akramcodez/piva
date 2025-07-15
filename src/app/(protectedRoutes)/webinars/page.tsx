@@ -7,6 +7,9 @@ import { redirect } from 'next/navigation';
 import React from 'react';
 import WebinarCard from './_components/WebinarCard';
 import { Webinar, WebinarStatusEnum } from '@prisma/client';
+import { getProductsByOwnerId } from '@/actions/product';
+import { ClientProduct } from '@/lib/type';
+import { getAllAssistants } from '@/actions/vapi';
 
 //todo : fix the tab trigger style
 
@@ -21,6 +24,10 @@ const page = async ({ searchParams }: Props) => {
   const checkUser = await onAuthenticateUser();
   if (!checkUser) {
     redirect('/');
+  }
+
+  if (!checkUser?.user) {
+    redirect('/sign-in');
   }
 
   const webinars = await getWebinarByPresenterId(
@@ -41,6 +48,17 @@ const page = async ({ searchParams }: Props) => {
   const upcomingWebinars = filterWebinars(webinars, 'upcoming');
   const endedWebinars = filterWebinars(webinars, 'ended');
 
+  const products = await getProductsByOwnerId(checkUser.user?.id);
+
+  const productsForClient: ClientProduct[] = products.map((product) => ({
+    ...product,
+    price: Number(product.price),
+    createdAt: product.createdAt.toISOString(),
+    updatedAt: product.updatedAt.toISOString(),
+  }));
+
+  const allAgents = await getAllAssistants();
+
   return (
     <Tabs defaultValue="all" className="w-full flex flex-col gap-8">
       <PageHeader
@@ -50,10 +68,10 @@ const page = async ({ searchParams }: Props) => {
         heading="ALL Your Webinars"
         placeholder="Search Option..."
       >
-        <TabsList className="bg-transparent space-x-3 flex justify-evenly">
+        <TabsList className="bg-transparent space-x-2 flex justify-evenly">
           <TabsTrigger
             value="all"
-            className="bg-secondary opcaity-50 data-[state=active]:opacity-100 px-6 py-4"
+            className="bg-secondary opcaity-50 data-[state=active]:opacity-100 px-4 py-3"
           >
             All
           </TabsTrigger>
@@ -72,7 +90,12 @@ const page = async ({ searchParams }: Props) => {
       >
         {webinars?.length > 0 ? (
           webinars.map((webinar: Webinar, index: number) => (
-            <WebinarCard key={index} webinar={webinar} />
+            <WebinarCard
+              key={index}
+              webinar={webinar}
+              products={productsForClient}
+              assistants={allAgents?.data || []}
+            />
           ))
         ) : (
           <div
@@ -90,7 +113,12 @@ const page = async ({ searchParams }: Props) => {
       >
         {upcomingWebinars?.length > 0 ? (
           upcomingWebinars.map((webinar: Webinar) => (
-            <WebinarCard key={webinar.id} webinar={webinar} />
+            <WebinarCard
+              key={webinar.id}
+              webinar={webinar}
+              products={productsForClient}
+              assistants={allAgents?.data || []}
+            />
           ))
         ) : (
           <div className="w-full h-[200px] flex justify-center items-center text-primary font-semibold text-2xl col-span-12">
@@ -105,7 +133,12 @@ const page = async ({ searchParams }: Props) => {
       >
         {endedWebinars?.length > 0 ? (
           endedWebinars.map((webinar: Webinar) => (
-            <WebinarCard key={webinar.id} webinar={webinar} />
+            <WebinarCard
+              key={webinar.id}
+              webinar={webinar}
+              products={productsForClient}
+              assistants={allAgents?.data || []}
+            />
           ))
         ) : (
           <div className="w-full h-[200px] flex justify-center items-center text-primary font-semibold text-2xl col-span-12">

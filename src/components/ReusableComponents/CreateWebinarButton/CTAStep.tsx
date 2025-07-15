@@ -5,7 +5,7 @@ import { Input } from '@/components/ui/input';
 import { useWebinarStore } from '@/store/useWebinarStore';
 import { cn } from '@/lib/utils';
 import React, { useState } from 'react';
-import { Search, X } from 'lucide-react';
+import { Plus, Search, X } from 'lucide-react';
 import { CtaTypeEnum, Product, ProductStatusEnum } from '@prisma/client';
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import {
@@ -19,13 +19,22 @@ import Stripe from 'stripe';
 import { ClientProduct } from '@/lib/type';
 import { Assistant } from '@vapi-ai/server-sdk/api';
 import Link from 'next/link';
+import { Button } from '@/components/ui/button';
+import { redirect } from 'next/navigation';
 
 type Props = {
   stripeProducts: ClientProduct[] | [];
   assistants: Assistant[] | [];
+  isModelOpen: boolean;
+  setIsModelOpen: (isModelOpen: boolean) => void;
 };
 
-const CTAStep = ({ stripeProducts, assistants }: Props) => {
+const CTAStep = ({
+  stripeProducts,
+  assistants,
+  isModelOpen,
+  setIsModelOpen,
+}: Props) => {
   const { formData, updateCTA, addTag, removeTag, getStepvalidationError } =
     useWebinarStore();
   const { ctaLabel, tags, aiAgent, priceId, ctaType } = formData.cta;
@@ -60,6 +69,11 @@ const CTAStep = ({ stripeProducts, assistants }: Props) => {
   const activeStripeProducts = stripeProducts.filter(
     (product) => product.status === ProductStatusEnum.ACTIVE,
   );
+
+  const navigatePage = (url: string) => {
+    setIsModelOpen(!isModelOpen);
+    redirect(url);
+  };
 
   return (
     <div className="space-y-4 md:space-y-4">
@@ -104,7 +118,7 @@ const CTAStep = ({ stripeProducts, assistants }: Props) => {
             {tags.map((tag: string, index: number) => (
               <div
                 key={index}
-                className="flex items-center gap-1 bg-gray-800 text-white px-3 py-1 rounded-md"
+                className="flex items-center gap-1 themeBg text-white px-3 py-1 rounded-md"
               >
                 {tag}
                 <button
@@ -144,78 +158,75 @@ const CTAStep = ({ stripeProducts, assistants }: Props) => {
       {ctaType === CtaTypeEnum.BOOK_A_CALL && (
         <div className="space-y-2">
           <Label>Attach an Ai Agent</Label>
-          <div className="relative">
-            <div className="mb-2">
-              <div className="relative">
-                <Search className="absolute left-3 top-2.5 h-4 w-4" />
-                <Input
-                  placeholder="Search Agent"
-                  className="pl-9 !bg-background/50 border border-input"
-                />
-              </div>
-            </div>
-            <Select value={aiAgent} onValueChange={handleSelectAgent}>
-              <SelectTrigger className="w-full !bg-background/50 border border-input">
-                <SelectValue placeholder="Select an Agent" />
-              </SelectTrigger>
+          <div className="flex gap-2 items-center justify-between">
+            <div className="relative flex-1">
+              <Select value={aiAgent} onValueChange={handleSelectAgent}>
+                <SelectTrigger className="w-full !bg-background/50 border border-input">
+                  <SelectValue placeholder="Select an Agent" />
+                </SelectTrigger>
 
-              <SelectContent className="bg-background border border-input max-h-40">
-                {assistants?.length > 0 ? (
-                  assistants.map((assistant) => (
-                    <SelectItem
-                      key={assistant.id}
-                      value={assistant.id}
-                      className="!bg-background/50 hover:!bg-white/10"
-                    >
-                      {assistant.name}
+                <SelectContent className="bg-background border border-input max-h-40">
+                  {assistants?.length > 0 ? (
+                    assistants.map((assistant) => (
+                      <SelectItem
+                        key={assistant.id}
+                        value={assistant.id}
+                        className="!bg-background/50 hover:!bg-white/10"
+                      >
+                        {assistant.name}
+                      </SelectItem>
+                    ))
+                  ) : (
+                    <SelectItem value="No Agent Available" disabled>
+                      No Agents Available
                     </SelectItem>
-                  ))
-                ) : (
-                  <SelectItem value="No Agent Available" disabled>
-                    No Agents Available
-                  </SelectItem>
-                )}
-              </SelectContent>
-            </Select>
+                  )}
+                </SelectContent>
+              </Select>
+            </div>
+            <Button
+              className="glassBackground border border-border cursor-pointer"
+              onClick={() => navigatePage('/ai-agents')}
+            >
+              <Plus size={15} className="text-green-500 font-bold" />
+            </Button>
           </div>
         </div>
       )}
 
       <div className="space-y-2">
         <Label>Attach an Product</Label>
-        <div className="relative">
-          <div className="mb-2">
-            <div className="relative">
-              <Search className="absolute left-3 top-2.5 h-4 w-4 text-gray-500" />
-              <Input
-                placeholder="Search Product"
-                className="pl-9 !bg-background/50 border border-input"
-              />
-            </div>
-          </div>
-
-          <Select value={priceId} onValueChange={handleProductChange}>
-            <SelectTrigger className="w-full !bg-background/50 border border-input">
-              <SelectValue placeholder="Select an product" />
-            </SelectTrigger>
-            <SelectContent className="bg-background border border-input max-h-48">
-              {activeStripeProducts?.length > 0 ? (
-                activeStripeProducts.map((product) => (
-                  <SelectItem
-                    key={product.id}
-                    value={product.id}
-                    className="!bg-background/50 hover:!bg-white/10"
-                  >
-                    {product.name}
+        <div className="flex gap-2 items-center justify-between">
+          <div className="relative flex-1">
+            <Select value={priceId} onValueChange={handleProductChange}>
+              <SelectTrigger className="w-full !bg-background/50 border border-input">
+                <SelectValue placeholder="Select an product" />
+              </SelectTrigger>
+              <SelectContent className="bg-background border border-input max-h-48">
+                {activeStripeProducts?.length > 0 ? (
+                  activeStripeProducts.map((product) => (
+                    <SelectItem
+                      key={product.id}
+                      value={product.id}
+                      className="!bg-background/50 hover:!bg-white/10"
+                    >
+                      {product.name}
+                    </SelectItem>
+                  ))
+                ) : (
+                  <SelectItem value="no-products" disabled>
+                    <Link href={'/products'}>Create product</Link>
                   </SelectItem>
-                ))
-              ) : (
-                <SelectItem value="no-products" disabled>
-                  <Link href={'/products'}>Create product</Link>
-                </SelectItem>
-              )}
-            </SelectContent>
-          </Select>
+                )}
+              </SelectContent>
+            </Select>
+          </div>
+          <Button
+            className="glassBackground border border-border cursor-pointer"
+            onClick={() => navigatePage('/products')}
+          >
+            <Plus size={15} className="text-green-500 font-bold" />
+          </Button>
         </div>
       </div>
     </div>

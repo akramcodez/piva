@@ -72,6 +72,7 @@ export const createWebinar = async (formData: WebinarFormState) => {
       description: formData.basicInfo.description || '',
       startTime: combinedDataTime,
       tags: formData.cta.tags || [],
+      ctaLabel: formData.cta.ctaLabel || 'Webinar',
       ctaType: formData.cta.ctaType as CtaTypeEnum,
       aiAgentId: formData.cta.aiAgent || null,
       lockChat: formData.additionalInfo.lockChat || false,
@@ -98,6 +99,107 @@ export const createWebinar = async (formData: WebinarFormState) => {
   } catch (error) {
     console.error('Error creating webinar:', error);
     return { status: 500, message: 'Failed to create webinar' };
+  }
+};
+
+export const updateWebinar = async (
+  webinarId: string,
+  formData: WebinarFormState,
+) => {
+  try {
+    const user = await onAuthenticateUser();
+    if (!user) {
+      return { status: 401, message: 'Unauthorized' };
+    }
+
+    if (!user.user?.subscription) {
+      return { status: 402, message: 'Subscription Required' };
+    }
+
+    const presenterId = user.user?.id;
+    console.log('Update Form Data', formData, presenterId, webinarId);
+
+    // Validate webinar exists and belongs to the user
+    const existingWebinar = await prismaClient.webinar.findUnique({
+      where: {
+        id: webinarId,
+      },
+    });
+
+    if (!existingWebinar) {
+      return { status: 404, message: 'Webinar not found' };
+    }
+
+    if (existingWebinar.presenterId !== presenterId) {
+      return {
+        status: 403,
+        message: 'Forbidden: You can only update your own webinars',
+      };
+    }
+
+    // Validate required fields
+    if (!formData.basicInfo.webinarName) {
+      return { status: 400, message: 'Webinar Name is required' };
+    }
+
+    if (!formData.basicInfo.date) {
+      return { status: 400, message: 'Webinar Date is required' };
+    }
+
+    if (!formData.basicInfo.time) {
+      return { status: 400, message: 'Webinar Time is required' };
+    }
+
+    const combinedDataTime = combineDateTime(
+      formData.basicInfo.date,
+      formData.basicInfo.time,
+      formData.basicInfo.timeFormet || 'AM',
+    );
+    const now = new Date();
+
+    if (combinedDataTime < now) {
+      return {
+        status: 400,
+        message: 'Webinar Date and Time must be in the future',
+      };
+    }
+
+    const updateData: any = {
+      title: formData.basicInfo.webinarName,
+      description: formData.basicInfo.description || '',
+      startTime: combinedDataTime,
+      tags: formData.cta.tags || [],
+      ctaLabel: formData.cta.ctaLabel || 'Webinar',
+      ctaType: formData.cta.ctaType as CtaTypeEnum,
+      aiAgentId: formData.cta.aiAgent || null,
+      lockChat: formData.additionalInfo.lockChat || false,
+      couponCode: formData.additionalInfo.couponEnabled
+        ? formData.additionalInfo.couponCode
+        : null,
+      priceId: formData.cta.priceId || null,
+      couponEnabled: formData.additionalInfo.couponEnabled || false,
+    };
+
+    const updatedWebinar = await prismaClient.webinar.update({
+      where: {
+        id: webinarId,
+      },
+      data: updateData,
+    });
+
+    revalidatePath('/');
+    revalidatePath(`/webinar/${webinarId}`);
+
+    return {
+      status: 200,
+      message: 'Webinar updated successfully',
+      webinarId: updatedWebinar.id,
+      webinarLink: `/webinar/${updatedWebinar.id}`,
+      data: updatedWebinar,
+    };
+  } catch (error) {
+    console.error('Error updating webinar:', error);
+    return { status: 500, message: 'Failed to update webinar' };
   }
 };
 

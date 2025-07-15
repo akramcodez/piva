@@ -66,6 +66,7 @@ const MultiStepForm = ({ steps, onComplete }: Props) => {
     if (isLastStep) {
       try {
         setIsSubmitting(true);
+        console.log(formData);
         const result = await createWebinar(formData);
         if (result.status === 200 && result.webinarId) {
           toast.success('Webinar created successfully');
@@ -107,7 +108,7 @@ const MultiStepForm = ({ steps, onComplete }: Props) => {
                         animate={{
                           backgroundColor:
                             isCurrent || isCompleted
-                              ? 'rgb(147, 51, 234)'
+                              ? 'rgb(44, 140, 136)'
                               : 'rgb(31, 41, 55)',
                           scale: [isCurrent && !isCompleted ? 0.8 : 1, 1],
                           transition: { duration: 0.3 },
@@ -158,7 +159,7 @@ const MultiStepForm = ({ steps, onComplete }: Props) => {
                             }}
                             animate={{
                               height: isPast || isCompleted ? '100%' : '0%',
-                              backgroundColor: 'rgb(147, 51, 234)',
+                              backgroundColor: 'rgb(44, 140, 136)',
                             }}
                             transition={{ duration: 0.5, ease: 'easeInOut' }}
                             style={{ width: '100%', height: '100%' }}

@@ -165,23 +165,6 @@ const BasicInfoStep = () => {
           {errors.time && <p className="text-xs text-red-400">{errors.time}</p>}
         </div>
       </div>
-
-      <div className="flex items-center justify-end gap-3 text-sm text-gray-400 mt-4">
-        <div className="flex items-center">
-          <Upload className="h-4 w-4 mr-2" />
-          Upload
-        </div>
-        <Button
-          variant="outline"
-          className="relative border border-input hover:bg-background"
-        >
-          Upload File
-          <Input
-            type="file"
-            className="absolute inset-0 opacity-0 cursor-pointer"
-          />
-        </Button>
-      </div>
     </div>
   );
 };

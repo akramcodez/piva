@@ -89,7 +89,7 @@ const initialFormData: WebinarFormState = {
     timeFormet: 'AM',
   },
   cta: {
-    ctaLabel: '',
+    ctaLabel: 'Webinar',
     tags: [],
     ctaType: 'BOOK_A_CALL',
     aiAgent: '',
