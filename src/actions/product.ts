@@ -211,3 +211,116 @@ export const buyProduct = async (
     return { success: false, message: 'Failed to record purchase intent.' };
   }
 };
+
+export const countProducts = async (ownerId: string) => {
+  try {
+    if (!ownerId) {
+      console.error('Owner ID is required to fetch products.');
+      return {
+        status: 400,
+        success: false,
+        message: 'Owner ID is required to fetch products count',
+        count: 0,
+      };
+    }
+
+    const count = await prismaClient.product.count({
+      where: {
+        ownerId: ownerId,
+      },
+    });
+
+    return {
+      status: 200,
+      success: true,
+      message: 'Products counted successfully',
+      count: count,
+    };
+  } catch (error) {
+    console.error('Error counting products:', error);
+    return {
+      status: 500,
+      success: false,
+      message: 'Failed to count products',
+      count: 0,
+    };
+  }
+};
+
+export const calculateRevenue = async (ownerId: string) => {
+  try {
+    if (!ownerId) {
+      return {
+        status: 400,
+        success: false,
+        message: 'Owner ID is required',
+        revenue: '$0.00',
+        totalProducts: 0,
+      };
+    }
+
+    const products = await prismaClient.product.findMany({
+      where: {
+        ownerId: ownerId,
+      },
+      select: {
+        id: true,
+        name: true,
+        price: true,
+        currency: true,
+        totalSales: true,
+      },
+    });
+
+    if (products.length === 0) {
+      return {
+        status: 200,
+        success: true,
+        message: 'No products found for user',
+        revenue: '$0.00',
+        totalProducts: 0,
+      };
+    }
+
+    let totalRevenue = 0;
+    const productBreakdown = products.map((product) => {
+      const productRevenue = Number(product.price) * product.totalSales;
+      totalRevenue += productRevenue;
+
+      return {
+        id: product.id,
+        name: product.name,
+        price: Number(product.price),
+        totalSales: product.totalSales,
+        productRevenue: productRevenue,
+        currency: product.currency,
+      };
+    });
+
+    const formattedRevenue = new Intl.NumberFormat('en-US', {
+      style: 'currency',
+      currency: 'USD',
+      minimumFractionDigits: 2,
+    }).format(totalRevenue);
+
+    return {
+      status: 200,
+      success: true,
+      message: 'Revenue calculated successfully',
+      revenue: formattedRevenue,
+      totalProducts: products.length,
+      totalRevenue: totalRevenue,
+      productBreakdown: productBreakdown,
+    };
+  } catch (error) {
+    console.error('Error calculating revenue:', error);
+    return {
+      status: 500,
+      success: false,
+      message: 'Failed to calculate revenue',
+      revenue: '$0.00',
+      totalProducts: 0,
+      error: error,
+    };
+  }
+};

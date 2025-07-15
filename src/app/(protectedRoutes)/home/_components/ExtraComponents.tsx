@@ -57,7 +57,19 @@ const AIAgentsContent = () => {
   );
 };
 
-const SettingsContent = () => {
+type Props = {
+  totalWebinars: number;
+  stripeId: string | null;
+  totalProducts: number;
+  revenue: string;
+};
+
+const SettingsContent = ({
+  totalWebinars,
+  stripeId,
+  totalProducts,
+  revenue,
+}: Props) => {
   return (
     <div className="w-full flex items-center justify-center min-h-[200px]">
       <Link href="/settings" className="cursor-pointer">
@@ -65,34 +77,40 @@ const SettingsContent = () => {
           <div className="grid grid-cols-2 gap-3 p-4 bg-card border-border rounded-lg shadow-lg border">
             <div className="bg-gradient-to-br from-gray-700 to-blue-800 p-3 rounded-lg">
               <div className="flex items-center gap-2 mb-2">
-                <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
+                <div className="hidden sm:block w-2 h-2 bg-blue-500 rounded-full"></div>
                 <span className="text-xs font-medium text-white">Webinars</span>
               </div>
-              <div className="text-lg font-bold text-white">24</div>
+              <div className="text-lg font-bold text-white">
+                {totalWebinars}
+              </div>
             </div>
 
             <div className="bg-gradient-to-br border border-border from-gray-700 to-green-800 p-3 rounded-lg">
               <div className="flex items-center gap-2 mb-2">
-                <div className="w-2 h-2 bg-green-500 rounded-full"></div>
+                <div className="hidden sm:block w-2 h-2 bg-green-500 rounded-full"></div>
                 <span className="text-xs font-medium text-white">Products</span>
               </div>
-              <div className="text-lg font-bold text-white">12</div>
+              <div className="text-lg font-bold text-white">
+                {totalProducts}
+              </div>
             </div>
 
             <div className="bg-gradient-to-br border border-border from-gray-700 to-purple-800 p-3 rounded-lg">
               <div className="flex items-center gap-2 mb-2">
-                <div className="w-2 h-2 bg-purple-500 rounded-full"></div>
+                <div className="hidden sm:block w-2 h-2 bg-purple-500 rounded-full"></div>
                 <span className="text-xs font-medium text-white">Revenue</span>
               </div>
-              <div className="text-lg font-bold text-white">$5.2K</div>
+              <div className="text-lg font-bold text-white">{revenue}</div>
             </div>
 
             <div className="bg-gradient-to-br border border-border from-gray-700 to-orange-800 p-3 rounded-lg">
               <div className="flex items-center gap-2 mb-2">
-                <div className="w-2 h-2 bg-orange-500 rounded-full animate-pulse"></div>
+                <div className="hidden sm:block w-2 h-2 bg-orange-500 rounded-full animate-pulse"></div>
                 <span className="text-xs font-medium text-white">Stripe</span>
               </div>
-              <div className="text-sm font-bold text-white">Active</div>
+              <div className="text-md font-bold text-white">
+                {!stripeId ? `InActive` : `Active`}
+              </div>
             </div>
           </div>
 

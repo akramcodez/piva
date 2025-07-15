@@ -12,7 +12,7 @@ const FeatureCard = ({ Icon, heading, smHeading, link }: Props) => {
   return (
     <Link
       href={link}
-      className="px-4 py-3 sm:px-5 sm:py-4 flex flex-row sm:flex-col items-start gap-3 lg:gap-6 rounded-xl border border-border glassBackground backdrop-blur-xl opacity-80 hover:opacity-100 hoverthemeBgLight"
+      className="px-4 py-3 sm:px-5 sm:py-4 flex flex-row sm:flex-col items-start gap-3 lg:gap-6 rounded-xl border border-border glassBackground backdrop-blur-xl opacity-80 hover:opacity-100 hoverthemeBgSuperLight"
     >
       {Icon}
       <p className="hidden md:block font-semibold text-xs lg:text-xl text-primary">

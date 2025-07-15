@@ -220,3 +220,28 @@ export const deleteWebinar = async (webinarId: string) => {
     };
   }
 };
+
+export const countWebinars = async (presenterId: string) => {
+  try {
+    const count = await prismaClient.webinar.count({
+      where: {
+        presenterId: presenterId,
+      },
+    });
+
+    return {
+      status: 200,
+      success: true,
+      message: 'Webinars counted successfully',
+      count: count,
+    };
+  } catch (error) {
+    console.error('Error counting webinars:', error);
+    return {
+      status: 500,
+      success: false,
+      message: 'Failed to count webinars',
+      count: 0,
+    };
+  }
+};

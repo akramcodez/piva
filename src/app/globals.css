@@ -189,6 +189,10 @@
   background-color: #2c8c8737;
 }
 
+.hoverthemeBgSuperLight:hover {
+  background-color: rgba(11, 30, 29, 0.46);
+}
+
 .themeColor {
   color: #2c8c88;
 }

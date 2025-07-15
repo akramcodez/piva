@@ -3,15 +3,26 @@ import { IoCreateSharp } from 'react-icons/io5';
 import OnBoarding from './_components/OnBoarding';
 import FeatureCard from './_components/FeatureCard';
 import FeatureSectionLayout from './_components/FeatureSectionLayout';
-import Image from 'next/image';
-import { potentialCustomer } from '@/lib/data';
-import UserInfoCard from '@/components/ReusableComponents/UserInfoCard/index';
 import {
   AIAgentsContent,
   SettingsContent,
 } from './_components/ExtraComponents';
+import { redirect } from 'next/navigation';
+import { onAuthenticateUser } from '@/actions/auth';
+import { countWebinars } from '@/actions/webinar';
+import { calculateRevenue, countProducts } from '@/actions/product';
 
-const page = () => {
+const page = async () => {
+  const userExist = await onAuthenticateUser();
+
+  if (!userExist?.user) {
+    redirect('/sign-in');
+  }
+
+  const totalWebinars = await countWebinars(userExist.user.id);
+  const totalProducts = await countProducts(userExist.user.id);
+  const RevenueCount = await calculateRevenue(userExist.user.id);
+
   return (
     <div className="w-full mx-auto h-full px-2 sm:px-4">
       <div className="w-full flex flex-col sm:flex-row justify-between items-center gap-6 sm:gap-10">
@@ -49,7 +60,12 @@ const page = () => {
           heading="Manage your Webinars, Products and add demo Stripe integration"
           link="/settings"
         >
-          <SettingsContent />
+          <SettingsContent
+            totalWebinars={totalWebinars.count}
+            stripeId={userExist.user.stripeConnectId}
+            totalProducts={totalProducts.count}
+            revenue={RevenueCount.revenue}
+          />
         </FeatureSectionLayout>
       </div>
     </div>
