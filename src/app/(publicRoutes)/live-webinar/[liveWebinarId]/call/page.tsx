@@ -55,17 +55,8 @@ const page = async ({ params, searchParams }: Props) => {
     redirect(`live-webinar/${liveWebinarId}?error=call-not-pending`);
   }
 
-  const rawProduct: Product | null = webinar.priceId
+  const product = webinar.priceId
     ? await findOneProduct(webinar.priceId)
-    : null;
-
-  const product: ClientProduct | null = rawProduct
-    ? {
-        ...rawProduct,
-        price: Number(rawProduct.price),
-        createdAt: rawProduct.createdAt.toISOString(),
-        updatedAt: rawProduct.updatedAt.toISOString(),
-      }
     : null;
 
   return (

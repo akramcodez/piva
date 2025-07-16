@@ -288,7 +288,7 @@ export const getAttendeeById = async (id: string, webinarId: string) => {
     return {
       success: true,
       status: 200,
-      message: 'Get attendee details successful',
+      message: 'Get attendee details successfully',
       data: attendee,
     };
   } catch (error) {

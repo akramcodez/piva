@@ -48,6 +48,7 @@ const EditWebinarDialog = ({
     basicInfo: {
       webinarName: webinar?.title || '',
       description: webinar?.description || '',
+      thumbnail: webinar?.thumbnail || '',
       date: webinar?.startTime ? new Date(webinar.startTime) : new Date(),
       time: webinar?.startTime
         ? format(new Date(webinar.startTime), 'HH:mm')
@@ -79,18 +80,6 @@ const EditWebinarDialog = ({
   const [isSubmitting, setIsSubmitting] = useState(false);
   const router = useRouter();
 
-  // Get current attached product and agent
-  const currentAttachedProduct = useMemo(() => {
-    if (!webinar?.priceId) return null;
-    return products.find((product) => product.id === webinar.priceId) || null;
-  }, [products, webinar?.priceId]);
-
-  const currentAttachedAgent = useMemo(() => {
-    if (!webinar?.aiAgentId) return null;
-    return assistants.find((agent) => agent.id === webinar.aiAgentId) || null;
-  }, [assistants, webinar?.aiAgentId]);
-
-  // Filter products based on search
   const filteredProducts = useMemo(() => {
     if (!productSearch.trim()) return products;
     return products.filter((product) =>
@@ -98,7 +87,6 @@ const EditWebinarDialog = ({
     );
   }, [products, productSearch]);
 
-  // Filter assistants based on search
   const filteredAssistants = useMemo(() => {
     if (!agentSearch.trim()) return assistants;
     return assistants.filter((assistant) =>
@@ -122,7 +110,6 @@ const EditWebinarDialog = ({
       },
     }));
 
-    // Clear error when user starts typing
     const errorKey = `${section}.${field}`;
     if (errors[errorKey]) {
       setErrors((prev) => ({
@@ -131,7 +118,6 @@ const EditWebinarDialog = ({
       }));
     }
 
-    // Clear general error when user starts typing
     if (showGeneralError) {
       setShowGeneralError(false);
     }
@@ -140,7 +126,6 @@ const EditWebinarDialog = ({
   const validateForm = () => {
     const newErrors: { [key: string]: string } = {};
 
-    // Required field validation
     if (!formData.basicInfo.webinarName.trim()) {
       newErrors['basicInfo.webinarName'] = 'Webinar name is required';
     }
@@ -190,7 +175,6 @@ const EditWebinarDialog = ({
     }
     try {
       setIsSubmitting(true);
-      console.log(formData);
       const result = await updateWebinar(webinar.id, formData);
       if (result.status === 200 && result.webinarId) {
         toast.success('Webinar updated successfully');
@@ -212,21 +196,16 @@ const EditWebinarDialog = ({
       <DialogContent className="max-w-2xl max-h-[100vh] sm:max-h-[90vh] overflow-y-auto bg-black text-white border-gray-800">
         <DialogHeader className="flex flex-row items-center justify-between">
           <DialogTitle className="text-xl font-semibold">
-            {`Edit ${formData.basicInfo.webinarName} webinar`}
+            Edit{' '}
+            <Link
+              href={`/live-webinar/${webinar?.id}`}
+              className="underline themeColor"
+            >{`${formData.basicInfo.webinarName}`}</Link>{' '}
+            webinar
           </DialogTitle>
         </DialogHeader>
 
         <form onSubmit={handleSubmit} className="space-y-8">
-          {/* General Error Message */}
-          {showGeneralError && (
-            <div className="bg-red-500/10 border border-red-500/20 rounded-lg p-4">
-              <p className="text-red-500 text-sm font-medium">
-                Please fill in all required fields to continue.
-              </p>
-            </div>
-          )}
-
-          {/* Basic Information Section */}
           <div className="space-y-4">
             <h3 className="text-sm sm:text-lg font-medium">
               Basic Information
@@ -251,7 +230,6 @@ const EditWebinarDialog = ({
                     errors['basicInfo.webinarName'] ? 'border-red-500' : ''
                   }`}
                   placeholder="Enter webinar name"
-                  required
                 />
                 {errors['basicInfo.webinarName'] && (
                   <p className="text-red-500 text-sm mt-1">
@@ -278,13 +256,26 @@ const EditWebinarDialog = ({
                     errors['basicInfo.description'] ? 'border-red-500' : ''
                   }`}
                   placeholder="Enter description"
-                  required
                 />
                 {errors['basicInfo.description'] && (
                   <p className="text-red-500 text-sm mt-1">
                     {errors['basicInfo.description']}
                   </p>
                 )}
+              </div>
+
+              <div>
+                <Label htmlFor="thumbnail" className="text-sm font-medium">
+                  Thumbnail <span>*</span>
+                </Label>
+                <Input
+                  id="thumbnail"
+                  value={formData.basicInfo.thumbnail}
+                  onChange={(e) =>
+                    handleInputChange('basicInfo', 'thumbnail', e.target.value)
+                  }
+                  placeholder="Enter Img URL"
+                />
               </div>
 
               <div>
@@ -310,7 +301,6 @@ const EditWebinarDialog = ({
                     className={`bg-background border border-border text-white pl-10 ${
                       errors['basicInfo.date'] ? 'border-red-500' : ''
                     }`}
-                    required
                   />
                   <Calendar className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400" />
                 </div>
@@ -337,7 +327,6 @@ const EditWebinarDialog = ({
                       className={`bg-background border border-border text-white pl-10 ${
                         errors['basicInfo.time'] ? 'border-red-500' : ''
                       }`}
-                      required
                     />
                     <Clock className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400" />
                   </div>
@@ -384,7 +373,6 @@ const EditWebinarDialog = ({
                     errors['cta.ctaLabel'] ? 'border-red-500' : ''
                   }`}
                   placeholder="Enter CTA label"
-                  required
                 />
                 {errors['cta.ctaLabel'] && (
                   <p className="text-red-500 text-sm mt-1">
@@ -407,7 +395,6 @@ const EditWebinarDialog = ({
                     errors['cta.tags'] ? 'border-red-500' : ''
                   }`}
                   placeholder="Add Tags and press Enter"
-                  required
                 />
                 {errors['cta.tags'] && (
                   <p className="text-red-500 text-sm mt-1">
@@ -469,18 +456,6 @@ const EditWebinarDialog = ({
                     Attach an AI Agent
                   </Label>
 
-                  {/* Show currently attached agent */}
-                  {currentAttachedAgent && (
-                    <div className="mt-2 p-3 bg-blue-500/10 border border-blue-500/20 rounded-lg">
-                      <p className="text-sm text-blue-400">
-                        Currently attached:{' '}
-                        <span className="font-medium">
-                          {currentAttachedAgent.name}
-                        </span>
-                      </p>
-                    </div>
-                  )}
-
                   <div className="space-y-2 mt-2">
                     <Select
                       value={formData.cta.aiAgent}
@@ -515,18 +490,6 @@ const EditWebinarDialog = ({
 
               <div>
                 <Label className="text-sm font-medium">Attach a Product</Label>
-
-                {/* Show currently attached product */}
-                {currentAttachedProduct && (
-                  <div className="mt-2 p-3 bg-green-500/10 border border-green-500/20 rounded-lg">
-                    <p className="text-sm text-green-400">
-                      Currently attached:{' '}
-                      <span className="font-medium">
-                        {currentAttachedProduct.name}
-                      </span>
-                    </p>
-                  </div>
-                )}
 
                 <div className="space-y-2 mt-2">
                   <Select
@@ -627,6 +590,13 @@ const EditWebinarDialog = ({
                 </div>
               )}
             </div>
+            {showGeneralError && (
+              <div className="bg-red-500/10 border border-red-500/20 rounded-lg p-4">
+                <p className="text-red-500 text-sm font-medium">
+                  Please fill in all required fields to continue.
+                </p>
+              </div>
+            )}
           </div>
 
           {/* Submit Button */}

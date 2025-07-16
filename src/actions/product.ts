@@ -1,12 +1,13 @@
 'use server';
 
 import { prismaClient } from '@/lib/prismaClient';
+import { ClientProduct } from '@/lib/type';
 import {
   Product,
   CurrencyEnum,
   ProductStatusEnum,
   AttendedTypeEnum,
-} from '@prisma/client'; // Import AttendedTypeEnum
+} from '@prisma/client';
 
 type CreateProductInput = {
   name: string;
@@ -55,7 +56,6 @@ export const createProduct = async (
       success: true,
       status: 200,
       message: 'Product created successfully',
-      product: newProduct,
     };
   } catch (error) {
     console.error('Error creating product:', error);
@@ -64,6 +64,43 @@ export const createProduct = async (
       status: 500,
       message: 'Failed to create product.',
       error: error,
+    };
+  }
+};
+
+export const updateProduct = async (productId: string, data: any) => {
+  if (!productId) {
+    return {
+      success: false,
+      status: 400,
+      message: 'Product not found',
+    };
+  }
+  try {
+    await prismaClient.product.update({
+      where: { id: productId },
+      data: {
+        name: data.name,
+        description: data.description,
+        price: Number(data.price),
+        currency: data.currency,
+        status: data.status,
+        image: data.imageUrl,
+        updatedAt: new Date(),
+      },
+    });
+
+    return {
+      success: true,
+      status: 200,
+      message: 'Product updated successfully',
+    };
+  } catch (error) {
+    console.error('Error updating product:', error);
+    return {
+      success: false,
+      status: 500,
+      message: 'Product updating failed',
     };
   }
 };
@@ -127,18 +164,25 @@ export const changeStatusOfProduct = async (productId: string) => {
   }
 };
 
-export const findOneProduct = async (
-  productId: string,
-): Promise<Product | null> => {
+export const findOneProduct = async (productId: string) => {
   try {
     if (!productId) {
       console.error('Product ID is required to find a product.');
       return null;
     }
 
-    const product = await prismaClient.product.findUnique({
+    const result = await prismaClient.product.findUnique({
       where: { id: productId },
     });
+
+    const product: ClientProduct | null = result
+      ? {
+          ...result,
+          price: Number(result.price),
+          createdAt: result.createdAt.toISOString(),
+          updatedAt: result.updatedAt.toISOString(),
+        }
+      : null;
 
     return product;
   } catch (error) {
@@ -327,11 +371,21 @@ export const calculateRevenue = async (ownerId: string) => {
 
 export const deleteProduct = async (id: string) => {
   try {
-    const product = await prismaClient.product.delete({
+    const result = await prismaClient.product.delete({
       where: {
         id: id,
       },
     });
+
+    const product: ClientProduct | null = result
+      ? {
+          ...result,
+          price: Number(result.price),
+          createdAt: result.createdAt.toISOString(),
+          updatedAt: result.updatedAt.toISOString(),
+        }
+      : null;
+
     return {
       status: 200,
       success: true,

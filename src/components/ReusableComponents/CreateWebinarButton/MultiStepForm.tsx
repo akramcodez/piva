@@ -91,7 +91,7 @@ const MultiStepForm = ({ steps, onComplete }: Props) => {
     <div className="flex flex-col h-full">
       <div className="flex flex-col md:flex-row flex-1 overflow-hidden">
         {/* Left side - Steps */}
-        <div className="w-full md:w-1/3 p-4 border-b md:border-b-0 md:border-r border-border bg-background/50">
+        <div className="w-full md:max-w-[200px] p-4 border-b md:border-b-0 md:border-r border-border bg-background/50">
           <div className="space-y-4">
             {steps.map((step, index) => {
               const isCompleted = completedSteps.includes(step.id);
@@ -196,7 +196,7 @@ const MultiStepForm = ({ steps, onComplete }: Props) => {
         </div>
 
         {/* Right side - Content */}
-        <div className="w-full md:w-2/3 p-4 overflow-y-auto max-h-[50vh] sm:max-h-[75vh]">
+        <div className="w-full md:w-3/3 p-4 overflow-y-auto max-h-[50vh] sm:max-h-[75vh]">
           <div className="max-w-5xl mx-auto">
             <AnimatePresence mode="wait">
               <motion.div

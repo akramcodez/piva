@@ -11,6 +11,7 @@ export type WebinarFormState = {
   basicInfo: {
     webinarName?: string;
     description?: string;
+    thumbnail?: string;
     date?: Date;
     time?: string;
     timeFormat?: 'AM' | 'PM';
@@ -84,6 +85,7 @@ const initialFormData: WebinarFormState = {
   basicInfo: {
     webinarName: '',
     description: '',
+    thumbnail: '',
     date: undefined,
     time: '',
     timeFormat: 'AM',

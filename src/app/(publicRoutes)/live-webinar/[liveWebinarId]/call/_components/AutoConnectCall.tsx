@@ -147,7 +147,7 @@ const AutoConnectCall = ({
       if (!res.success) {
         throw new Error('Failed to update call status');
       }
-      toast.success('Call Ended Successgully');
+      toast.success('Call Ended Successfully');
     } catch (error) {
       console.error('Failed to stop call', error);
       toast.error('Failed to Stop call, Try Again');

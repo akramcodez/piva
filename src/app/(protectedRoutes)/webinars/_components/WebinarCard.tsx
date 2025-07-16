@@ -64,7 +64,7 @@ const WebinarCard = ({ webinar, products, assistants }: Props) => {
             <div className="w-full h-45 relative rounded-xl overflow-hidden mb-4 border-[3px] hoverthemeBorder">
               <Image
                 src={
-                  webinar.thumbnail ? `/${webinar.thumbnail}` : '/webinar.jpg'
+                  webinar.thumbnail ? `${webinar.thumbnail}` : '/webinar.jpg'
                 }
                 alt={'webinar'}
                 fill

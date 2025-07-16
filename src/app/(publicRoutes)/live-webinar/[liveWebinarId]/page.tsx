@@ -35,17 +35,8 @@ const page = async ({ params, searchParams }: Props) => {
   //TODO: Create api keys
   const apiKey = process.env.NEXT_PUBLIC_STREAM_API_KEY as string; //check
 
-  const rawProduct: Product | null = webinarData.priceId
+  const product = webinarData.priceId
     ? await findOneProduct(webinarData.priceId)
-    : null;
-
-  const product: ClientProduct | null = rawProduct
-    ? {
-        ...rawProduct,
-        price: Number(rawProduct.price),
-        createdAt: rawProduct.createdAt.toISOString(),
-        updatedAt: rawProduct.updatedAt.toISOString(),
-      }
     : null;
 
   return (

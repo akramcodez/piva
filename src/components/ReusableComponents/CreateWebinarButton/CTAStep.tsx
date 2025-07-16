@@ -159,7 +159,7 @@ const CTAStep = ({
         <div className="space-y-2">
           <Label>Attach an Ai Agent</Label>
           <div className="flex gap-2 items-center justify-between">
-            <div className="relative flex-1">
+            <div className="relative flex-1 max-w-[220px]">
               <Select value={aiAgent} onValueChange={handleSelectAgent}>
                 <SelectTrigger className="w-full !bg-background/50 border border-input">
                   <SelectValue placeholder="Select an Agent" />
@@ -196,13 +196,13 @@ const CTAStep = ({
 
       <div className="space-y-2">
         <Label>Attach an Product</Label>
-        <div className="flex gap-2 items-center justify-between">
-          <div className="relative flex-1">
+        <div className="flex gap-2 items-center justify-between ">
+          <div className="relative flex-1 max-w-[220px]">
             <Select value={priceId} onValueChange={handleProductChange}>
               <SelectTrigger className="w-full !bg-background/50 border border-input">
                 <SelectValue placeholder="Select an product" />
               </SelectTrigger>
-              <SelectContent className="bg-background border border-input max-h-48">
+              <SelectContent className="bg-background border border-input max-h-48 ">
                 {activeStripeProducts?.length > 0 ? (
                   activeStripeProducts.map((product) => (
                     <SelectItem

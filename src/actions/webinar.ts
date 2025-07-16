@@ -70,6 +70,7 @@ export const createWebinar = async (formData: WebinarFormState) => {
     const data: any = {
       title: formData.basicInfo.webinarName,
       description: formData.basicInfo.description || '',
+      thumbnail: formData.basicInfo.thumbnail || '',
       startTime: combinedDataTime,
       tags: formData.cta.tags || [],
       ctaLabel: formData.cta.ctaLabel || '',
@@ -119,7 +120,6 @@ export const updateWebinar = async (
     const presenterId = user.user?.id;
     console.log('Update Form Data', formData, presenterId, webinarId);
 
-    // Validate webinar exists and belongs to the user
     const existingWebinar = await prismaClient.webinar.findUnique({
       where: {
         id: webinarId,
@@ -137,7 +137,6 @@ export const updateWebinar = async (
       };
     }
 
-    // Validate required fields
     if (!formData.basicInfo.webinarName) {
       return { status: 400, message: 'Webinar Name is required' };
     }
@@ -167,6 +166,7 @@ export const updateWebinar = async (
     const updateData: any = {
       title: formData.basicInfo.webinarName,
       description: formData.basicInfo.description || '',
+      thumbnail: formData.basicInfo.thumbnail || '',
       startTime: combinedDataTime,
       tags: formData.cta.tags || [],
       ctaLabel: formData.cta.ctaLabel || 'Webinar',

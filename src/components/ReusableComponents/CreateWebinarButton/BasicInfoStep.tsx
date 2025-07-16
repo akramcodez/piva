@@ -27,7 +27,7 @@ const BasicInfoStep = () => {
   const { formData, updateBasicInfo, getStepvalidationError } =
     useWebinarStore();
 
-  const { webinarName, description, date, time, timeFormat } =
+  const { webinarName, thumbnail, description, date, time, timeFormat } =
     formData.basicInfo;
 
   const errors = getStepvalidationError('basicInfo');
@@ -37,6 +37,11 @@ const BasicInfoStep = () => {
   ) => {
     const { name, value } = e.target;
     updateBasicInfo(name as keyof typeof formData.basicInfo, value);
+  };
+
+  const handleThumbnailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { value } = e.target;
+    updateBasicInfo('thumbnail', value);
   };
 
   const handleDateChange = (newDate: Date | undefined) => {
@@ -92,6 +97,21 @@ const BasicInfoStep = () => {
         {errors.description && (
           <p className="text-xs text-red-400">{errors.description}</p>
         )}
+      </div>
+
+      <div className="space-y-2">
+        <Label htmlFor="thumbnail">
+          Thumbnail <span>*</span>
+        </Label>
+        <Input
+          id="thumbnail"
+          type="url"
+          name="thumbnail"
+          value={thumbnail}
+          onChange={handleChange}
+          placeholder="Paste Image URL"
+          className={'!bg-background/50 border border-input'}
+        />
       </div>
 
       <div className="grid grid-cols-1 gap-4">

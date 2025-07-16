@@ -25,6 +25,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
+import EditProductDialog from '../_components/EditProductDialog';
 
 type Props = {
   user: User;
@@ -35,6 +36,7 @@ const ProductPage = ({ user, products }: Props) => {
   const [openDialog, setOpenDialog] = useState(false);
   const [editDialog, setEditDialog] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
+  const [productEdit, setProductEdit] = useState<ClientProduct | null>(null);
   const router = useRouter();
 
   const handleCreateProductClick = () => {
@@ -86,6 +88,11 @@ const ProductPage = ({ user, products }: Props) => {
     } finally {
       setIsDeleting(false);
     }
+  };
+
+  const editDialogOpen = (product: ClientProduct) => {
+    setProductEdit(product);
+    setEditDialog(true);
   };
 
   return (
@@ -141,7 +148,7 @@ const ProductPage = ({ user, products }: Props) => {
                       </Button>
                     </DropdownMenuTrigger>
                     <DropdownMenuContent align="end" className="w-48">
-                      <DropdownMenuItem onClick={() => setEditDialog(true)}>
+                      <DropdownMenuItem onClick={() => editDialogOpen(product)}>
                         <Edit className="w-4 h-4 mr-2" />
                         Edit Product
                       </DropdownMenuItem>
@@ -155,7 +162,7 @@ const ProductPage = ({ user, products }: Props) => {
                         ) : (
                           <Trash2 className="text-red-600 w-4 h-4 mr-2" />
                         )}
-                        Delete Webinar
+                        Delete product
                       </DropdownMenuItem>
                     </DropdownMenuContent>
                   </DropdownMenu>
@@ -231,6 +238,13 @@ const ProductPage = ({ user, products }: Props) => {
           onOpenChange={setOpenDialog}
           userId={user.id}
           onProductCreated={onProductCreated}
+        />
+      )}
+      {editDialog && (
+        <EditProductDialog
+          open={editDialog}
+          onClose={() => setEditDialog(false)}
+          product={productEdit}
         />
       )}
     </div>
