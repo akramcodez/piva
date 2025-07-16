@@ -324,3 +324,26 @@ export const calculateRevenue = async (ownerId: string) => {
     };
   }
 };
+
+export const deleteProduct = async (id: string) => {
+  try {
+    const product = await prismaClient.product.delete({
+      where: {
+        id: id,
+      },
+    });
+    return {
+      status: 200,
+      success: true,
+      message: 'Product deleted successfully',
+      data: product,
+    };
+  } catch (error) {
+    console.error('Error deleting product status:', error);
+    return {
+      status: 500,
+      success: false,
+      message: 'Failed to delete product',
+    };
+  }
+};

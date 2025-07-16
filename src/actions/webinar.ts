@@ -10,15 +10,15 @@ import { revalidatePath } from 'next/cache';
 function combineDateTime(
   date: Date,
   timeStr: string,
-  timeFormet: 'AM' | 'PM',
+  timeFormat: 'AM' | 'PM',
 ): Date {
   const [hoursStr, minutesStr] = timeStr.split(':');
   let hours = Number.parseInt(hoursStr, 10);
   const minutes = Number.parseInt(minutesStr || '0', 10);
 
-  if (timeFormet === 'PM' && hours < 12) {
+  if (timeFormat === 'PM' && hours < 12) {
     hours += 12;
-  } else if (timeFormet === 'AM' && hours === 12) {
+  } else if (timeFormat === 'AM' && hours === 12) {
     hours = 0;
   }
 
@@ -56,7 +56,7 @@ export const createWebinar = async (formData: WebinarFormState) => {
     const combinedDataTime = combineDateTime(
       formData.basicInfo.date,
       formData.basicInfo.time,
-      formData.basicInfo.timeFormet || 'AM',
+      formData.basicInfo.timeFormat || 'AM',
     );
     const now = new Date();
 
@@ -72,7 +72,7 @@ export const createWebinar = async (formData: WebinarFormState) => {
       description: formData.basicInfo.description || '',
       startTime: combinedDataTime,
       tags: formData.cta.tags || [],
-      ctaLabel: formData.cta.ctaLabel || 'Webinar',
+      ctaLabel: formData.cta.ctaLabel || '',
       ctaType: formData.cta.ctaType as CtaTypeEnum,
       aiAgentId: formData.cta.aiAgent || null,
       lockChat: formData.additionalInfo.lockChat || false,
@@ -153,7 +153,7 @@ export const updateWebinar = async (
     const combinedDataTime = combineDateTime(
       formData.basicInfo.date,
       formData.basicInfo.time,
-      formData.basicInfo.timeFormet || 'AM',
+      formData.basicInfo.timeFormat || 'AM',
     );
     const now = new Date();
 

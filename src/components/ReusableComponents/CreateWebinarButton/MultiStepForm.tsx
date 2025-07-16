@@ -66,7 +66,6 @@ const MultiStepForm = ({ steps, onComplete }: Props) => {
     if (isLastStep) {
       try {
         setIsSubmitting(true);
-        console.log(formData);
         const result = await createWebinar(formData);
         if (result.status === 200 && result.webinarId) {
           toast.success('Webinar created successfully');
@@ -92,7 +91,7 @@ const MultiStepForm = ({ steps, onComplete }: Props) => {
     <div className="flex flex-col h-full">
       <div className="flex flex-col md:flex-row flex-1 overflow-hidden">
         {/* Left side - Steps */}
-        <div className="w-full md:w-1/3 lg:w-1/3 xl:w-1/3 p-4 lg:p-6 border-b md:border-b-0 md:border-r border-border bg-background/50">
+        <div className="w-full md:w-1/3 p-4 border-b md:border-b-0 md:border-r border-border bg-background/50">
           <div className="space-y-4">
             {steps.map((step, index) => {
               const isCompleted = completedSteps.includes(step.id);
@@ -185,7 +184,7 @@ const MultiStepForm = ({ steps, onComplete }: Props) => {
                       >
                         {step.title}
                       </motion.h3>
-                      <p className="text-xs lg:text-sm text-gray-500">
+                      <p className="text-xs text-gray-500">
                         {step.description}
                       </p>
                     </div>
@@ -197,7 +196,7 @@ const MultiStepForm = ({ steps, onComplete }: Props) => {
         </div>
 
         {/* Right side - Content */}
-        <div className="w-full md:w-2/3 lg:w-2/3 xl:w-2/3 p-4 lg:p-6 overflow-y-auto">
+        <div className="w-full md:w-2/3 p-4 overflow-y-auto max-h-[50vh] sm:max-h-[75vh]">
           <div className="max-w-5xl mx-auto">
             <AnimatePresence mode="wait">
               <motion.div
@@ -207,11 +206,11 @@ const MultiStepForm = ({ steps, onComplete }: Props) => {
                 exit={{ x: -20, opacity: 0 }}
                 transition={{ duration: 0.3 }}
               >
-                <div className="mb-4 lg:mb-6">
-                  <h2 className="text-base lg:text-lg font-semibold mb-1">
+                <div className="mb-4">
+                  <h2 className="text-base  font-semibold mb-1">
                     {currentStep.title}
                   </h2>
-                  <p className="text-gray-400 text-xs lg:text-sm">
+                  <p className="text-gray-400 text-xs ">
                     {currentStep.description}
                   </p>
                 </div>
@@ -219,9 +218,9 @@ const MultiStepForm = ({ steps, onComplete }: Props) => {
                 {currentStep.component}
 
                 {validationError && (
-                  <div className="mt-4 lg:mt-6 p-3 bg-red-900/30 border border-red-800 rounded-md flex items-start gap-2 text-red-300">
+                  <div className="mt-4 p-3 bg-red-900/30 border border-red-800 rounded-md flex items-start gap-2 text-red-300">
                     <AlertCircle className="h-5 w-5 mt-0.5 flex-shrink-0" />
-                    <p className="text-sm lg:text-base">{validationError}</p>
+                    <p className="text-sm">{validationError}</p>
                   </div>
                 )}
               </motion.div>
@@ -231,19 +230,23 @@ const MultiStepForm = ({ steps, onComplete }: Props) => {
       </div>
 
       {/* Bottom buttons */}
-      <div className="flex items-center justify-between gap-4 p-4 border-t border-border bg-background/50">
+      <div className="flex items-center justify-between gap-4 p-2 border-t border-border bg-background/50">
         <Button
           variant="outline"
           onClick={handleBack}
           disabled={isSubmitting}
           className={cn(
-            'border-gray-700 text-white hover:bg-gray-800',
+            'border-gray-700 text-white hover:bg-gray-800 px-4 py-2',
             isFirstStep ? 'opacity-50 cursor-not-allowed' : '',
           )}
         >
           <span className="text-sm">{isFirstStep ? 'Cancel' : 'Back'}</span>
         </Button>
-        <Button onClick={handleNext} disabled={isSubmitting}>
+        <Button
+          onClick={handleNext}
+          disabled={isSubmitting}
+          className="px-4 py-2"
+        >
           <span className="flex items-center text-sm">
             {isLastStep ? (
               isSubmitting ? (

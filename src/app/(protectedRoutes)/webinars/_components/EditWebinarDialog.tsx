@@ -53,10 +53,10 @@ const EditWebinarDialog = ({
         ? format(new Date(webinar.startTime), 'HH:mm')
         : '',
       timeFormat: webinar?.startTime
-        ? new Date(webinar.startTime).getHours() >= 12
-          ? 'PM'
-          : 'AM'
-        : 'AM',
+        ? ((new Date(webinar.startTime).getHours() >= 12 ? 'PM' : 'AM') as
+            | 'AM'
+            | 'PM')
+        : ('AM' as 'AM' | 'PM'),
     },
     cta: {
       ctaLabel: webinar?.ctaLabel || '',
@@ -188,7 +188,6 @@ const EditWebinarDialog = ({
     if (!validateForm()) {
       return;
     }
-    console.log('Form submitted:', formData);
     try {
       setIsSubmitting(true);
       console.log(formData);
@@ -204,8 +203,8 @@ const EditWebinarDialog = ({
       toast.error('An error occurred while updating the webinar');
     } finally {
       setIsSubmitting(false);
+      onClose();
     }
-    onClose();
   };
 
   return (
@@ -308,7 +307,7 @@ const EditWebinarDialog = ({
                         new Date(e.target.value),
                       )
                     }
-                    className={`bg-gray-900 border-gray-700 text-white pl-10 ${
+                    className={`bg-background border border-border text-white pl-10 ${
                       errors['basicInfo.date'] ? 'border-red-500' : ''
                     }`}
                     required
@@ -335,7 +334,7 @@ const EditWebinarDialog = ({
                       onChange={(e) =>
                         handleInputChange('basicInfo', 'time', e.target.value)
                       }
-                      className={`bg-gray-900 border-gray-700 text-white pl-10 ${
+                      className={`bg-background border border-border text-white pl-10 ${
                         errors['basicInfo.time'] ? 'border-red-500' : ''
                       }`}
                       required

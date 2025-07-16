@@ -90,7 +90,7 @@ const ModelConfiguration = () => {
               )}
             </Button>
           </HoverCardTrigger>
-          <HoverCardContent className="glassBackground border-[2px] border-border px-2 py-1 mr-2 mt-0.5 [word-spacing:0.2em]">
+          <HoverCardContent className="glassBackground border-[2px] border-border px-2 py-1 mr-2 mt-0.5 [word-spacing:0.1em]">
             Feature unavailable, Connect with{' '}
             <Link
               className="themeColor underline"

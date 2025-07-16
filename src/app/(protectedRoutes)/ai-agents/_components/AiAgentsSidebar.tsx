@@ -55,7 +55,7 @@ const AiAgentsSidebar = ({ aiAgents, user }: Props) => {
             >
               <Plus /> Create Assistant
             </Button>
-            <HoverCardContent className="glassBackground border-[2px] border-border px-2 py-1 absolute top-0 [word-spacing:0.2em]">
+            <HoverCardContent className="glassBackground border-[2px] border-border px-2 py-1 absolute top-0 [word-spacing:0.1em]">
               Feature unavailable, Connect with{' '}
               <Link
                 className="themeColor underline"

@@ -13,7 +13,7 @@ export const validateBasicInfo = (data: {
   description?: string;
   date?: Date;
   time?: string;
-  timeFormet?: 'AM' | 'PM';
+  timeFormat?: 'AM' | 'PM';
 }): ValidationResult => {
   const errors: validationError = {};
 
@@ -45,7 +45,7 @@ export const validateBasicInfo = (data: {
       const [hours, minutes] = data.time.split(':').map(Number);
       const selectedDateTime = new Date(data.date);
       selectedDateTime.setHours(
-        data.timeFormet === 'PM' && hours !== 12 ? hours + 12 : hours,
+        data.timeFormat === 'PM' && hours !== 12 ? hours + 12 : hours,
         minutes,
       );
 

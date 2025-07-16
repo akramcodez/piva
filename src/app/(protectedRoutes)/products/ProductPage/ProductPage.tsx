@@ -5,7 +5,7 @@ import React, { useState } from 'react';
 import Image from 'next/image';
 import { format } from 'date-fns';
 import { User } from '@prisma/client';
-import { RefreshCw } from 'lucide-react';
+import { Edit, Loader2, MoreVertical, RefreshCw, Trash2 } from 'lucide-react';
 import ProductDialog from '../_components/ProductDialog';
 import { useRouter } from 'next/navigation';
 import { toast } from 'sonner';
@@ -18,7 +18,13 @@ import {
   CardTitle,
 } from '@/components/ui/card';
 import { ClientProduct } from '@/lib/type';
-import { changeStatusOfProduct } from '@/actions/product';
+import { changeStatusOfProduct, deleteProduct } from '@/actions/product';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu';
 
 type Props = {
   user: User;
@@ -27,6 +33,8 @@ type Props = {
 
 const ProductPage = ({ user, products }: Props) => {
   const [openDialog, setOpenDialog] = useState(false);
+  const [editDialog, setEditDialog] = useState(false);
+  const [isDeleting, setIsDeleting] = useState(false);
   const router = useRouter();
 
   const handleCreateProductClick = () => {
@@ -61,6 +69,24 @@ const ProductPage = ({ user, products }: Props) => {
   };
 
   const displayedProducts = products;
+
+  const handleDeleteProduct = async (product: ClientProduct) => {
+    try {
+      setIsDeleting(true);
+      const result = await deleteProduct(product?.id);
+      if (result.status === 200) {
+        toast.success('Product deleted successfully');
+      } else {
+        toast.error(result.message || 'Failed to delete product');
+      }
+      router.refresh();
+    } catch (error) {
+      console.error('Error deleting product:', error);
+      toast.error('An error occurred while deleting the product');
+    } finally {
+      setIsDeleting(false);
+    }
+  };
 
   return (
     <div className="h-full w-full space-y-5 p-3">
@@ -104,6 +130,35 @@ const ProductPage = ({ user, products }: Props) => {
                       No Image
                     </div>
                   )}
+                  <DropdownMenu>
+                    <DropdownMenuTrigger asChild>
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        className="rounded-full absolute right-1 top-1 z-7 border-[0.5px] border-border glassBackground"
+                      >
+                        <MoreVertical className="w-4 h-4 text-primary" />
+                      </Button>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent align="end" className="w-48">
+                      <DropdownMenuItem onClick={() => setEditDialog(true)}>
+                        <Edit className="w-4 h-4 mr-2" />
+                        Edit Product
+                      </DropdownMenuItem>
+                      <DropdownMenuItem
+                        onClick={() => handleDeleteProduct(product)}
+                        className="text-red-600 focus:text-red-600"
+                        disabled={isDeleting}
+                      >
+                        {isDeleting ? (
+                          <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                        ) : (
+                          <Trash2 className="text-red-600 w-4 h-4 mr-2" />
+                        )}
+                        Delete Webinar
+                      </DropdownMenuItem>
+                    </DropdownMenuContent>
+                  </DropdownMenu>
                 </div>
               </CardHeader>
 

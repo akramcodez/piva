@@ -27,7 +27,7 @@ const BasicInfoStep = () => {
   const { formData, updateBasicInfo, getStepvalidationError } =
     useWebinarStore();
 
-  const { webinarName, description, date, time, timeFormet } =
+  const { webinarName, description, date, time, timeFormat } =
     formData.basicInfo;
 
   const errors = getStepvalidationError('basicInfo');
@@ -44,7 +44,7 @@ const BasicInfoStep = () => {
   };
 
   const handleFormetChange = (value: string) => {
-    updateBasicInfo('timeFormet', value as 'AM' | 'PM');
+    updateBasicInfo('timeFormat', value as 'AM' | 'PM');
   };
 
   return (
@@ -150,7 +150,7 @@ const BasicInfoStep = () => {
               />
             </div>
             <Select
-              value={timeFormet || 'AM'}
+              value={timeFormat || 'AM'}
               onValueChange={handleFormetChange}
             >
               <SelectTrigger className="w-20 !bg-background/50 border border-input">

@@ -13,7 +13,7 @@ export type WebinarFormState = {
     description?: string;
     date?: Date;
     time?: string;
-    timeFormet?: 'AM' | 'PM';
+    timeFormat?: 'AM' | 'PM';
   };
   cta: {
     ctaLabel?: string;
@@ -86,10 +86,10 @@ const initialFormData: WebinarFormState = {
     description: '',
     date: undefined,
     time: '',
-    timeFormet: 'AM',
+    timeFormat: 'AM',
   },
   cta: {
-    ctaLabel: 'Webinar',
+    ctaLabel: '',
     tags: [],
     ctaType: 'BOOK_A_CALL',
     aiAgent: '',
