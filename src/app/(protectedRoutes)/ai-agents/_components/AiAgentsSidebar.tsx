@@ -40,7 +40,7 @@ const AiAgentsSidebar = ({ aiAgents, user }: Props) => {
   };
 
   return (
-    <div className="w-[300px] border-r border-border flex flex-col">
+    <div className="md:w-[300px] border-b  md:border-r border-border flex flex-col">
       <div className="p-4">
         <HoverCard>
           <HoverCardTrigger>
@@ -60,6 +60,7 @@ const AiAgentsSidebar = ({ aiAgents, user }: Props) => {
               <Link
                 className="themeColor underline"
                 href="https://x.com/akramcodez"
+                target="_blank"
               >
                 Akram
               </Link>{' '}

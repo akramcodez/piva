@@ -14,7 +14,7 @@ const page = async () => {
   }
 
   return (
-    <div className="w-full flex h-[80vh] text-primary border border-border rounded-se-xl">
+    <div className="w-full flex flex-col md:flex-row h-auto md:h-[80vh] text-primary border border-border">
       <AiAgentsSidebar aiAgents={allAgents?.data || []} user={userExist.user} />
       <div className="flex-1 flex flex-col">
         <ModelSelection />

@@ -57,9 +57,9 @@ const ModelConfiguration = () => {
 
   if (!assistant) {
     return (
-      <div className="flex justify-center items-center h-[500px] w-full">
-        <div className="themeBgLight rounded-xl p-6 w-full">
-          <p className="text-primary/80 text-center">
+      <div className="flex justify-center items-center h-[500px] w-full p-4 sm:p-6 md:p-8">
+        <div className="themeBgLight rounded-xl p-4 md:p-6 w-full max-w-md">
+          <p className="text-primary/80 text-sm md:text-base text-center">
             No Assistant Selected. Please Select an Assistant to Configure the
             Model Settings
           </p>
@@ -68,17 +68,21 @@ const ModelConfiguration = () => {
     );
   }
   return (
-    <div className="themeBgLight rounded-xl p-6 mb-4">
-      <div className="flex justify-between items-center mb-4">
-        <div className="flex items-center">
-          <span className="text-sm font-semibold">Model</span>
-          <h3 className="text-2xl font-semibold ml-2 uppercase">
+    <div className="themeBgLight rounded-xl p-4 sm:p-6 mb-4">
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-4">
+        <div className="flex flex-col sm:flex-row items-start sm:items-center mb-2 sm:mb-0">
+          <span className="text-sm font-semibold mr-0 sm:mr-2">Model</span>
+          <h3 className="text-xl sm:text-2xl font-semibold uppercase">
             {assistant?.name}
           </h3>
         </div>
         <HoverCard>
           <HoverCardTrigger>
-            <Button onClick={handleUpdateAssistant} disabled>
+            <Button
+              onClick={handleUpdateAssistant}
+              disabled
+              className="w-full sm:w-auto"
+            >
               {/*disabled={loading}*/}
               {loading ? (
                 <>
@@ -90,11 +94,12 @@ const ModelConfiguration = () => {
               )}
             </Button>
           </HoverCardTrigger>
-          <HoverCardContent className="glassBackground border-[2px] border-border px-2 py-1 mr-2 mt-0.5 [word-spacing:0.1em]">
+          <HoverCardContent className="glassBackground border-[2px] border-border px-2 py-1 [word-spacing:0.1em]">
             Feature unavailable, Connect with{' '}
             <Link
               className="themeColor underline"
               href="https://x.com/akramcodez"
+              target="_blank"
             >
               Akram
             </Link>{' '}
@@ -102,37 +107,41 @@ const ModelConfiguration = () => {
           </HoverCardContent>
         </HoverCard>
       </div>
-      <p className="text-neutral-400 mb-6">
+      <p className="text-neutral-400 mb-6 text-sm sm:text-base">
         Configure the behaviour of the assistant
       </p>
 
       <div className="mb-3">
         <div className="flex items-center mb-2">
-          <label className="font-medium">First Message</label>
+          <label className="font-medium text-sm sm:text-base">
+            First Message
+          </label>
           <Info className="h-4 w-4 text-neutral-500 ml-2" />
         </div>
         <Input
           value={firstMessage}
           onChange={(e) => setFirstMessage(e.target.value)}
-          className="bg-primary/10 border-input"
+          className="bg-primary/10 border-input text-sm sm:text-base"
         />
       </div>
 
       <div className="mb-3">
         <div className="flex items-center justify-between mb-2">
           <div className="flex items-center">
-            <label className="font-medium">System Prompt</label>
+            <label className="font-medium text-sm sm:text-base">
+              System Prompt
+            </label>
             <Info className="h-4 w-4 text-neutral-500 ml-2" />
           </div>
         </div>
         <Textarea
           value={systemPrompt}
           onChange={(e) => setSystemPrompt(e.target.value)}
-          className="min-h-[200px] max-h-[350px] bg-primary/10 border-input font-mono text-sm"
+          className="min-h-[150px] sm:min-h-[200px] max-h-[350px] bg-primary/10 border-input font-mono text-xs sm:text-sm"
         />
       </div>
 
-      <div className="grid grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
         <ConfigField label="Provider">
           <DropDownSelect value={assistant.model?.provider || ''} />
         </ConfigField>
