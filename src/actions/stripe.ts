@@ -1,5 +1,6 @@
 'use server';
 
+import { prismaClient } from '@/lib/prismaClient';
 import { changeAttendenceType } from './attendence';
 import { onAuthenticateUser } from './auth';
 import { stripe } from '@/lib/stripe';
@@ -89,6 +90,36 @@ export const createCheckoutLink = async (
       error: 'Error creating checkout link',
       status: 500,
       success: false,
+    };
+  }
+};
+
+export const stripeDisconnect = async (id: string) => {
+  try {
+    if (!id) {
+      return {
+        status: 400,
+        success: false,
+        message: 'User is missing',
+      };
+    }
+
+    await prismaClient.user.update({
+      where: { id: id },
+      data: { stripeConnectId: null },
+    });
+
+    return {
+      status: 200,
+      success: true,
+      message: 'Stripe Account Disconnected',
+    };
+  } catch (error) {
+    console.error('Failed to disconnect stripeAccount: ', error);
+    return {
+      status: 500,
+      success: false,
+      message: 'Failed to disconnect stripeAccount',
     };
   }
 };

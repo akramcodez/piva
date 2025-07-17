@@ -55,14 +55,6 @@ const Footer = (props: Props) => {
                 About
               </Link>
             </li>
-            <li>
-              <Link
-                href="/#support"
-                className="hover:text-white transition-colors"
-              >
-                Support
-              </Link>
-            </li>
           </ul>
         </nav>
 

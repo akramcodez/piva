@@ -49,7 +49,7 @@ const Sidebar = () => {
                       pathname.includes(item.link) ? 'iconBackground' : ''
                     }`}
                   >
-                    <item.icon className="w-6 h-6 sm:w-6 sm:h-6 md:w-5 md:h-5 lg:w-4 lg:h-4" />
+                    <item.icon className="w-4 h-4 sm:w-5 sm:h-5 2xl:w-5 2xl:h-6" />
                   </Link>
                 </TooltipTrigger>
                 <TooltipContent
