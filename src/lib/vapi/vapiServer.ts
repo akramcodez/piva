@@ -1,20 +1,21 @@
 import jwt from 'jsonwebtoken';
 import { VapiClient } from '@vapi-ai/server-sdk';
 
-const payload = {
-  orgId: process.env.VAPI_ORG_ID,
-  token: {
-    // This is the scope  of the token
-    tag: 'private',
-  },
-};
+// Create a function that returns a fresh client with a new token
+export function getVapiClient() {
+  const payload = {
+    orgId: process.env.VAPI_ORG_ID,
+    token: {
+      tag: 'private',
+    },
+  };
 
-const key = process.env.VAPI_PRIVATE_KEY!;
+  const key = process.env.VAPI_PRIVATE_KEY!;
 
-const options = {
-  expiresIn: 1000,
-};
+  // Keep your 20-second expiry for testing
+  const token = jwt.sign(payload, key, { expiresIn: 3600 });
 
-const token = jwt.sign(payload, key, options);
+  console.log('Generated new JWT token at:', new Date().toISOString());
 
-export const vapiServer = new VapiClient({ token: token });
+  return new VapiClient({ token });
+}

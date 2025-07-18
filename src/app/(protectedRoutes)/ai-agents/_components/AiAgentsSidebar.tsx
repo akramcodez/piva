@@ -45,17 +45,16 @@ const AiAgentsSidebar = ({ aiAgents, user }: Props) => {
         <HoverCard>
           <HoverCardTrigger>
             <Button
-              className={`w-full flex items-center gap-2 mb-4 text-white hover:cursor-pointer ${
+              className={`w-full flex items-center gap-2 mb-4 text-white/40 cursor-pointer ${
                 user?.stripeConnectId
-                  ? 'themeBg hoverthemeBg'
+                  ? 'themeBgLight'
                   : 'bg-card hover:bg-muted border border-border'
               }`}
-              disabled
-              onClick={handleCreateAssistantClick}
+              // onClick={handleCreateAssistantClick}
             >
               <Plus /> Create Assistant
             </Button>
-            <HoverCardContent className="glassBackground border-[2px] border-border px-2 py-1 absolute top-0 [word-spacing:0.1em]">
+            <HoverCardContent className="glassBackground border-[2px] border-border px-2 py-1 [word-spacing:0.1em]">
               Feature unavailable, Connect with{' '}
               <Link
                 className="themeColor underline"

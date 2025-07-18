@@ -35,7 +35,7 @@ export const AccountSettingsCard = ({ user }: Props) => {
 
   useEffect(() => {
     const checkScreenSize = () => {
-      setIsSmallScreen(window.innerWidth < 1024);
+      setIsSmallScreen(window.innerWidth < 1280);
     };
     checkScreenSize();
 
@@ -92,7 +92,7 @@ export const AccountSettingsCard = ({ user }: Props) => {
                 </Button>
               </HoverCardTrigger>
               <HoverCardContent className="glassBackground border-[2px] border-border px-2 py-1 [word-spacing:0.1em] text-sm">
-                This feature is available only on larger screens.
+                This feature is available only on larger screens
               </HoverCardContent>
             </HoverCard>
           ) : (

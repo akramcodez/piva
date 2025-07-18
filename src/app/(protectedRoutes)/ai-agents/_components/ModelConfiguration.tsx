@@ -79,11 +79,10 @@ const ModelConfiguration = () => {
         <HoverCard>
           <HoverCardTrigger>
             <Button
-              onClick={handleUpdateAssistant}
-              disabled
-              className="w-full sm:w-auto"
+              // onClick={handleUpdateAssistant}
+              /*disabled={loading}*/
+              className="w-full sm:w-auto cursor-pointer text-black/60 bg-gray-400 hover:bg-gray-400"
             >
-              {/*disabled={loading}*/}
               {loading ? (
                 <>
                   <Loader2 className="animate-spin mr-2" />

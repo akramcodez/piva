@@ -1,11 +1,13 @@
 'use server';
 
 import { aiAgentPrompt } from '@/lib/data';
-import { vapiServer } from '@/lib/vapi/vapiServer';
+import { getVapiClient } from '@/lib/vapi/vapiServer';
 
 export const getAllAssistants = async () => {
   try {
-    const getAllAgents = await vapiServer.assistants.list();
+    const vapiClient = getVapiClient();
+    const getAllAgents = await vapiClient.assistants.list();
+
     return {
       success: true,
       status: 200,
@@ -13,6 +15,23 @@ export const getAllAssistants = async () => {
     };
   } catch (error) {
     console.error('Error fetching agents:', error);
+    if (
+      typeof error === 'object' &&
+      error !== null &&
+      ((error as any).status === 401 ||
+        ((error as any).body &&
+          (error as any).body.message === 'JWT has expired.') ||
+        (typeof (error as any).message === 'string' &&
+          (error as any).message.includes('JWT has expired')))
+    ) {
+      return {
+        success: false,
+        status: 401,
+        message: 'Your session has expired',
+        jwtExpired: true,
+      };
+    }
+
     return {
       success: false,
       status: 500,
@@ -23,7 +42,8 @@ export const getAllAssistants = async () => {
 
 export const createAssistant = async (name: string) => {
   try {
-    const createAssistant = await vapiServer.assistants.create({
+    const vapiClient = getVapiClient();
+    const createAssistant = await vapiClient.assistants.create({
       name,
       firstMessage: `Hi there, this is the ${name} for customer support. How can I help you today?`,
       model: {
@@ -59,7 +79,8 @@ export const updateAssistant = async (
   systemPrompt: string,
 ) => {
   try {
-    const updateAssistant = await vapiServer.assistants.update(assistantId, {
+    const vapiClient = getVapiClient();
+    const updateAssistant = await vapiClient.assistants.update(assistantId, {
       firstMessage: firstMessage,
       model: {
         model: 'gpt-4o',
