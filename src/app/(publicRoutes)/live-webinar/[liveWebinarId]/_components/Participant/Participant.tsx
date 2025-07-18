@@ -25,7 +25,7 @@ type Props = {
 
 const Participant = ({ apiKey, callId, webinar, product }: Props) => {
   const { attendee } = useAttendeeStore();
-  const [showChat, setShowChat] = useState(true);
+  const [showChat, setShowChat] = useState(false);
   const [client, setClient] = useState<StreamVideoClient | null>(null);
   const [call, setCall] = useState<Call | null>(null);
   const [token, setToken] = useState<string | null>(null);

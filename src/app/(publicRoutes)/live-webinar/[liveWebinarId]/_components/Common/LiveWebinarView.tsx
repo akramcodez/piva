@@ -18,6 +18,7 @@ import { changeWebinarStatus } from '@/actions/webinar';
 import { toast } from 'sonner';
 import ObsDialogBox from './ObsDialogBox';
 import PurchaseDialogBox from './PurchaseDialogBox';
+import { RiRobot3Line } from 'react-icons/ri';
 
 type Props = {
   showChat: boolean;
@@ -181,7 +182,11 @@ const LiveWebinarView = ({
       </div>
 
       <div className="flex flex-1 p-2 gap-2 overflow-hidden">
-        <div className="flex-1 rounded-lg overflow-hidden border border-border flex flex-col bg-card">
+        <div
+          className={`flex-1 rounded-lg sm:flex overflow-hidden border border-border flex-col bg-card ${
+            showChat ? 'hidden' : 'flex'
+          }`}
+        >
           <div className="flex-1 relative overflow-hidden">
             {hostParticipant ? (
               <div className="w-full h-full flex items-center justify-center">
@@ -215,17 +220,19 @@ const LiveWebinarView = ({
             )}
           </div>
 
-          <div className="p-2 border-t border-border flex items-center justify-between py-2">
-            <div className="flex items-center space-x-2">
-              <div className="text-sm font- capitalize">{webinar?.title}</div>
+          <div className="p-2 border-t border-border flex flex-col sm:flex-row items-center justify-between py-2 gap-2">
+            <div className="flex items-center justify-center space-x-2 w-full sm:w-auto mb-2 sm:mb-0">
+              <div className="text-sm font- capitalize font-bold">
+                {webinar?.title}
+              </div>
             </div>
 
             {isHost && (
-              <div className="flex items-center space-x-3">
+              <div className="flex flex-col sm:flex-row flex-wrap gap-2 w-full sm:w-auto items-center">
                 <Button
                   onClick={() => setObsDialogBox(true)}
                   variant={'outline'}
-                  className="mr-2"
+                  className="w-full sm:w-auto  cursor-pointer"
                 >
                   Get Obs Creds
                 </Button>
@@ -235,12 +242,15 @@ const LiveWebinarView = ({
                       type: 'start_live',
                     });
                   }}
-                  variant="outline"
-                  className="mr-2"
+                  className="w-full sm:w-auto bg-green-950/40 hover:bg-green-900 border border-gray-500 rounded-md text-white cursor-pointer"
                 >
                   Go Live
                 </Button>
-                <Button onClick={handleEndStream} disabled={loading}>
+                <Button
+                  onClick={handleEndStream}
+                  disabled={loading}
+                  className="w-full sm:w-auto bg-red-950/40 hover:bg-red-900 border border-gray-500 rounded-md text-white cursor-pointer"
+                >
                   {loading ? (
                     <>
                       <Loader2 className="animate-spin mr-2" />
@@ -250,10 +260,17 @@ const LiveWebinarView = ({
                     'End Stream'
                   )}
                 </Button>
-                <Button onClick={handleCTAButtonClick}>
-                  {webinar.ctaType === CtaTypeEnum.BOOK_A_CALL
-                    ? 'BOOK_A_CALL'
-                    : 'Buy Now'}
+                <Button
+                  onClick={handleCTAButtonClick}
+                  className="w-full sm:w-auto bg-blue-950/40 hover:bg-blue-900 border border-gray-500 rounded-md text-white cursor-pointer"
+                >
+                  {webinar.ctaType === CtaTypeEnum.BOOK_A_CALL ? (
+                    <>
+                      <RiRobot3Line /> <span> Book a Call</span>
+                    </>
+                  ) : (
+                    'Buy Now'
+                  )}
                 </Button>
               </div>
             )}
@@ -263,7 +280,7 @@ const LiveWebinarView = ({
         {showChat && (
           <Chat client={chatClient}>
             <Channel channel={channel}>
-              <div className="w-72 bg-card border border-border overflow-hidden flex flex-col">
+              <div className="w-[96vw] sm:w-72 bg-card border border-border overflow-hidden flex flex-col">
                 <div className="py-2 text-primary px-3 border-b border-border font-medium flex items-center justify-between">
                   <span className="text-white">Chat</span>
                   <span className="text-xs text-white bg-muted px-2 py-0.5 rounded-full">
