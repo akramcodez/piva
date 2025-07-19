@@ -3,7 +3,7 @@ import React from 'react';
 
 type Props = {
   className?: string;
-  children: React.ReactNode; // Corrected from 'clildren'
+  children: React.ReactNode;
 };
 
 const PurpleIcon = ({ className, children }: Props) => {

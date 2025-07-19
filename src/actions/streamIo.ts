@@ -74,7 +74,6 @@ export const createAndStartStream = async (webinar: Webinar) => {
 
     const call = getStreamClient.video.call('livestream', webinar.id);
 
-    // Create the call
     await call.getOrCreate({
       data: {
         created_by_id: webinar.presenterId,
@@ -88,11 +87,6 @@ export const createAndStartStream = async (webinar: Webinar) => {
     });
 
     await call.goLive();
-
-    // await prismaClient.webinar.update({
-    //   where: { id: webinar.id },
-    //   data: { webinarStatus: 'LIVE' },
-    // });  //check
 
     console.log('Stream created and started successfully');
     return { success: true, callId: webinar.id };

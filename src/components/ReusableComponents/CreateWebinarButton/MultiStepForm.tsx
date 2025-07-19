@@ -195,7 +195,6 @@ const MultiStepForm = ({ steps, onComplete }: Props) => {
           </div>
         </div>
 
-        {/* Right side - Content */}
         <div className="w-full md:w-3/3 p-4 overflow-y-auto max-h-[50vh] sm:max-h-[75vh]">
           <div className="max-w-5xl mx-auto">
             <AnimatePresence mode="wait">

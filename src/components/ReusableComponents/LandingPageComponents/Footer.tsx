@@ -1,26 +1,24 @@
 import React from 'react';
 import Link from 'next/link';
 import { FaXTwitter, FaLinkedinIn, FaGithub } from 'react-icons/fa6'; // Assuming you have these icons installed
+import { Triangle } from 'lucide-react';
 
-type Props = {};
-
-const Footer = (props: Props) => {
+const Footer = () => {
   const currentYear = new Date().getFullYear();
 
   return (
     <footer className="glassBackground text-gray-300 py-5 px-4 border-t-[1px] border-t-gray-700">
       <div className="container mx-auto flex flex-col items-center text-center">
-        {/* Logo or Site Title */}
-        <div className="mb-6">
+        <div className="mb-6 flex items-center gap-2">
           <Link
             href="/"
-            className="text-2xl font-bold text-white ubuntu-medium"
+            className="text-2xl font-bold text-white ubuntu-medium flex items-center gap-2"
           >
-            PIVA
+            <Triangle className="themeColor" strokeWidth={2.5} size={'25px'} />
+            <span className="text-2xl">PIVA</span>
           </Link>
         </div>
 
-        {/* Navigation Links */}
         <nav className="mb-6">
           <ul className="flex flex-wrap justify-center gap-x-3 sm:gap-x-6 sm:gap-y-3 text-sm sm:text-base">
             <li>
@@ -58,9 +56,7 @@ const Footer = (props: Props) => {
           </ul>
         </nav>
 
-        {/* Social Media Links */}
         <div className="flex gap-6 mb-6">
-          {/* Replace href with your actual profile links */}
           <Link
             href="https://x.com/akramcodez"
             target="_blank"
@@ -87,7 +83,6 @@ const Footer = (props: Props) => {
           </Link>
         </div>
 
-        {/* Copyright */}
         <p className="text-sm opacity-70">
           &copy; {currentYear} Piva. All rights reserved.
         </p>

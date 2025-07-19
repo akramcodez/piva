@@ -2,9 +2,7 @@ import React from 'react';
 import Link from 'next/link';
 import { FaXTwitter, FaLinkedinIn, FaGithub } from 'react-icons/fa6';
 
-type Props = {};
-
-const About = (props: Props) => {
+const About = () => {
   return (
     <div className="flex flex-col items-center py-16 px-4">
       <div className="text-center mb-10">
@@ -13,9 +11,7 @@ const About = (props: Props) => {
         </h2>
       </div>
 
-      {/* Container for the two sections */}
       <div className="flex flex-col lg:flex-row items-center lg:items-start gap-12 lg:gap-16 max-w-6xl w-full">
-        {/* Section About Piva */}
         <div className="text-center lg:text-left lg:w-1/2 rounded-lg glassBackground themeBorderBig p-5 sm:p-8 sm:py-10">
           <h3 className="text-xl font-semibold text-white mb-2 sm:mb-4 ubuntu-medium">
             About Piva

@@ -5,10 +5,8 @@ import {
   FiBox,
   FiCalendar,
   FiVideo,
-  FiArrowRight,
 } from 'react-icons/fi';
 import { RiRobot3Line } from 'react-icons/ri';
-import { LuZap } from 'react-icons/lu';
 import Link from 'next/link';
 import { User } from '@prisma/client';
 

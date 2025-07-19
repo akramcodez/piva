@@ -5,9 +5,7 @@ import { CiEdit } from 'react-icons/ci';
 import { MdOutlineAddShoppingCart } from 'react-icons/md';
 import Link from 'next/link';
 
-type Props = {};
-
-const Features = (props: Props) => {
+const Features = () => {
   const coreFeatures = [
     {
       id: 1,

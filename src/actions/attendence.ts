@@ -120,7 +120,6 @@ export const getWebinarAttendence = async (
       }
     }
 
-    // revalidatePath(`/webinars/${webinarId}/pipeline`);
     return {
       success: true,
       data: result,
@@ -195,7 +194,6 @@ export const registerAttendee = async ({
       };
     }
 
-    //create attendence record
     const attendance = await prismaClient.attendance.create({
       data: {
         attendedType: AttendedTypeEnum.REGISTERED,

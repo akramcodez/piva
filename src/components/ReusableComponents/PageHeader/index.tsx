@@ -2,8 +2,6 @@
 
 import React from 'react';
 import PurpleIcon from '../PurpleIcon';
-import { Search } from 'lucide-react';
-import { Input } from '@/components/ui/input';
 
 type Props = {
   heading?: string;
@@ -20,7 +18,6 @@ const PageHeader = ({
   leftIcon,
   rightIcon,
   children,
-  placeholder,
 }: Props) => {
   return (
     <div className="w-full flex flex-col gap-8">
@@ -41,14 +38,6 @@ const PageHeader = ({
         </div>
 
         <div className="w-full flex flex-col gap-4 items-start justify-start">
-          {/* <div className="w-full md:flex-1 lg:w-[60vw] flex items-center gap-2 border rounded-md p-1 shadow-sm">
-            <Search className="h-7 w-7 text-gray-500 pl-2" />
-            <Input
-              type="text"
-              placeholder={placeholder || 'Search...'}
-              className="flex-1 border-none outline-none"
-            />
-          </div> */}
           <div
             className="w-full overflow-x-auto flex flex-wrap [&::-webkit-scrollbar]:h-1.5 
             [&::-webkit-scrollbar-thumb]:bg-gray-300 [&::-webkit-scrollbar-thumb]:rounded-full 

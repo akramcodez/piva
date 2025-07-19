@@ -36,12 +36,9 @@ const CustomLivestreamPlayer = ({
     setCall(myCall);
     myCall.join({ create: true }).then(
       () => setCall(myCall),
-      () => console.log('Failed to join the Call'), //check
+      () => console.log('Failed to join the Call'),
     );
     return () => {
-      // myCall.leave().catch((e) => {
-      //   console.log('Failed to Leave Call', e);
-      // });
       setCall(undefined);
     };
   }, [client, callId, callType]);

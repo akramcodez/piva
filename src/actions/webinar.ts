@@ -203,8 +203,6 @@ export const updateWebinar = async (
   }
 };
 
-//TODO: update frontend
-
 export const getWebinarByPresenterId = async (
   presenterId: string,
   webinarStatus?: string,

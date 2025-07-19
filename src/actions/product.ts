@@ -85,7 +85,7 @@ export const updateProduct = async (productId: string, data: any) => {
         price: Number(data.price),
         currency: data.currency,
         status: data.status,
-        image: data.imageUrl,
+        image: data.image,
         updatedAt: new Date(),
       },
     });

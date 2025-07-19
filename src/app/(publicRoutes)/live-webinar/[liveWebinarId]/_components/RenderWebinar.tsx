@@ -7,11 +7,7 @@ import { usePathname, useRouter } from 'next/navigation';
 import { useAttendeeStore } from '@/store/useAttendeeStore';
 import { toast } from 'sonner';
 import LiveStreamState from './LiveWebinar/LiveStreamState';
-import {
-  ClientProduct,
-  StreamCallRecording,
-  WebinarWithPresenter,
-} from '@/lib/type';
+import { ClientProduct, WebinarWithPresenter } from '@/lib/type';
 import Participant from './Participant/Participant';
 
 type Props = {

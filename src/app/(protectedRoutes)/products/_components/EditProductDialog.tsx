@@ -223,14 +223,14 @@ const EditProductDialog = ({ open, onClose, product }: Props) => {
             </Select>
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
-            <Label htmlFor="imageUrl" className="text-right">
+            <Label htmlFor="image" className="text-right">
               Img URL
             </Label>
             <Input
-              id="imageUrl"
+              id="image"
               type="url"
               value={formData.image}
-              onChange={(e) => updateFormData('imageUrl', e.target.value)}
+              onChange={(e) => updateFormData('image', e.target.value)}
               className="col-span-3"
               placeholder="Image URL"
             />

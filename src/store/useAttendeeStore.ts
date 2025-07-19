@@ -8,7 +8,6 @@ type AttendeeStore = {
   clearAttendee: () => void;
 };
 
-//create the Zustand store with persistence
 export const useAttendeeStore = create<AttendeeStore>()(
   persist(
     (set) => ({

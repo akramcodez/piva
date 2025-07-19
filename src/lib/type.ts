@@ -119,7 +119,6 @@ export type AttendanceData = {
   users: AttendanceUser[];
 };
 
-//remove this if not using in future
 export type WebinarAttendanceResponse = {
   success: boolean;
   data?: Record<AttendedTypeEnum, AttendanceData>;

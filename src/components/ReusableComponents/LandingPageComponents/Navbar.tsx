@@ -40,14 +40,18 @@ const Navbar = ({ user }: Props) => {
         ))}
       </div>
       {!user && (
-        <Button className="sm:flex items-center hidden animated-gradient-bg text-white border-[0.1rem] border-[#2c8c88]">
-          <Link href="/sign-in">Let's Start</Link>
-        </Button>
+        <Link href="/sign-in">
+          <Button className="sm:flex items-center hidden animated-gradient-bg text-white border-[0.1rem] border-[#2c8c88]">
+            Let's Start
+          </Button>
+        </Link>
       )}
       {user && (
-        <Button className="sm:flex items-center hidden animated-gradient-bg text-white border-[0.1rem] border-[#2c8c88]">
-          <Link href="/home">Dashboard</Link>
-        </Button>
+        <Link href="/home">
+          <Button className="sm:flex items-center hidden animated-gradient-bg text-white border-[0.1rem] border-[#2c8c88]">
+            Dashboard
+          </Button>
+        </Link>
       )}
       <div className="sm:hidden flex">
         <HoverCard>

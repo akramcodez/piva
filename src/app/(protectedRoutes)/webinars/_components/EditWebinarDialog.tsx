@@ -524,7 +524,6 @@ const EditWebinarDialog = ({
             </div>
           </div>
 
-          {/* Additional Information Section */}
           <div className="space-y-4">
             <h3 className="text-sm sm:text-lg font-medium mb-5">
               Additional Information
@@ -599,7 +598,6 @@ const EditWebinarDialog = ({
             )}
           </div>
 
-          {/* Submit Button */}
           <div className="flex justify-end pt-6">
             <Button
               type="submit"

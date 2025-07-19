@@ -158,7 +158,6 @@ const AutoConnectCall = ({
     try {
       setCallStatus(CallStatus.CONNECTING);
 
-      // Defensive: stop any previous call before starting a new one
       if (typeof vapi.stop === 'function') {
         await vapi.stop();
       }
@@ -177,13 +176,13 @@ const AutoConnectCall = ({
   };
 
   // Main useEffect controls the call
-  // useEffect(() => {
-  //   startCall();
+  useEffect(() => {
+    startCall();
 
-  //   return () => {
-  //     stopCall();
-  //   };
-  // }, []);
+    return () => {
+      stopCall();
+    };
+  }, []);
 
   useEffect(() => {
     const onCallStart = async () => {

@@ -11,8 +11,6 @@ import { getProductsByOwnerId } from '@/actions/product';
 import { ClientProduct } from '@/lib/type';
 import { getAllAssistants } from '@/actions/vapi';
 
-//todo : fix the tab trigger style
-
 type Props = {
   searchParams: Promise<{
     webinarStatus: string;

@@ -32,8 +32,7 @@ const page = async ({ params, searchParams }: Props) => {
   }
   const checkUser = await onAuthenticateUser();
 
-  //TODO: Create api keys
-  const apiKey = process.env.NEXT_PUBLIC_STREAM_API_KEY as string; //check
+  const apiKey = process.env.NEXT_PUBLIC_STREAM_API_KEY as string;
 
   const product = webinarData.priceId
     ? await findOneProduct(webinarData.priceId)

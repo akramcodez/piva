@@ -3,12 +3,10 @@
 import React, { useState } from 'react';
 import { usePathname, useRouter } from 'next/navigation';
 import { Button } from '@/components/ui/button';
-import { ArrowLeft, Zap } from 'lucide-react';
-import PurpleIcon from '../PurpleIcon';
-import { Product, User } from '@prisma/client';
+import { ArrowLeft } from 'lucide-react';
+import { User } from '@prisma/client';
 import CreateWebinarButton from '../CreateWebinarButton';
 import { Plus } from 'lucide-react';
-import Stripe from 'stripe';
 import { toast } from 'sonner';
 import { ClientProduct } from '@/lib/type';
 import { Assistant } from '@vapi-ai/server-sdk/api';
