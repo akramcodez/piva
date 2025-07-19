@@ -7,13 +7,13 @@ const isPublicRoute = createRouteMatcher([
   '/api(.*)',
   '/live-webinar(.*)',
   '/',
+  '/callback(.*)',
 ]);
 
 export default clerkMiddleware(async (auth, req) => {
   if (!isPublicRoute(req)) {
     const session = await auth();
     if (!session.userId) {
-      // Redirect to sign-in page
       return NextResponse.redirect(new URL('/sign-in', req.url));
     }
   }

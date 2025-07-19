@@ -1,21 +1,39 @@
+'use client';
+
+import { useEffect } from 'react';
+import { useRouter } from 'next/navigation';
+import { useAuth } from '@clerk/nextjs';
 import { onAuthenticateUser } from '@/actions/auth';
-import { redirect } from 'next/navigation';
+import Loading from './loading';
 
-//todo implemet the auth callback page
-export const dynamic = 'force-dynamic';
+const AuthCallbackPage = () => {
+  const router = useRouter();
+  const { isLoaded, isSignedIn } = useAuth();
 
-const AuthCallbackPage = async () => {
-  const auth = await onAuthenticateUser();
-  if (auth.status === 200 || auth.status === 201) {
-    redirect('/home');
-  } else if (
-    auth.status === 403 ||
-    auth.status === 500 ||
-    auth.status === 400
-  ) {
-    redirect('/');
-  }
-  return <div>AuthCallbackPage</div>;
+  useEffect(() => {
+    if (isLoaded && isSignedIn) {
+      const handleAuthentication = async () => {
+        try {
+          const auth = await onAuthenticateUser(); // Call your server action
+
+          if (auth.status === 201 || auth.status === 200) {
+            router.push('/home');
+          } else {
+            router.push('/');
+          }
+        } catch (error) {
+          console.error('Error during authentication callback:', error);
+          router.push('/');
+        }
+      };
+
+      handleAuthentication();
+    } else if (isLoaded && !isSignedIn) {
+      router.push('/sign-in');
+    }
+  }, [isLoaded, isSignedIn, router]);
+
+  return <Loading />;
 };
 
 export default AuthCallbackPage;
