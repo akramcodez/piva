@@ -17,7 +17,8 @@ export default async function Layout({ children }: Props) {
     if (!userExist?.user) {
       redirect('/sign-in');
     }
-  } catch (error) {
+  } catch (error: unknown) {
+    console.error('Error during authentication:', error);
     redirect('/sign-in');
   }
 

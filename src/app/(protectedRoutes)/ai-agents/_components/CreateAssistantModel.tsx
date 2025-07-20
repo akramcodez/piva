@@ -37,7 +37,8 @@ const CreateAssistantModel = ({ isOpen, onClose }: Props) => {
       setName('');
       onClose();
       toast.success('Assistant created successfully');
-    } catch (error) {
+    } catch (error: unknown) {
+      console.error('Error creating assistant:', error);
       toast.error('failed to create Assistant');
     } finally {
       setLoading(false);

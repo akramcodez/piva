@@ -5,8 +5,8 @@ import { Input } from '@/components/ui/input';
 import { useWebinarStore } from '@/store/useWebinarStore';
 import { cn } from '@/lib/utils';
 import React, { useState } from 'react';
-import { Plus, Search, X } from 'lucide-react';
-import { CtaTypeEnum, Product, ProductStatusEnum } from '@prisma/client';
+import { Plus, X } from 'lucide-react';
+import { CtaTypeEnum, ProductStatusEnum } from '@prisma/client';
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import {
   Select,
@@ -15,7 +15,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
-import Stripe from 'stripe';
 import { ClientProduct } from '@/lib/type';
 import { Assistant } from '@vapi-ai/server-sdk/api';
 import Link from 'next/link';

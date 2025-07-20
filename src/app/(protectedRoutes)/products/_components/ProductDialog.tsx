@@ -24,6 +24,7 @@ import { Loader2 } from 'lucide-react';
 import { toast } from 'sonner';
 import { createProduct } from '@/actions/product';
 import { CurrencyEnum, ProductStatusEnum } from '@prisma/client';
+import { validateImageUrl } from '@/lib/utils/validateImageUrl';
 
 type Props = {
   open: boolean;
@@ -53,6 +54,16 @@ const ProductDialog = ({
     setIsSubmitting(true);
 
     try {
+      // Validate image URL if provided
+      if (imageUrl) {
+        const imageValidation = validateImageUrl(imageUrl);
+        if (!imageValidation.isValid) {
+          toast.error(imageValidation.message);
+          setIsSubmitting(false);
+          return;
+        }
+      }
+
       const productData = {
         name,
         description: description || undefined,
@@ -92,12 +103,24 @@ const ProductDialog = ({
       } else {
         toast.error(result.message || 'Failed to create product.');
       }
-    } catch (error) {
+    } catch (error: unknown) {
       console.error('Error creating product:', error);
       toast.error('An unexpected error occurred.');
     } finally {
       setIsSubmitting(false);
     }
+  };
+
+  // Add real-time validation
+  const handleImageUrlChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const url = e.target.value;
+    const validation = validateImageUrl(url);
+
+    if (url && !validation.isValid) {
+      toast.error(validation.message);
+    }
+
+    setImageUrl(url);
   };
 
   return (
@@ -195,9 +218,9 @@ const ProductDialog = ({
               id="imageUrl"
               type="url"
               value={imageUrl}
-              onChange={(e) => setImageUrl(e.target.value)}
+              onChange={handleImageUrlChange}
               className="col-span-3"
-              placeholder="Image URL"
+              placeholder="Image URL only"
             />
           </div>
         </form>

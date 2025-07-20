@@ -4,7 +4,6 @@ import { WebinarStatusEnum } from '@prisma/client';
 import React, { useEffect, useState } from 'react';
 import { cn } from '@/lib/utils';
 import { changeWebinarStatus } from '@/actions/webinar';
-import { clearInterval, setInterval } from 'node:timers';
 import { useRouter } from 'next/navigation';
 
 type Props = {
@@ -58,11 +57,10 @@ const CountdownTimer = ({
                   webinarId,
                   WebinarStatusEnum.WAITING_ROOM,
                 );
-              } catch (error) {
+              } catch (error: unknown) {
                 console.error(error);
               }
             };
-            // callback the async function separately
             updateStatus();
           }
         }

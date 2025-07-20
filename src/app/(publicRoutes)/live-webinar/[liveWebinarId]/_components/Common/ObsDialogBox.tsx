@@ -43,9 +43,9 @@ const ObsDialogBox = ({ open, onOpenChange, rtmpURL, streamKey }: Props) => {
                 <ol className="list-decimal list-inside space-y-1 text-xs">
                   <li>Open OBS Studio</li>
                   <li>Go to Settings → Stream</li>
-                  <li>Select "Custom" as service</li>
+                  <li>Select &quot;Custom&quot; as service</li>
                   <li>Copy the RTMP URL and Stream Key below</li>
-                  <li>Click "Start Streaming"</li>
+                  <li>Click &quot;Start Streaming&quot;</li>
                 </ol>
               </div>
             </div>

@@ -60,7 +60,7 @@ export async function GET(request: NextRequest) {
         ),
       );
     }
-  } catch (error) {
+  } catch (error: unknown) {
     console.error('Error in Stripe Connect callback:', error);
     return NextResponse.redirect(
       new URL(

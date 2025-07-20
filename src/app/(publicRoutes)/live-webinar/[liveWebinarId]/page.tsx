@@ -2,9 +2,8 @@ import { onAuthenticateUser } from '@/actions/auth';
 import { getWebinarById } from '@/actions/webinar';
 import React from 'react';
 import RenderWebinar from './_components/RenderWebinar';
-import { ClientProduct, WebinarWithPresenter } from '@/lib/type';
+import { WebinarWithPresenter } from '@/lib/type';
 import { findOneProduct } from '@/actions/product';
-import { Product } from '@prisma/client';
 
 type Props = {
   params: Promise<{

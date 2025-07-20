@@ -5,7 +5,7 @@ import React from 'react';
 import { getWebinarAttendence } from '@/actions/attendence';
 import PipelineLayout from './_components/PipelineLayout';
 import { formatColumnTitle } from './_components/utils';
-import { demoData } from './_components/__test__/data';
+// import { demoData } from './_components/__test__/data';
 
 type Props = {
   params: { webinarId: string };

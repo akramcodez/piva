@@ -24,7 +24,7 @@ const WebinarUpcomingState = ({ webinar, currentUser }: Props) => {
   const router = useRouter();
 
   const selectImg = () => {
-    let num = Math.floor(Math.random() * 10) + 1;
+    const num = Math.floor(Math.random() * 10) + 1;
     if (num <= 3) {
       setPic('/webinarImg.jpg');
     } else if (num > 3 && num <= 5) {
@@ -55,9 +55,12 @@ const WebinarUpcomingState = ({ webinar, currentUser }: Props) => {
 
       toast.success('Webinar started successfully');
       router.refresh();
-    } catch (error: any) {
+    } catch (error: unknown) {
       console.error('Error starting webinar:', error);
-      if (error.message === 'You already have a live stream running') {
+      if (
+        error instanceof Error &&
+        error.message === 'You already have a live stream running'
+      ) {
         toast.error(
           'You already have another live webinar running. Please end it before starting this one.',
         );

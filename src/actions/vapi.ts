@@ -13,23 +13,38 @@ export const getAllAssistants = async () => {
       status: 200,
       data: getAllAgents,
     };
-  } catch (error) {
+  } catch (error: unknown) {
     console.error('Error fetching agents:', error);
-    if (
-      typeof error === 'object' &&
-      error !== null &&
-      ((error as any).status === 401 ||
-        ((error as any).body &&
-          (error as any).body.message === 'JWT has expired.') ||
-        (typeof (error as any).message === 'string' &&
-          (error as any).message.includes('JWT has expired')))
-    ) {
-      return {
-        success: false,
-        status: 401,
-        message: 'Your session has expired',
-        jwtExpired: true,
-      };
+
+    if (typeof error === 'object' && error !== null) {
+      const status =
+        'status' in error ? (error as { status: unknown }).status : undefined;
+      const body =
+        'body' in error ? (error as { body: unknown }).body : undefined;
+      const message =
+        'message' in error
+          ? (error as { message: unknown }).message
+          : undefined;
+
+      const isExpiredByStatus = status === 401;
+
+      const isExpiredByBody =
+        typeof body === 'object' &&
+        body !== null &&
+        'message' in body &&
+        (body as { message: unknown }).message === 'JWT has expired.';
+
+      const isExpiredByMessage =
+        typeof message === 'string' && message.includes('JWT has expired');
+
+      if (isExpiredByStatus || isExpiredByBody || isExpiredByMessage) {
+        return {
+          success: false,
+          status: 401,
+          message: 'Your session has expired',
+          jwtExpired: true,
+        };
+      }
     }
 
     return {
@@ -63,7 +78,7 @@ export const createAssistant = async (name: string) => {
       status: 200,
       data: createAssistant,
     };
-  } catch (error) {
+  } catch (error: unknown) {
     console.error('Error creating assistant:', error);
     return {
       success: false,
@@ -100,7 +115,7 @@ export const updateAssistant = async (
       status: 200,
       data: updateAssistant,
     };
-  } catch (error) {
+  } catch (error: unknown) {
     console.error('Error updating assistant: ', error);
     return {
       success: false,

@@ -75,7 +75,7 @@ const MultiStepForm = ({ steps, onComplete }: Props) => {
           setValidationError(result.message);
         }
         router.refresh();
-      } catch (error) {
+      } catch (error: unknown) {
         console.error('Error creating webinar:', error);
         toast.error('An error occurred while creating the webinar');
         setValidationError('An error occurred while creating the webinar');

@@ -9,8 +9,8 @@ import { Plus, Search } from 'lucide-react';
 import React, { useState } from 'react';
 import CreateAssistantModel from './CreateAssistantModel';
 import { User } from '@prisma/client';
-import { toast } from 'sonner';
-import { useRouter } from 'next/navigation';
+// import { toast } from 'sonner';
+// import { useRouter } from 'next/navigation';
 import {
   HoverCard,
   HoverCardContent,
@@ -26,18 +26,18 @@ type Props = {
 const AiAgentsSidebar = ({ aiAgents, user }: Props) => {
   const [isModelOpen, setIsModelOpen] = useState(false);
   const { assistant, setAssistant } = useAiAgentStore();
-  const router = useRouter();
+  // const router = useRouter();
 
-  const handleCreateAssistantClick = () => {
-    if (user?.stripeConnectId) {
-      setIsModelOpen(true);
-    } else {
-      toast.warning(
-        'Please connect your Stripe account in settings to create Assistants',
-      );
-      router.push('/settings');
-    }
-  };
+  // const handleCreateAssistantClick = () => {
+  //   if (user?.stripeConnectId) {
+  //     setIsModelOpen(true);
+  //   } else {
+  //     toast.warning(
+  //       'Please connect your Stripe account in settings to create Assistants',
+  //     );
+  //     router.push('/settings');
+  //   }
+  // };
 
   return (
     <div className="md:w-[300px] border-b  md:border-r border-border flex flex-col">

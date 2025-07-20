@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState, useRef, useCallback } from 'react';
 import { ClientProduct, WebinarWithPresenter } from '@/lib/type';
 import { vapi } from '@/lib/vapi/vapiclient';
 import { changeCallStatus } from '@/actions/attendence';
@@ -72,7 +72,7 @@ const AutoConnectCall = ({
       .padStart(2, '0')}`;
   };
 
-  const cleanup = () => {
+  const cleanup = useCallback(() => {
     if (refs.current.countdownTimer) {
       clearInterval(refs.current.countdownTimer);
       refs.current.countdownTimer = undefined;
@@ -87,9 +87,9 @@ const AutoConnectCall = ({
       refs.current.audioStream.getTracks().forEach((track) => track.stop());
       refs.current.audioStream = null;
     }
-  };
+  }, []);
 
-  const setupAudio = async () => {
+  const setupAudio = useCallback(async () => {
     try {
       const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
       refs.current.audioStream = stream;
@@ -133,12 +133,12 @@ const AutoConnectCall = ({
       return () => {
         running = false;
       };
-    } catch (error) {
+    } catch (error: unknown) {
       console.error('Error in Audio: ', error);
     }
-  };
+  }, [assistantIsSpeaking, isMicMuted]);
 
-  const stopCall = async () => {
+  const stopCall = useCallback(async () => {
     try {
       vapi.stop();
       setCallStatus(CallStatus.FINISHED);
@@ -148,13 +148,13 @@ const AutoConnectCall = ({
         throw new Error('Failed to update call status');
       }
       toast.success('Call Ended Successfully');
-    } catch (error) {
+    } catch (error: unknown) {
       console.error('Failed to stop call', error);
       toast.error('Failed to Stop call, Try Again');
     }
-  };
+  }, [userId, cleanup]);
 
-  const startCall = async () => {
+  const startCall = useCallback(async () => {
     try {
       setCallStatus(CallStatus.CONNECTING);
 
@@ -168,12 +168,12 @@ const AutoConnectCall = ({
         throw new Error('Failed to update call status');
       }
       toast.success('Call started successfully');
-    } catch (error) {
+    } catch (error: unknown) {
       console.error('Failed to start Call: ', error);
       toast.error('Failed to start call. Please try again');
       setCallStatus(CallStatus.FINISHED);
     }
-  };
+  }, [assistantId, userId]);
 
   // Main useEffect controls the call
   useEffect(() => {
@@ -182,13 +182,13 @@ const AutoConnectCall = ({
     return () => {
       stopCall();
     };
-  }, []);
+  }, [startCall, stopCall]);
 
   useEffect(() => {
     const onCallStart = async () => {
       console.log('Call Started');
       setCallStatus(CallStatus.ACTIVE);
-      setupAudio();
+      await setupAudio();
 
       setTimeRemaining(callTimeLimit);
       refs.current.countdownTimer = setInterval(() => {
@@ -236,7 +236,7 @@ const AutoConnectCall = ({
       vapi.off('speech-end', onSpeechEnd);
       vapi.off('error', onError);
     };
-  }, [userName, callTimeLimit]);
+  }, [userName, callTimeLimit, startCall, stopCall, setupAudio, cleanup]);
 
   return (
     <div className="flex flex-col h-[calc(100vh-80px)] bg-background">

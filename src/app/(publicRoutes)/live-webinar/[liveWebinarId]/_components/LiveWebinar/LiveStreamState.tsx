@@ -46,7 +46,7 @@ const LiveStreamState = ({ apiKey, callId, webinar, user, product }: Props) => {
 
         setHostToken(token);
         setClient(streamClient);
-      } catch (error) {
+      } catch (error: unknown) {
         console.log('Error initializating Stream Client: ', error);
       }
     };

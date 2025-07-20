@@ -74,7 +74,7 @@ const Participant = ({ apiKey, callId, webinar, product }: Props) => {
         setCall(streamCall);
         setConnectionstatus('connected');
         clientInitialized.current = true;
-      } catch (error) {
+      } catch (error: unknown) {
         console.log('Error initializing client or joining call:', error);
         setConnectionstatus('failed');
         setErrorMessage(
@@ -98,7 +98,7 @@ const Participant = ({ apiKey, callId, webinar, product }: Props) => {
             currentClient.disconnectUser();
             clientInitialized.current = false;
           })
-          .catch((error: unknown) => {
+          .catch((error) => {
             console.log('Error leaving call', error);
           });
       }

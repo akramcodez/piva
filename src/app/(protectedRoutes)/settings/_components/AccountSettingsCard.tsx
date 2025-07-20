@@ -57,7 +57,7 @@ export const AccountSettingsCard = ({ user }: Props) => {
       } else {
         toast.error(result.message || 'Failed to Delete Account');
       }
-    } catch (error) {
+    } catch (error: unknown) {
       console.error('Failed to Delete Account: ', error);
       toast.error('Server Failed to Delete Account');
     }

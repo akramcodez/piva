@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React from 'react';
 import { Button } from '@/components/ui/button';
 import { navbarOptions } from '@/lib/data';
 import { Triangle } from 'lucide-react';
@@ -18,8 +18,6 @@ type Props = {
 };
 
 const Navbar = ({ user }: Props) => {
-  const [menuOpen, setMenuOpen] = useState(false);
-
   return (
     <div className="flex items-center justify-between w-full h-[60px] sm:h-[70px] border-b-[1px] border-b-gray-700 glassBackground sticky top-0 z-20 overflow-hidden px-6 sm:px-6 md:px-6 lg:px-[90px] xl:px-[100px] 2xl:px-[120px] ">
       <Link href="/" className="flex gap-2 items-center">
@@ -42,13 +40,13 @@ const Navbar = ({ user }: Props) => {
       {!user && (
         <Link href="/sign-in">
           <Button className="sm:flex items-center hidden animated-gradient-bg text-white border-[0.1rem] border-[#2c8c88]">
-            Let's Start
+            Let&apos;s Start
           </Button>
         </Link>
       )}
       {user && (
         <Link href="/home">
-          <Button className="sm:flex items-center hidden animated-gradient-bg text-white border-[0.1rem] border-[#2c8c88]">
+          <Button className="sm:flex items-center hidden animated-gradient-bg text-white border-[0.1rem] border-[#2c8c88] cursor-pointer">
             Dashboard
           </Button>
         </Link>
@@ -56,10 +54,7 @@ const Navbar = ({ user }: Props) => {
       <div className="sm:hidden flex">
         <HoverCard>
           <HoverCardTrigger>
-            <Button
-              className="sm:hidden flex items-center bg-transparent text-white hoverthemeBgLight border-[0.1rem] border-[#2c8c88]"
-              onClick={() => setMenuOpen(true)}
-            >
+            <Button className="sm:hidden flex items-center bg-transparent text-white hoverthemeBgLight border-[0.1rem] border-[#2c8c88] cursor-pointer">
               <CgMenuLeftAlt strokeWidth={1.5} />
             </Button>
           </HoverCardTrigger>
@@ -76,18 +71,18 @@ const Navbar = ({ user }: Props) => {
               ))}
             </div>
             {!user && (
-              <Button className="mx-auto flex items-center w-[70%] h-[35px] text-white border animated-gradient-bg border-[#2c8c88]">
-                <Link className="text-sm" href="/sign-in">
-                  Let's Start
-                </Link>
-              </Button>
+              <Link className="text-sm cursor-pointer" href="/sign-in">
+                <Button className="mx-auto flex items-center w-[70%] h-[35px] text-white border animated-gradient-bg border-[#2c8c88]">
+                  Let&apos;s Start
+                </Button>
+              </Link>
             )}
             {user && (
-              <Button className="mx-auto flex items-center w-[70%] h-[35px] text-white border animated-gradient-bg border-[#2c8c88]">
-                <Link className="text-sm" href="/home">
+              <Link className="text-sm cursor-pointer" href="/home">
+                <Button className="mx-auto flex items-center w-[70%] h-[35px] text-white border animated-gradient-bg border-[#2c8c88]">
                   Dashboard
-                </Link>
-              </Button>
+                </Button>
+              </Link>
             )}
           </HoverCardContent>
         </HoverCard>

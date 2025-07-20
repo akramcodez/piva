@@ -48,7 +48,7 @@ const WebinarCard = ({ webinar, products, assistants }: Props) => {
         toast.error(result.message || 'Failed to delete webinar');
       }
       router.refresh();
-    } catch (error) {
+    } catch (error: unknown) {
       console.error('Error deleting webinar:', error);
       toast.error('An error occurred while deleting the webinar');
     } finally {

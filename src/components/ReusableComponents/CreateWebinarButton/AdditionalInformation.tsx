@@ -4,10 +4,8 @@ import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
 import { useWebinarStore } from '@/store/useWebinarStore';
 import { cn } from '@/lib/utils';
-import React, { useState } from 'react';
-import { Info, X } from 'lucide-react';
-import { CtaTypeEnum } from '@prisma/client';
-import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import React from 'react';
+import { Info } from 'lucide-react';
 import { Switch } from '@/components/ui/switch';
 
 const AdditionalInformation = () => {

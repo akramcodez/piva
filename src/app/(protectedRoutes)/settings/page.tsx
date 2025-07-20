@@ -98,7 +98,7 @@ export default page;
 
 type Props2 = {
   label: string;
-  value: any;
+  value: string | number;
 };
 
 const StatDisplay = ({ label, value }: Props2) => (

@@ -127,7 +127,7 @@ export const getWebinarAttendence = async (
       tags: webinar.tags || [],
       presenter: webinar.presenter,
     };
-  } catch (error) {
+  } catch (error: unknown) {
     console.error('Error fetching webinar attendance data:', error);
     return {
       success: false,
@@ -214,7 +214,7 @@ export const registerAttendee = async ({
       data: attendance,
       message: 'Successfully Registered',
     };
-  } catch (error) {
+  } catch (error: unknown) {
     console.error('Registration Error:', error);
     return {
       success: false,
@@ -249,13 +249,12 @@ export const changeAttendenceType = async (
       message: 'Attendance type updated sucessfully',
       data: attendance,
     };
-  } catch (error) {
-    console.error('Error updating attendence type: error');
+  } catch (error: unknown) {
+    console.error('Error updating attendence type: ', error);
     return {
       success: false,
       status: 500,
       message: 'Failed to update attendence type',
-      error,
     };
   }
 };
@@ -289,7 +288,7 @@ export const getAttendeeById = async (id: string, webinarId: string) => {
       message: 'Get attendee details successfully',
       data: attendee,
     };
-  } catch (error) {
+  } catch (error: unknown) {
     console.log('Error', error);
     return {
       status: 500,
@@ -304,7 +303,7 @@ export const changeCallStatus = async (
   callStatus: CallStatusEnum,
 ) => {
   try {
-    const attendee = await prismaClient.attendee.update({
+    await prismaClient.attendee.update({
       where: {
         id: attendeeId,
       },
@@ -318,13 +317,12 @@ export const changeCallStatus = async (
       status: 200,
       message: 'Call status updated successfully',
     };
-  } catch (error) {
+  } catch (error: unknown) {
     console.error('Error updating call status: ', error);
     return {
       success: false,
       status: 500,
       message: 'Failed to update call status',
-      error,
     };
   }
 };

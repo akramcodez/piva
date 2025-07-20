@@ -1,6 +1,7 @@
 import React from 'react';
 import Link from 'next/link';
 import { FaXTwitter, FaLinkedinIn, FaGithub } from 'react-icons/fa6';
+import Image from 'next/image';
 
 const About = () => {
   return (
@@ -37,23 +38,20 @@ const About = () => {
           </div>
         </div>
 
-        {/* Section for Creator Info - Now Horizontal */}
         <div className="flex flex-col items-center text-center lg:w-1/2">
           <div className="p-5 sm:p-8 rounded-lg glassBackground themeBorderBig w-full">
-            {/* Horizontal layout for profile info */}
             <div className="flex flex-col sm:flex-row items-center sm:items-start gap-4 sm:gap-6">
-              {/* Profile picture */}
               <div className="w-20 h-20  sm:w-24 sm:h-24 rounded-full bg-gray-700 flex items-center justify-center text-gray-400 text-sm overflow-hidden flex-shrink-0">
-                <img
+                <Image
                   src="/profilePic.jpg"
                   alt="SK AKRAM"
-                  className="w-full h-full object-cover"
+                  objectFit="cover"
+                  width={96}
+                  height={96}
                 />
               </div>
 
-              {/* Info section */}
               <div className="flex-1 text-center sm:text-left">
-                {/* Name and title */}
                 <h4 className="text-xl font-medium text-white mb-2">
                   SK AKRAM
                 </h4>
@@ -61,7 +59,6 @@ const About = () => {
                   Full-Stack Developer
                 </p>
 
-                {/* Bio */}
                 <p className="text-gray-300 text-xs sm:text-sm leading-relaxed mb-6 opacity-90">
                   18-year-old Full-Stack Web Developer and Computer Science
                   student at Amity University. Specializing in MERN stack
@@ -69,7 +66,6 @@ const About = () => {
                   technologies.
                 </p>
 
-                {/* Social media links */}
                 <div className="flex justify-center sm:justify-start gap-4">
                   <Link
                     href="https://x.com/akramcodez"

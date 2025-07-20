@@ -24,7 +24,7 @@ export const getStreamIoToken = async (attendee: Attendee | null) => {
     });
 
     return token;
-  } catch (error) {
+  } catch (error: unknown) {
     console.error('Error generating Stream IO token', error);
     throw new Error('Failed to generate Stream IO token');
   }

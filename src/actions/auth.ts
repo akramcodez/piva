@@ -47,10 +47,11 @@ export async function onAuthenticateUser() {
       status: 201,
       user: newUser,
     };
-  } catch (error) {
+  } catch (error: unknown) {
+    console.error('Authentication error:', error);
     return {
       status: 500,
-      message: 'Internal server error',
+      message: error instanceof Error ? error.message : 'Internal server error',
     };
   }
 }
@@ -106,7 +107,7 @@ export async function deleteAccount() {
       success: true,
       message: 'Account and all associated data deleted successfully.',
     };
-  } catch (error) {
+  } catch (error: unknown) {
     console.error('Error deleting account:', error);
     return {
       success: false,

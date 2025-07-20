@@ -34,7 +34,7 @@ export const StripeConnectCard = ({
       } else {
         toast.error('Failed to Disconnect Stripe Account');
       }
-    } catch (error) {
+    } catch (error: unknown) {
       console.error('Failed to Disconnect Stripe Account: ', error);
       toast.error('Server Failed to Disconnect Stripe Account');
     }

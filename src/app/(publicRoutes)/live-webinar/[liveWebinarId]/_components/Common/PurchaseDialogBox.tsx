@@ -11,10 +11,9 @@ import {
 } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import { ClientProduct } from '@/lib/type';
-import { useRouter } from 'next/navigation';
 import React, { useState } from 'react';
 import Image from 'next/image';
-import { ShoppingCart, Loader2 } from 'lucide-react';
+import { Loader2 } from 'lucide-react';
 import { toast } from 'sonner';
 import { buyProduct } from '@/actions/product';
 
@@ -63,7 +62,7 @@ const PurchaseDialogBox = ({
       } else {
         toast.error(result.message || 'Purchase failed.');
       }
-    } catch (error) {
+    } catch (error: unknown) {
       console.error('Error during purchase:', error);
       toast.error('An unexpected error occurred during purchase.');
     } finally {
@@ -155,8 +154,8 @@ const PurchaseDialogBox = ({
               Verification
             </DialogTitle>
             <DialogDescription className="text-sm text-muted-foreground mt-3">
-              This action will initiate the Demo purchase process for "
-              {product?.name || 'this product'}".
+              This action will initiate the Demo purchase process for &quot;
+              {product?.name || 'this product'}&quot;.
             </DialogDescription>
           </DialogHeader>
           <DialogFooter className="flex flex-row justify-end items-center mt-4 sm:mt-0">

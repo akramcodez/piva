@@ -68,7 +68,7 @@ const LiveWebinarView = ({
       }
       toast.success('Webinar ended successfully');
       router.push('/');
-    } catch (error) {
+    } catch (error: unknown) {
       console.error('Error ending stream', error);
       toast.success('Error ending stream');
     } finally {

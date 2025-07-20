@@ -36,7 +36,7 @@ export const getAllProductsFromStripe = async () => {
       success: true,
       status: 200,
     };
-  } catch (error) {
+  } catch (error: unknown) {
     console.error('Error getting products from Stripe:', error);
     return {
       error: 'Failed getting products from Stripe',
@@ -84,7 +84,7 @@ export const createCheckoutLink = async (
       status: 200,
       sessionUrl: session.url,
     };
-  } catch (error) {
+  } catch (error: unknown) {
     console.log('Error creating checkout link', error);
     return {
       error: 'Error creating checkout link',
@@ -114,7 +114,7 @@ export const stripeDisconnect = async (id: string) => {
       success: true,
       message: 'Stripe Account Disconnected',
     };
-  } catch (error) {
+  } catch (error: unknown) {
     console.error('Failed to disconnect stripeAccount: ', error);
     return {
       status: 500,

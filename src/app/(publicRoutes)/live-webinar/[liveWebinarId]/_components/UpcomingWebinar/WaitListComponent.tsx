@@ -96,7 +96,7 @@ const WaitListComponent = ({
 
         if (onRegistered) onRegistered();
       }, 1500);
-    } catch (error) {
+    } catch (error: unknown) {
       console.error('Error while submitting waitlist details', error);
       toast.error(
         error instanceof Error ? error.message : 'Something went wrong',

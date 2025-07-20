@@ -26,7 +26,7 @@ const RenderWebinar = ({ error, user, webinar, apiKey, product }: Props) => {
   useEffect(() => {
     toast.error(error);
     router.push(pathname);
-  }, [error]);
+  }, [error, pathname, router]);
 
   return (
     <React.Fragment>

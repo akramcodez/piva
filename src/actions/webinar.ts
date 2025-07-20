@@ -7,6 +7,22 @@ import { prismaClient } from '@/lib/prismaClient';
 import { CtaTypeEnum } from '@prisma/client';
 import { revalidatePath } from 'next/cache';
 
+type WebinarData = {
+  title: string;
+  description: string;
+  thumbnail: string;
+  startTime: Date;
+  tags: string[];
+  ctaLabel: string;
+  ctaType: CtaTypeEnum;
+  aiAgentId: string | null;
+  lockChat: boolean;
+  couponCode: string | null;
+  priceId: string | null;
+  couponEnabled: boolean;
+  presenterId?: string;
+};
+
 function combineDateTime(
   date: Date,
   timeStr: string,
@@ -67,7 +83,7 @@ export const createWebinar = async (formData: WebinarFormState) => {
       };
     }
 
-    const data: any = {
+    const data: WebinarData = {
       title: formData.basicInfo.webinarName,
       description: formData.basicInfo.description || '',
       thumbnail: formData.basicInfo.thumbnail || '',
@@ -78,17 +94,17 @@ export const createWebinar = async (formData: WebinarFormState) => {
       aiAgentId: formData.cta.aiAgent || null,
       lockChat: formData.additionalInfo.lockChat || false,
       couponCode: formData.additionalInfo.couponEnabled
-        ? formData.additionalInfo.couponCode
+        ? formData.additionalInfo.couponCode ?? null
         : null,
       priceId: formData.cta.priceId || null,
       couponEnabled: formData.additionalInfo.couponEnabled || false,
     };
-    if (presenterId) {
-      data.presenterId = presenterId;
-    }
 
     const webinar = await prismaClient.webinar.create({
-      data: data,
+      data: {
+        ...data,
+        presenterId: presenterId!,
+      },
     });
     revalidatePath('/');
     return {
@@ -163,7 +179,7 @@ export const updateWebinar = async (
       };
     }
 
-    const updateData: any = {
+    const updateData: WebinarData = {
       title: formData.basicInfo.webinarName,
       description: formData.basicInfo.description || '',
       thumbnail: formData.basicInfo.thumbnail || '',
@@ -174,7 +190,7 @@ export const updateWebinar = async (
       aiAgentId: formData.cta.aiAgent || null,
       lockChat: formData.additionalInfo.lockChat || false,
       couponCode: formData.additionalInfo.couponEnabled
-        ? formData.additionalInfo.couponCode
+        ? formData.additionalInfo.couponCode ?? null
         : null,
       priceId: formData.cta.priceId || null,
       couponEnabled: formData.additionalInfo.couponEnabled || false,

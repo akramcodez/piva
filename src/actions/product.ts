@@ -9,6 +9,12 @@ import {
   AttendedTypeEnum,
 } from '@prisma/client';
 
+type ProductError = {
+  code?: string;
+  message: string;
+  details?: unknown;
+};
+
 type CreateProductInput = {
   name: string;
   description?: string;
@@ -24,7 +30,7 @@ type CreateProductResponse = {
   status: number;
   message?: string;
   product?: Product;
-  error?: any;
+  error?: ProductError;
 };
 
 export const createProduct = async (
@@ -39,7 +45,7 @@ export const createProduct = async (
       };
     }
 
-    const newProduct = await prismaClient.product.create({
+    await prismaClient.product.create({
       data: {
         name: data.name,
         description: data.description,
@@ -57,18 +63,29 @@ export const createProduct = async (
       status: 200,
       message: 'Product created successfully',
     };
-  } catch (error) {
+  } catch (error: unknown) {
     console.error('Error creating product:', error);
     return {
       success: false,
       status: 500,
       message: 'Failed to create product.',
-      error: error,
     };
   }
 };
 
-export const updateProduct = async (productId: string, data: any) => {
+type UpdateProductInput = {
+  name: string;
+  description: string;
+  price: number;
+  currency: CurrencyEnum;
+  status: ProductStatusEnum;
+  image?: string;
+};
+
+export const updateProduct = async (
+  productId: string,
+  data: UpdateProductInput,
+) => {
   if (!productId) {
     return {
       success: false,
@@ -95,7 +112,7 @@ export const updateProduct = async (productId: string, data: any) => {
       status: 200,
       message: 'Product updated successfully',
     };
-  } catch (error) {
+  } catch (error: unknown) {
     console.error('Error updating product:', error);
     return {
       success: false,
@@ -121,7 +138,7 @@ export const getProductsByOwnerId = async (
     });
 
     return products;
-  } catch (error) {
+  } catch (error: unknown) {
     console.error('Error fetching products:', error);
     return [];
   }
@@ -158,7 +175,7 @@ export const changeStatusOfProduct = async (productId: string) => {
       success: true,
       message: `Product status changed to ${newStatus}.`,
     };
-  } catch (error) {
+  } catch (error: unknown) {
     console.error('Error changing product status:', error);
     return { success: false, message: 'Failed to change product status.' };
   }
@@ -185,7 +202,7 @@ export const findOneProduct = async (productId: string) => {
       : null;
 
     return product;
-  } catch (error) {
+  } catch (error: unknown) {
     console.error('Error finding product by ID:', error);
     return null;
   }
@@ -221,7 +238,7 @@ export const buyProduct = async (
       return { success: false, message: 'Attendee not found.' };
     }
 
-    const attendance = await prismaClient.attendance.upsert({
+    await prismaClient.attendance.upsert({
       where: {
         attendeeId_webinarId: {
           attendeeId: attendee.id,
@@ -250,7 +267,7 @@ export const buyProduct = async (
     });
 
     return { success: true, message: 'Purchase intent recorded.' };
-  } catch (error) {
+  } catch (error: unknown) {
     console.error('Error recording purchase intent:', error);
     return { success: false, message: 'Failed to record purchase intent.' };
   }
@@ -280,7 +297,7 @@ export const countProducts = async (ownerId: string) => {
       message: 'Products counted successfully',
       count: count,
     };
-  } catch (error) {
+  } catch (error: unknown) {
     console.error('Error counting products:', error);
     return {
       status: 500,
@@ -356,7 +373,7 @@ export const calculateRevenue = async (ownerId: string) => {
       totalRevenue: totalRevenue,
       productBreakdown: productBreakdown,
     };
-  } catch (error) {
+  } catch (error: unknown) {
     console.error('Error calculating revenue:', error);
     return {
       status: 500,
@@ -392,7 +409,7 @@ export const deleteProduct = async (id: string) => {
       message: 'Product deleted successfully',
       data: product,
     };
-  } catch (error) {
+  } catch (error: unknown) {
     console.error('Error deleting product status:', error);
     return {
       status: 500,

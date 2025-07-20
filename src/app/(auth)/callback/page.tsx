@@ -21,7 +21,7 @@ const AuthCallbackPage = () => {
           } else {
             router.push('/');
           }
-        } catch (error) {
+        } catch (error: unknown) {
           console.error('Error during authentication callback:', error);
           router.push('/');
         }

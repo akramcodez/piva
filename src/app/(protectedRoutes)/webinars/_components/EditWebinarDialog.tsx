@@ -3,7 +3,7 @@
 import React, { useState, useMemo } from 'react';
 import { Webinar } from '@prisma/client';
 import { format } from 'date-fns';
-import { X, Calendar, Clock, Search, Info, Loader2 } from 'lucide-react';
+import { Calendar, Clock, Info, Loader2 } from 'lucide-react';
 import {
   Dialog,
   DialogContent,
@@ -73,29 +73,14 @@ const EditWebinarDialog = ({
     },
   });
 
-  const [agentSearch, setAgentSearch] = useState('');
-  const [productSearch, setProductSearch] = useState('');
   const [errors, setErrors] = useState<{ [key: string]: string }>({});
   const [showGeneralError, setShowGeneralError] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const router = useRouter();
 
-  const filteredProducts = useMemo(() => {
-    if (!productSearch.trim()) return products;
-    return products.filter((product) =>
-      product.name.toLowerCase().includes(productSearch.toLowerCase()),
-    );
-  }, [products, productSearch]);
+  const filteredProducts = useMemo(() => products, [products]);
 
-  const filteredAssistants = useMemo(() => {
-    if (!agentSearch.trim()) return assistants;
-    return assistants.filter((assistant) =>
-      assistant?.name
-        ?.toString()
-        .toLowerCase()
-        .includes(agentSearch.toLowerCase()),
-    );
-  }, [assistants, agentSearch]);
+  const filteredAssistants = useMemo(() => assistants, [assistants]);
 
   const handleInputChange = (
     section: string,
@@ -200,7 +185,7 @@ const EditWebinarDialog = ({
             <Link
               href={`/live-webinar/${webinar?.id}`}
               className="underline themeColor"
-            >{`${formData.basicInfo.webinarName}`}</Link>{' '}
+            >{`${webinar.title ? webinar.title : 'This'}`}</Link>{' '}
             webinar
           </DialogTitle>
         </DialogHeader>
@@ -262,20 +247,6 @@ const EditWebinarDialog = ({
                     {errors['basicInfo.description']}
                   </p>
                 )}
-              </div>
-
-              <div>
-                <Label htmlFor="thumbnail" className="text-sm font-medium">
-                  Thumbnail <span>*</span>
-                </Label>
-                <Input
-                  id="thumbnail"
-                  value={formData.basicInfo.thumbnail}
-                  onChange={(e) =>
-                    handleInputChange('basicInfo', 'thumbnail', e.target.value)
-                  }
-                  placeholder="Enter Img URL"
-                />
               </div>
 
               <div>
@@ -524,6 +495,7 @@ const EditWebinarDialog = ({
             </div>
           </div>
 
+          {/* Additional Information Section */}
           <div className="space-y-4">
             <h3 className="text-sm sm:text-lg font-medium mb-5">
               Additional Information
@@ -598,6 +570,7 @@ const EditWebinarDialog = ({
             )}
           </div>
 
+          {/* Submit Button */}
           <div className="flex justify-end pt-6">
             <Button
               type="submit"

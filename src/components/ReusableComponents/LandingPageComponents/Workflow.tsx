@@ -67,7 +67,7 @@ const Workflow = ({ user }: Props) => {
 
       <div className="max-w-5xl w-full flex-1 flex items-center justify-center">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 w-full">
-          {workflowSteps.map((step, index) => (
+          {workflowSteps.map((step) => (
             <div key={step.id} className="group h-full">
               <div className="relative glassBackground themeBorderBig border rounded-lg p-4 h-full transition-all duration-300 group-hover:transform group-hover:scale-105 group-hover:shadow-xl">
                 <div className="absolute top-[1px] right-[1px] w-8 h-8 rounded-full themeColor flex items-center justify-center shadow-lg">

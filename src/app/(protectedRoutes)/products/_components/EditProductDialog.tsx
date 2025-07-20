@@ -26,6 +26,7 @@ import { updateProduct } from '@/actions/product';
 import { CurrencyEnum, ProductStatusEnum } from '@prisma/client';
 import { ClientProduct } from '@/lib/type';
 import { useRouter } from 'next/navigation';
+import { validateImageUrl } from '@/lib/utils/validateImageUrl';
 
 type Props = {
   open: boolean;
@@ -34,12 +35,19 @@ type Props = {
 };
 
 const EditProductDialog = ({ open, onClose, product }: Props) => {
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<{
+    name: string;
+    description: string;
+    price: string;
+    currency: CurrencyEnum;
+    status: ProductStatusEnum;
+    image: string;
+  }>({
     name: '',
     description: '',
     price: '',
-    currency: '',
-    status: '',
+    currency: CurrencyEnum.USD,
+    status: ProductStatusEnum.ACTIVE,
     image: '',
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -52,8 +60,9 @@ const EditProductDialog = ({ open, onClose, product }: Props) => {
           name: product.name || '',
           description: product.description || '',
           price: product.price?.toString() || '',
-          currency: product.currency || CurrencyEnum.USD,
-          status: product.status || ProductStatusEnum.ACTIVE,
+          currency: (product.currency as CurrencyEnum) || CurrencyEnum.USD,
+          status:
+            (product.status as ProductStatusEnum) || ProductStatusEnum.ACTIVE,
           image: product.image || '',
         });
       } else {
@@ -79,12 +88,31 @@ const EditProductDialog = ({ open, onClose, product }: Props) => {
     }));
   };
 
+  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const url = e.target.value;
+    const validation = validateImageUrl(url);
+
+    if (url && !validation.isValid) {
+      toast.error(validation.message);
+    }
+
+    updateFormData('image', url);
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
     if (!formData.name.trim()) {
       toast.error('Product Name is required');
       return;
+    }
+
+    if (formData.image) {
+      const imageValidation = validateImageUrl(formData.image);
+      if (!imageValidation.isValid) {
+        toast.error(imageValidation.message);
+        return;
+      }
     }
 
     if (!formData.description.trim()) {
@@ -110,7 +138,7 @@ const EditProductDialog = ({ open, onClose, product }: Props) => {
         price: parseFloat(formData.price),
         currency: formData.currency,
         status: formData.status,
-        image: formData.image.trim() || null,
+        image: formData.image.trim() || undefined,
       };
 
       const result = await updateProduct(product.id, productData);
@@ -120,7 +148,7 @@ const EditProductDialog = ({ open, onClose, product }: Props) => {
         toast.error(result.message || 'Failed to update product');
       }
       router.refresh();
-    } catch (error) {
+    } catch (error: unknown) {
       console.error('Error updating product:', error);
       toast.error('An error occurred while updating the product');
     } finally {
@@ -230,9 +258,9 @@ const EditProductDialog = ({ open, onClose, product }: Props) => {
               id="image"
               type="url"
               value={formData.image}
-              onChange={(e) => updateFormData('image', e.target.value)}
+              onChange={handleImageChange}
               className="col-span-3"
-              placeholder="Image URL"
+              placeholder="Image URL only"
             />
           </div>
         </form>

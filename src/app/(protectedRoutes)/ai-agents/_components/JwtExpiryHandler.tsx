@@ -1,6 +1,5 @@
 'use client';
 
-import { useRouter } from 'next/navigation';
 import { Button } from '@/components/ui/button';
 
 export default function JwtExpiryHandler({
@@ -10,8 +9,6 @@ export default function JwtExpiryHandler({
   jwtExpired: boolean;
   children: React.ReactNode;
 }) {
-  const router = useRouter();
-
   if (!jwtExpired) {
     return <>{children}</>;
   }

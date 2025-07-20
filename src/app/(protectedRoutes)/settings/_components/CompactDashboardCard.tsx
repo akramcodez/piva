@@ -1,8 +1,9 @@
 import Link from 'next/link';
+import { ReactElement } from 'react';
 
 type Props = {
   title: string;
-  icon: any;
+  icon: ReactElement;
   link: string;
   children: React.ReactNode;
 };

@@ -1,4 +1,3 @@
-import { createCheckoutLink } from '@/actions/stripe';
 import { Button } from '@/components/ui/button';
 import {
   Dialog,
@@ -9,7 +8,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '@/components/ui/dialog';
-import { ClientProduct, WebinarWithPresenter } from '@/lib/type';
+import { WebinarWithPresenter } from '@/lib/type';
 import { ChevronRight, Loader2, ShoppingCart } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import React, { useState } from 'react';
@@ -49,7 +48,7 @@ const CTADialogBox = ({
           onOpenChange(false);
         }
       }
-    } catch (error) {
+    } catch (error: unknown) {
       console.log('Error in book call or buy dialog', error);
       toast.error(
         `Failed To Open ${

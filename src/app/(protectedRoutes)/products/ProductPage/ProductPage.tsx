@@ -13,7 +13,6 @@ import {
   Card,
   CardContent,
   CardDescription,
-  CardFooter,
   CardHeader,
   CardTitle,
 } from '@/components/ui/card';
@@ -64,7 +63,7 @@ const ProductPage = ({ user, products }: Props) => {
       } else {
         toast.error(res.message);
       }
-    } catch (error) {
+    } catch (error: unknown) {
       console.error('Error in changeStatus client function:', error);
       toast.error('An unexpected error occurred while changing status.');
     }
@@ -82,7 +81,7 @@ const ProductPage = ({ user, products }: Props) => {
         toast.error(result.message || 'Failed to delete product');
       }
       router.refresh();
-    } catch (error) {
+    } catch (error: unknown) {
       console.error('Error deleting product:', error);
       toast.error('An error occurred while deleting the product');
     } finally {
