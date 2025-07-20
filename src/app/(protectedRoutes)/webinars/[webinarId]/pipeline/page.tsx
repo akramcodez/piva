@@ -8,7 +8,7 @@ import { formatColumnTitle } from './_components/utils';
 // import { demoData } from './_components/__test__/data';
 
 type Props = {
-  params: { webinarId: string };
+  params: Promise<{ webinarId: string }>;
 };
 
 const page = async ({ params }: Props) => {

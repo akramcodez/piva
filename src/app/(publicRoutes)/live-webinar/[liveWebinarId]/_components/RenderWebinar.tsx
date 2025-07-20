@@ -5,7 +5,6 @@ import { User, WebinarStatusEnum } from '@prisma/client';
 import WebinarUpcomingState from './UpcomingWebinar/WebinarUpcomingState';
 import { usePathname, useRouter } from 'next/navigation';
 import { useAttendeeStore } from '@/store/useAttendeeStore';
-import { toast } from 'sonner';
 import LiveStreamState from './LiveWebinar/LiveStreamState';
 import { ClientProduct, WebinarWithPresenter } from '@/lib/type';
 import Participant from './Participant/Participant';
@@ -24,9 +23,11 @@ const RenderWebinar = ({ error, user, webinar, apiKey, product }: Props) => {
   const { attendee } = useAttendeeStore();
 
   useEffect(() => {
-    toast.error(error);
+    if (error) {
+      console.error('Error fetching webinar:', error);
+    }
     router.push(pathname);
-  }, [error, pathname, router]);
+  }, [pathname, router, error]);
 
   return (
     <React.Fragment>

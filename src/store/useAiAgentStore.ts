@@ -1,9 +1,23 @@
 import { Assistant } from '@vapi-ai/server-sdk/api';
 import { create } from 'zustand';
 
+export interface ExtendedAssistant extends Assistant {
+  name: string;
+  id: string;
+  firstMessage?: string;
+  model?: {
+    provider: string;
+    model: string;
+    messages?: Array<{
+      role: string;
+      content: string;
+    }>;
+  };
+}
+
 type AiAgentStore = {
-  assistant: Assistant | null;
-  setAssistant: (assistant: Assistant) => void;
+  assistant: ExtendedAssistant | null;
+  setAssistant: (assistant: ExtendedAssistant) => void;
   clearAiAssistant: () => void;
 };
 

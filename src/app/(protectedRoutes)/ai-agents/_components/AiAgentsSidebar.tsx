@@ -17,6 +17,7 @@ import {
   HoverCardTrigger,
 } from '@/components/ui/hover-card';
 import Link from 'next/link';
+import { cn } from '@/lib/utils';
 
 type Props = {
   aiAgents: Assistant[] | [];
@@ -25,8 +26,7 @@ type Props = {
 
 const AiAgentsSidebar = ({ aiAgents, user }: Props) => {
   const [isModelOpen, setIsModelOpen] = useState(false);
-  const { assistant, setAssistant } = useAiAgentStore();
-  // const router = useRouter();
+  const { setAssistant, assistant } = useAiAgentStore(); // Add assistant from store
 
   // const handleCreateAssistantClick = () => {
   //   if (user?.stripeConnectId) {
@@ -76,19 +76,25 @@ const AiAgentsSidebar = ({ aiAgents, user }: Props) => {
         </div>
       </div>
       <ScrollArea className="mt-4 overflow-auto">
-        {aiAgents.map((aiAgent) => (
-          <div
-            className={`p-4 ${
-              aiAgent.id === assistant?.id ? 'themeBg' : ''
-            } hoverthemeBg cursor-pointer`}
-            key={aiAgent.id}
-            onClick={() => {
-              setAssistant(aiAgent);
-            }}
-          >
-            <div className="font-medium">{aiAgent.name}</div>
-          </div>
-        ))}
+        {aiAgents.map((aiAgent) => {
+          const extendedAgent = {
+            ...aiAgent,
+            id: aiAgent.assistantId,
+          };
+
+          return (
+            <div
+              key={aiAgent.name}
+              className={cn(
+                'p-4 hoverthemeBg cursor-pointer',
+                aiAgent.name === assistant?.name && 'themeBg',
+              )}
+              onClick={() => setAssistant(extendedAgent)}
+            >
+              <div className="font-medium">{aiAgent.name}</div>
+            </div>
+          );
+        })}
       </ScrollArea>
 
       <CreateAssistantModel

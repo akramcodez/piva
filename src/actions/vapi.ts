@@ -2,16 +2,28 @@
 
 import { aiAgentPrompt } from '@/lib/data';
 import { getVapiClient } from '@/lib/vapi/vapiServer';
+import { ExtendedAssistant } from '@/store/useAiAgentStore';
 
-export const getAllAssistants = async () => {
+export const getAllAssistants = async (): Promise<{
+  success: boolean;
+  status: number;
+  data?: ExtendedAssistant[];
+  message?: string;
+  jwtExpired?: boolean;
+}> => {
   try {
     const vapiClient = getVapiClient();
     const getAllAgents = await vapiClient.assistants.list();
 
+    const extendedAgents = getAllAgents.map((agent) => ({
+      ...agent,
+      name: agent.name || 'Unnamed Assistant',
+    })) as ExtendedAssistant[];
+
     return {
       success: true,
       status: 200,
-      data: getAllAgents,
+      data: extendedAgents,
     };
   } catch (error: unknown) {
     console.error('Error fetching agents:', error);
@@ -72,6 +84,7 @@ export const createAssistant = async (name: string) => {
         ],
         temperature: 0.5,
       },
+      serverMessages: [],
     });
     return {
       success: true,
@@ -87,40 +100,40 @@ export const createAssistant = async (name: string) => {
     };
   }
 };
+// export const updateAssistant = async (
+//   assistantId: string,
+//   firstMessage: string,
+//   systemPrompt: string,
+// ) => {
+//   try {
+//     const vapiClient = getVapiClient();
+//     const updateAssistant = await vapiClient.assistants.update(assistantId, {
+//       firstMessage: firstMessage,
+//       model: {
+//         model: 'gpt-4o',
+//         provider: 'openai',
+//         messages: [
+//           {
+//             role: 'system',
+//             content: systemPrompt,
+//           },
+//         ],
+//       },
+//       serverMessages: [],
+//     });
+//     console.log('Assistant updated', updateAssistant);
 
-export const updateAssistant = async (
-  assistantId: string,
-  firstMessage: string,
-  systemPrompt: string,
-) => {
-  try {
-    const vapiClient = getVapiClient();
-    const updateAssistant = await vapiClient.assistants.update(assistantId, {
-      firstMessage: firstMessage,
-      model: {
-        model: 'gpt-4o',
-        provider: 'openai',
-        messages: [
-          {
-            role: 'system',
-            content: systemPrompt,
-          },
-        ],
-      },
-    });
-    console.log('Assistant updated', updateAssistant);
-
-    return {
-      success: true,
-      status: 200,
-      data: updateAssistant,
-    };
-  } catch (error: unknown) {
-    console.error('Error updating assistant: ', error);
-    return {
-      success: false,
-      status: 500,
-      message: 'Failed to update assistant',
-    };
-  }
-};
+//     return {
+//       success: true,
+//       status: 200,
+//       data: updateAssistant,
+//     };
+//   } catch (error: unknown) {
+//     console.error('Error updating assistant: ', error);
+//     return {
+//       success: false,
+//       status: 500,
+//       message: 'Failed to update assistant',
+//     };
+//   }
+// };

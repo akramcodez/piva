@@ -168,8 +168,8 @@ const CTAStep = ({
                   {assistants?.length > 0 ? (
                     assistants.map((assistant) => (
                       <SelectItem
-                        key={assistant.id}
-                        value={assistant.id}
+                        key={assistant.name}
+                        value={assistant.name}
                         className="!bg-background/50 hover:!bg-white/10"
                       >
                         {assistant.name}
