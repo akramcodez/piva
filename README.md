@@ -46,8 +46,7 @@ Robust authentication using Clerk with custom middleware protection.
 ### Deployment
 
 - **Platform**: Vercel
-- **Database**: Railway/Supabase
-- **Storage**: Cloudinary
+- **Database**: Neon
 
 ## Getting Started
 
