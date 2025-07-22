@@ -1,4 +1,4 @@
-# Piva.AI - AI-Powered Webinar Platform
+# Piva - AI-Powered Webinar Platform
 
 A modern SaaS platform for hosting AI-enhanced webinars with automated sales capabilities, real-time chat, and intelligent customer interaction.
 
@@ -64,14 +64,14 @@ Robust authentication using Clerk with custom middleware protection.
 1. **Clone the repository**
 
    ```bash
-   git clone https://github.com/your-username/piva-ai.git
-   cd piva-ai
+   git clone https://github.com/akramcodez/Piva.git
+   cd Piva
    ```
 
 2. **Install dependencies**
 
    ```bash
-   npm install
+   npm install --legacy-peer-deps
    ```
 
 3. **Environment Setup**

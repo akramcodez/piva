@@ -60,4 +60,3 @@ export default function Home() {
 //TODO: create limit in book a call webinar creation
 //TODO: warning do users that this is stripe demo account
 //TODO: create a universal error handling component and error page
-//TODO: Logo change

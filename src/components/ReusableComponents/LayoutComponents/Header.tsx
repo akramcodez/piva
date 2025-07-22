@@ -11,6 +11,7 @@ import { toast } from 'sonner';
 import { ClientProduct } from '@/lib/type';
 import { Assistant } from '@vapi-ai/server-sdk/api';
 import ProductDialog from '@/app/(protectedRoutes)/products/_components/ProductDialog';
+import Link from 'next/link';
 
 type Props = {
   user: User;
@@ -60,11 +61,12 @@ const Header = ({ user, stripeProducts, assistants }: Props) => {
       ) : (
         <div
           className="animated-gradient-bg px-3 py-1 text-sm sm:text-base flex justify-center font-medium h-[35px]
-         items-center rounded-lg border border-border capitalize"
+         items-center rounded-lg border border-border capitalize cursor-pointer"
         >
-          <button className="cursor-pointer" onClick={() => router.refresh()}>
-            {pathname.split('/')[1] || 'Home'}
-          </button>
+          <Link href={`/${pathname.split('/')[1] || ''}`}>
+            {pathname.split('/')[1]?.charAt(0).toUpperCase() +
+              pathname.split('/')[1]?.slice(1) || 'Home'}
+          </Link>
         </div>
       )}
       <div className="flex gap-2 sm:gap-3 items-center flex-wrap">

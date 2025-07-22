@@ -7,6 +7,7 @@ import { getProductsByOwnerId } from '@/actions/product';
 import { ClientProduct } from '@/lib/type';
 import { getAllAssistants } from '@/actions/vapi';
 import type { Metadata } from 'next';
+import ErrorBoundary from '@/components/ErrorBoundary/ErrorBoundary';
 
 export const metadata: Metadata = {
   title: 'Piva (Dashboard)',
@@ -50,7 +51,9 @@ export default async function Layout({ children }: Props) {
           stripeProducts={stripeProducts || []}
           assistants={assistants.data || []}
         />
-        <div className="flex-1 py-3 md:py-6 lg:py-8">{children}</div>
+        <div className="flex-1 py-3 md:py-6 lg:py-8">
+          <ErrorBoundary>{children}</ErrorBoundary>
+        </div>
       </div>
     </div>
   );

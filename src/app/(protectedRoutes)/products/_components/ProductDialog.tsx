@@ -54,7 +54,6 @@ const ProductDialog = ({
     setIsSubmitting(true);
 
     try {
-      // Validate image URL if provided
       if (imageUrl) {
         const imageValidation = validateImageUrl(imageUrl);
         if (!imageValidation.isValid) {
@@ -111,7 +110,6 @@ const ProductDialog = ({
     }
   };
 
-  // Add real-time validation
   const handleImageUrlChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const url = e.target.value;
     const validation = validateImageUrl(url);

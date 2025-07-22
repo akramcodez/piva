@@ -14,7 +14,7 @@ const AuthCallbackPage = () => {
     if (isLoaded && isSignedIn) {
       const handleAuthentication = async () => {
         try {
-          const auth = await onAuthenticateUser(); // Call your server action
+          const auth = await onAuthenticateUser();
 
           if (auth.status === 201 || auth.status === 200) {
             router.push('/home');

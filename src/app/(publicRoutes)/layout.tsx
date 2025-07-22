@@ -1,3 +1,4 @@
+import ErrorBoundary from '@/components/ErrorBoundary/ErrorBoundary';
 import { Metadata } from 'next';
 import React from 'react';
 
@@ -15,17 +16,19 @@ type Props = {
 const layout = ({ children }: Props) => {
   return (
     <>
-      <video
-        autoPlay
-        muted
-        loop
-        className="fixed z-[-1] w-full h-full object-cover opacity-12"
-      >
-        <source src="/webinarBackgroundVideo.mp4" type="video/mp4" />
-      </video>
-      <div className="w-full container mx-auto min-h-screen">
-        <main>{children}</main>
-      </div>
+      <ErrorBoundary>
+        <video
+          autoPlay
+          muted
+          loop
+          className="fixed z-[-1] w-full h-full object-cover opacity-12"
+        >
+          <source src="/webinarBackgroundVideo.mp4" type="video/mp4" />
+        </video>
+        <div className="w-full container mx-auto min-h-screen">
+          <main>{children}</main>
+        </div>
+      </ErrorBoundary>
     </>
   );
 };
