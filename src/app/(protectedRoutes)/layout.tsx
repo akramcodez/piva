@@ -6,6 +6,14 @@ import Header from '@/components/ReusableComponents/LayoutComponents/Header';
 import { getProductsByOwnerId } from '@/actions/product';
 import { ClientProduct } from '@/lib/type';
 import { getAllAssistants } from '@/actions/vapi';
+import type { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: 'Piva (Dashboard)',
+  description:
+    'Create and manage AI-powered webinars, configure agents, and track analytics',
+  authors: [{ name: 'SK Akram', url: 'https://x.com/akramcodez' }],
+};
 
 type Props = {
   children: ReactNode;

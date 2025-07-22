@@ -1,7 +1,7 @@
 import React from 'react';
 import Link from 'next/link';
-import { FaXTwitter, FaLinkedinIn, FaGithub } from 'react-icons/fa6'; // Assuming you have these icons installed
-import { Triangle } from 'lucide-react';
+import Image from 'next/image';
+import { FaXTwitter, FaLinkedinIn, FaGithub } from 'react-icons/fa6';
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
@@ -14,7 +14,7 @@ const Footer = () => {
             href="/"
             className="text-2xl font-bold text-white ubuntu-medium flex items-center gap-2"
           >
-            <Triangle className="themeColor" strokeWidth={2.5} size={'25px'} />
+            <Image src={'/logo.png'} alt="Piva Logo" width={28} height={28} />
             <span className="text-2xl">PIVA</span>
           </Link>
         </div>

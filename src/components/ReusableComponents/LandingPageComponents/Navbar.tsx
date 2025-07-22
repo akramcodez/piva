@@ -3,7 +3,6 @@
 import React from 'react';
 import { Button } from '@/components/ui/button';
 import { navbarOptions } from '@/lib/data';
-import { Triangle } from 'lucide-react';
 import { CgMenuLeftAlt } from 'react-icons/cg';
 import Link from 'next/link';
 import {
@@ -12,6 +11,7 @@ import {
   HoverCardTrigger,
 } from '@/components/ui/hover-card';
 import { User } from '@prisma/client';
+import Image from 'next/image';
 
 type Props = {
   user?: User | null;
@@ -21,7 +21,7 @@ const Navbar = ({ user }: Props) => {
   return (
     <div className="flex items-center justify-between w-full h-[60px] sm:h-[70px] border-b-[1px] border-b-gray-700 glassBackground sticky top-0 z-20 overflow-hidden px-6 sm:px-6 md:px-6 lg:px-[90px] xl:px-[100px] 2xl:px-[120px] ">
       <Link href="/" className="flex gap-2 items-center">
-        <Triangle className="themeColor" strokeWidth={2.5} size={'25px'} />
+        <Image src={'/logo.png'} alt="Piva Logo" width={28} height={28} />
         <span className="text-xl text-gray-200 font-semibold ubuntu-medium">
           Piva
         </span>

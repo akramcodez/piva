@@ -1,4 +1,12 @@
+import { Metadata } from 'next';
 import React from 'react';
+
+export const metadata: Metadata = {
+  title: 'Piva (Public Routes)',
+  description:
+    'Join live AI-enhanced webinars with interactive chat and automated sales. Experience intelligent customer engagement',
+  authors: [{ name: 'SK Akram', url: 'https://x.com/akramcodez' }],
+};
 
 type Props = {
   children?: React.ReactNode;
