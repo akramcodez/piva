@@ -116,7 +116,7 @@ Robust authentication using Clerk with custom middleware protection.
 
 Open [http://localhost:3000](http://localhost:3000) to view the application.
 
-## 📁 Project Structure
+## Project Structure
 
 ```
 src/
@@ -134,7 +134,7 @@ src/
 └── types/                   # TypeScript definitions
 ```
 
-## 🎯 Core Features
+## Core Features
 
 ### Dashboard (`/home`)
 
@@ -167,7 +167,7 @@ src/
 ### Settings (`/settings`)
 
 - Account management
-- Stripe connection
+- Demo Stripe connection
 - Platform preferences
 - Analytics configuration
 
@@ -178,10 +178,6 @@ src/
 - **Data Protection**: Encrypted sensitive data
 - **Payment Security**: PCI-compliant Stripe integration
 - **API Security**: Rate limiting and validation
-
-## Deployment
-
-### Vercel Deployment
 
 1. **Connect to Vercel**
 
