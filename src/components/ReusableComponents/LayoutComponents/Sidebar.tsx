@@ -1,3 +1,4 @@
+// src/components/ReusableComponents/LayoutComponents/Sidebar.tsx
 'use client';
 
 import { usePathname } from 'next/navigation';
@@ -7,6 +8,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 
 import { UserButton } from '@clerk/nextjs';
+import { dark } from '@clerk/themes';
 import {
   TooltipContent,
   TooltipProvider,
@@ -25,7 +27,27 @@ const UserButtonWrapper = () => {
     return null;
   }
 
-  return <UserButton afterSignOutUrl="/" />;
+  return (
+    <UserButton
+      afterSignOutUrl="/"
+      appearance={{
+        baseTheme: dark,
+        variables: {
+          colorPrimary: '#2dd4bf',
+          colorText: '#ffffff',
+          borderRadius: '0.5rem',
+        },
+        elements: {
+          userButtonTrigger: {
+            border: '1px solid #374151',
+            '&:hover': {
+              borderColor: '#2dd4bf',
+            },
+          },
+        },
+      }}
+    />
+  );
 };
 
 const Sidebar = () => {

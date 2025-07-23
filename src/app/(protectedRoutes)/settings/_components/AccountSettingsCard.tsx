@@ -77,7 +77,7 @@ export const AccountSettingsCard = ({ user }: Props) => {
             className={`font-medium px-2 py-0.5 rounded-full text-xs ${
               user.subscription
                 ? 'bg-green-100 text-green-800'
-                : 'bg-gray-100 text-gray-800'
+                : 'bg-gray-100 text-red-800'
             }`}
           >
             {user.subscription ? 'Active' : 'Inactive'}

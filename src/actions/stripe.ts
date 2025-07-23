@@ -65,7 +65,7 @@ export const stripeDisconnect = async (id: string) => {
 
     await prismaClient.user.update({
       where: { id: id },
-      data: { stripeConnectId: null },
+      data: { stripeConnectId: null, subscription: false },
     });
 
     revalidatePath('/settings');

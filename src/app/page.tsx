@@ -58,5 +58,4 @@ export default function Home() {
 }
 
 //TODO: create limit in book a call webinar creation
-//TODO: warning do users that this is stripe demo account
 //TODO: Color change of cherk sign-in

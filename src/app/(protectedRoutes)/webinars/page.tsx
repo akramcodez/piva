@@ -37,9 +37,16 @@ const page = async ({ searchParams }: Props) => {
     const currentTime = new Date();
     return webinars?.filter((webinar) => {
       const webinarTime = new Date(webinar.startTime);
-      return type === 'upcoming'
-        ? webinarTime > currentTime
-        : webinarTime < currentTime;
+
+      if (type === 'upcoming') {
+        return webinarTime > currentTime;
+      } else {
+        return (
+          webinarTime < currentTime &&
+          (webinar.webinarStatus === WebinarStatusEnum.ENDED ||
+            webinar.webinarStatus === WebinarStatusEnum.CANCELLED)
+        );
+      }
     });
   };
 
@@ -204,13 +211,7 @@ const page = async ({ searchParams }: Props) => {
             <WebinarCard
               key={webinar.id}
               webinar={webinar}
-              webinarStatus={
-                webinar.startTime < new Date() &&
-                webinar.webinarStatus !== WebinarStatusEnum.ENDED &&
-                webinar.webinarStatus !== WebinarStatusEnum.CANCELLED
-                  ? 2
-                  : 0
-              }
+              webinarStatus={0}
               products={productsForClient}
               assistants={allAgents?.data || []}
             />

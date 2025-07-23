@@ -81,14 +81,15 @@ export const StripeConnectCard = ({ isConnected, userId }: Props) => {
         </p>
       </div>
       <div className="mt-4 flex flex-col sm:flex-row sm:justify-end gap-2">
-        <Button
-          variant={isConnected ? 'outline' : 'default'}
-          className="w-full sm:w-auto themeBg text-white hoverthemeBg"
-          onClick={handleConnect}
-        >
-          {isConnected ? 'Reconnect' : 'Connect Stripe'}
-          <LucideArrowRight className="w-4 h-4 ml-2" />
-        </Button>
+        {!isConnected && (
+          <Button
+            className="w-full sm:w-auto text-white cursor-pointer bg-gradient-to-br from-blue-600 to-[#2c8c88] border border-border font-semibold"
+            onClick={handleConnect}
+          >
+            {isConnected ? 'Reconnect' : 'Connect Stripe'}
+            <LucideArrowRight className="w-4 h-4 ml-2" />
+          </Button>
+        )}
         {isConnected && (
           <Button
             type="submit"

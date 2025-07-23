@@ -6,7 +6,7 @@ import { BackButton } from '@/components/ErrorBoundary/BackButton';
 
 export default function NotFound() {
   return (
-    <div className="min-h-screen flex items-center justify-center p-6 bg-gradient-to-br from-blue-50 to-indigo-100 dark:from-blue-900 dark:to-indigo-800">
+    <div className="min-h-screen flex items-center justify-center p-6 bg-background">
       <div className="max-w-lg w-full text-center space-y-8">
         <div className="flex justify-center">
           <div className="w-20 h-20 bg-blue-100 dark:bg-blue-900/30 rounded-full flex items-center justify-center shadow-lg">
@@ -39,15 +39,16 @@ export default function NotFound() {
 
         <div className="pt-6 border-t border-gray-200 dark:border-gray-700">
           <p className="text-sm text-gray-500 dark:text-gray-400">
-            Still can&apos;t find what you&apos;re looking for?{' '}
+            Still can&apos;t find what you&apos;re looking for? connect with{' '}
             <Link
               href="https://x.com/akramcodez"
               target="_blank"
               rel="noopener noreferrer"
               className="text-blue-600 dark:text-blue-400 hover:underline font-medium"
             >
-              Contact our support team
-            </Link>
+              Akram
+            </Link>{' '}
+            for more details
           </p>
         </div>
       </div>
