@@ -2,7 +2,13 @@ import { onAuthenticateUser } from '@/actions/auth';
 import { getWebinarByPresenterId } from '@/actions/webinar';
 import PageHeader from '@/components/ReusableComponents/PageHeader';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { UserRound, WebcamIcon, Layers } from 'lucide-react';
+import {
+  UserRound,
+  WebcamIcon,
+  Layers,
+  AlertTriangle,
+  Phone,
+} from 'lucide-react';
 import { redirect } from 'next/navigation';
 import React from 'react';
 import WebinarCard from './_components/WebinarCard';
@@ -133,6 +139,22 @@ const page = async ({ searchParams }: Props) => {
         heading="ALL Your Webinars"
         placeholder="Search Option..."
       >
+        <div className="w-full flex flex-col sm:flex-row items-center justify-center gap-4 py-4 text-sm">
+          <div className="flex items-center gap-1 text-blue-600">
+            <Phone className="w-4 h-4 mr-1" />
+            <span className="font-semibold">
+              {checkUser.user?.bookACallWebinarsLimit || 0}
+            </span>
+            <span>Book-a-Call Webinar creation left</span>
+          </div>
+          <div className="w-px h-4 bg-gray-300 hidden sm:block"></div>
+          <div className="flex items-center gap-1 text-orange-600">
+            <AlertTriangle className="w-4 h-4 mr-1" />
+            <span className="text-xs ">
+              Sorry, Piva have limited VAPI credits
+            </span>
+          </div>
+        </div>
         <TabsList className="bg-transparent space-x-2 flex justify-evenly">
           <TabsTrigger
             value="all"

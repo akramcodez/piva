@@ -37,7 +37,7 @@ const ErrorFallback = ({
   }, [error, errorId]);
 
   return (
-    <div className="min-h-screen flex items-center justify-center p-6 bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800">
+    <div className="min-h-screen flex items-center justify-center p-6 bg-background">
       <div className="max-w-lg w-full text-center space-y-8">
         <div className="flex justify-center">
           <div className="w-20 h-20 bg-amber-100 dark:bg-amber-900/20 rounded-full flex items-center justify-center shadow-lg">

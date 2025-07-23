@@ -51,11 +51,21 @@ export const createWebinar = async (formData: WebinarFormState) => {
     }
 
     if (!user.user?.subscription) {
-      return { status: 402, message: 'Subcription Required' };
+      return { status: 402, message: 'Subscription Required' };
     }
 
     const presenterId = user.user?.id;
     console.log('Form Data', formData, presenterId);
+
+    if (formData.cta.ctaType === 'BOOK_A_CALL') {
+      if (user.user.bookACallWebinarsLimit <= 0) {
+        return {
+          status: 400,
+          message:
+            'You have reached your limit for Book-a-Call webinars. Please upgrade your plan.',
+        };
+      }
+    }
 
     if (!formData.basicInfo.webinarName) {
       return { status: 400, message: 'Webinar Name is required' };
@@ -100,18 +110,36 @@ export const createWebinar = async (formData: WebinarFormState) => {
       couponEnabled: formData.additionalInfo.couponEnabled || false,
     };
 
-    const webinar = await prismaClient.webinar.create({
-      data: {
-        ...data,
-        presenterId: presenterId!,
-      },
+    const result = await prismaClient.$transaction(async (tx) => {
+      const webinar = await tx.webinar.create({
+        data: {
+          ...data,
+          presenterId: presenterId!,
+        },
+      });
+
+      if (formData.cta.ctaType === 'BOOK_A_CALL') {
+        await tx.user.update({
+          where: {
+            id: presenterId!,
+          },
+          data: {
+            bookACallWebinarsLimit: {
+              decrement: 1,
+            },
+          },
+        });
+      }
+
+      return webinar;
     });
+
     revalidatePath('/');
     return {
       status: 200,
       message: 'Webinar created successfully',
-      webinarId: webinar.id,
-      webinarLink: `/webinar/${webinar.id}`,
+      webinarId: result.id,
+      webinarLink: `/webinar/${result.id}`,
     };
   } catch (error) {
     console.error('Error creating webinar:', error);
@@ -153,6 +181,18 @@ export const updateWebinar = async (
       };
     }
 
+    const isChangingToBooKACall =
+      existingWebinar.ctaType !== 'BOOK_A_CALL' &&
+      formData.cta.ctaType === 'BOOK_A_CALL';
+
+    if (isChangingToBooKACall && user.user.bookACallWebinarsLimit <= 0) {
+      return {
+        status: 400,
+        message:
+          'You have reached your limit for Book-a-Call webinars. Please upgrade your plan.',
+      };
+    }
+
     if (!formData.basicInfo.webinarName) {
       return { status: 400, message: 'Webinar Name is required' };
     }
@@ -170,14 +210,6 @@ export const updateWebinar = async (
       formData.basicInfo.time,
       formData.basicInfo.timeFormat || 'AM',
     );
-    const now = new Date();
-
-    if (combinedDataTime < now) {
-      return {
-        status: 400,
-        message: 'Webinar Date and Time must be in the future',
-      };
-    }
 
     const updateData: WebinarData = {
       title: formData.basicInfo.webinarName,
@@ -196,11 +228,47 @@ export const updateWebinar = async (
       couponEnabled: formData.additionalInfo.couponEnabled || false,
     };
 
-    const updatedWebinar = await prismaClient.webinar.update({
-      where: {
-        id: webinarId,
-      },
-      data: updateData,
+    // Use transaction to update webinar and user limit
+    const result = await prismaClient.$transaction(async (tx) => {
+      // Update the webinar
+      const updatedWebinar = await tx.webinar.update({
+        where: {
+          id: webinarId,
+        },
+        data: updateData,
+      });
+
+      // Handle limit changes based on CTA type changes
+      if (
+        existingWebinar.ctaType === 'BOOK_A_CALL' &&
+        formData.cta.ctaType !== 'BOOK_A_CALL'
+      ) {
+        // Changed from BOOK_A_CALL to something else - refund the limit
+        await tx.user.update({
+          where: {
+            id: presenterId!,
+          },
+          data: {
+            bookACallWebinarsLimit: {
+              increment: 1,
+            },
+          },
+        });
+      } else if (isChangingToBooKACall) {
+        // Changed to BOOK_A_CALL - decrement the limit
+        await tx.user.update({
+          where: {
+            id: presenterId!,
+          },
+          data: {
+            bookACallWebinarsLimit: {
+              decrement: 1,
+            },
+          },
+        });
+      }
+
+      return updatedWebinar;
     });
 
     revalidatePath('/');
@@ -209,9 +277,9 @@ export const updateWebinar = async (
     return {
       status: 200,
       message: 'Webinar updated successfully',
-      webinarId: updatedWebinar.id,
-      webinarLink: `/webinar/${updatedWebinar.id}`,
-      data: updatedWebinar,
+      webinarId: result.id,
+      webinarLink: `/webinar/${result.id}`,
+      data: result,
     };
   } catch (error) {
     console.error('Error updating webinar:', error);
