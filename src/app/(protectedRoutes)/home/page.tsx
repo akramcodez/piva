@@ -48,7 +48,7 @@ const page = async () => {
         </div>
       </div>
 
-      <div className="mt-8 sm:mt-10 grid grid-cols-1 md:grid-cols-2 gap-6 rounded-xl bg-background-10">
+      <div className="mt-5 sm:mt-7 2xl:mt-10 grid grid-cols-1 md:grid-cols-2 gap-6 rounded-xl bg-background-10">
         <FeatureSectionLayout
           heading="Understand user intent and customize your AI agents accordingly"
           link="/ai-agents"

@@ -20,37 +20,38 @@ const Workflow = ({ user }: Props) => {
       id: 1,
       icon: <FiUserPlus size={20} className="themeColor" />,
       title: 'Sign Up',
-      description: 'Create a free account in seconds.',
+      description: 'Create a free account in seconds',
     },
     {
       id: 2,
       icon: <FiCreditCard size={20} className="themeColor" />,
-      title: 'Connect Stripe',
-      description: 'Link your Stripe account (demo available).',
+      title: 'Connect Demo Stripe',
+      description:
+        'Link your Demo Stripe account (It is not real stripe integration)',
     },
     {
       id: 3,
       icon: <FiBox size={20} className="themeColor" />,
       title: 'Create Products',
-      description: 'Add products or services to sell.',
+      description: 'Add products or services to sell',
     },
     {
       id: 4,
       icon: <FiCalendar size={20} className="themeColor" />,
       title: 'Schedule Webinar',
-      description: 'Set up "Buy Now" or "Book a Call" webinars.',
+      description: 'Set up "Buy Now" or "Book a Call" webinars',
     },
     {
       id: 5,
       icon: <FiVideo size={20} className="themeColor" />,
       title: 'Webinar Starts',
-      description: 'Automated session guides to purchase.',
+      description: 'Automated session guides to purchase',
     },
     {
       id: 6,
       icon: <RiRobot3Line size={20} className="themeColor" />,
       title: 'AI Agent',
-      description: 'Personalized interaction for bookings.',
+      description: 'Personalized interaction for bookings',
     },
   ];
 

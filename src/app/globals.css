@@ -210,6 +210,10 @@
   border: 3px solid #2c8c879f;
 }
 
+.hoverthemeBorderDark:hover {
+  border: 3px solid #2c8c87;
+}
+
 @keyframes pulse {
   0%,
   100% {

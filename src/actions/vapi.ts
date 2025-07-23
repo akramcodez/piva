@@ -2,28 +2,16 @@
 
 import { aiAgentPrompt } from '@/lib/data';
 import { getVapiClient } from '@/lib/vapi/vapiServer';
-import { ExtendedAssistant } from '@/store/useAiAgentStore';
 
-export const getAllAssistants = async (): Promise<{
-  success: boolean;
-  status: number;
-  data?: ExtendedAssistant[];
-  message?: string;
-  jwtExpired?: boolean;
-}> => {
+export const getAllAssistants = async () => {
   try {
     const vapiClient = getVapiClient();
     const getAllAgents = await vapiClient.assistants.list();
 
-    const extendedAgents = getAllAgents.map((agent) => ({
-      ...agent,
-      name: agent.name || 'Unnamed Assistant',
-    })) as ExtendedAssistant[];
-
     return {
       success: true,
       status: 200,
-      data: extendedAgents,
+      data: getAllAgents,
     };
   } catch (error: unknown) {
     console.error('Error fetching agents:', error);

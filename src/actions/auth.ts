@@ -9,57 +9,76 @@ export async function onAuthenticateUser() {
     const user = await currentUser();
 
     if (!user) {
-      return {
-        status: 403,
-      };
+      return { status: 403, user: null, message: 'User not authenticated' };
     }
 
-    const userExists = await prismaClient.user.findUnique({
-      where: {
-        clerkId: user.id,
-      },
+    const existingUser = await prismaClient.user.findUnique({
+      where: { clerkId: user.id },
     });
 
-    if (userExists) {
-      return {
-        status: 200,
-        user: userExists,
-      };
+    if (existingUser) {
+      return { status: 200, user: existingUser };
     }
 
-    const newUser = await prismaClient.user.create({
-      data: {
-        clerkId: user.id,
-        email: user.emailAddresses[0]?.emailAddress || 'no-email-provided',
-        name: user.firstName + ' ' + user.lastName,
-        profileImage: user.imageUrl,
-      },
-    });
+    const userEmail = user.emailAddresses[0]?.emailAddress;
+    const userName =
+      [user.firstName, user.lastName].filter(Boolean).join(' ') || 'No Name';
 
-    if (!newUser) {
-      return {
-        status: 500,
-        message: 'Something went wrong',
-      };
-    }
-
-    return {
-      status: 201,
-      user: newUser,
+    const userData = {
+      clerkId: user.id,
+      email: userEmail || `clerk_${user.id}@temp.com`,
+      name: userName,
+      profileImage: user.imageUrl,
     };
+
+    const newUser = await createUserWithEmailConflictHandling(userData);
+
+    return { status: 201, user: newUser };
   } catch (error: unknown) {
     console.error('Authentication error:', error);
     return {
       status: 500,
+      user: null,
       message: error instanceof Error ? error.message : 'Internal server error',
     };
   }
 }
 
+async function createUserWithEmailConflictHandling(userData: {
+  clerkId: string;
+  email: string;
+  name: string;
+  profileImage: string;
+}) {
+  try {
+    return await prismaClient.user.create({ data: userData });
+  } catch (error: any) {
+    if (error.code === 'P2002' && userData.email.includes('@')) {
+      const existingUser = await prismaClient.user.findUnique({
+        where: { email: userData.email },
+      });
+
+      if (existingUser) {
+        return await prismaClient.user.update({
+          where: { id: existingUser.id },
+          data: {
+            clerkId: userData.clerkId,
+            name: userData.name,
+            profileImage: userData.profileImage,
+          },
+        });
+      }
+    }
+
+    const uniqueEmail = `${userData.clerkId}_${Date.now()}@temp.com`;
+    return await prismaClient.user.create({
+      data: { ...userData, email: uniqueEmail },
+    });
+  }
+}
+
 export async function deleteAccount() {
   try {
-    const client = await clerkClient();
-
     const user = await currentUser();
 
     if (!user) {
@@ -68,38 +87,24 @@ export async function deleteAccount() {
       );
     }
 
+    const client = await clerkClient();
     const userInDb = await prismaClient.user.findUnique({
-      where: {
-        clerkId: user.id,
-      },
+      where: { clerkId: user.id },
     });
 
-    if (!userInDb) {
-      await client.users.deleteUser(user.id);
-      return { success: true, message: 'Clerk user deleted.' };
-    }
-
-    await prismaClient.$transaction(async (tx) => {
-      await tx.product.deleteMany({
-        where: {
-          ownerId: userInDb.id,
-        },
-      });
-
-      await tx.webinar.deleteMany({
-        where: {
-          presenterId: userInDb.id,
-        },
-      });
-
-      await tx.user.delete({
-        where: {
-          id: userInDb.id,
-        },
-      });
-    });
-
+    // Delete from Clerk regardless
     await client.users.deleteUser(user.id);
+
+    // If user exists in database, clean up all related data
+    if (userInDb) {
+      await prismaClient.$transaction([
+        prismaClient.product.deleteMany({ where: { ownerId: userInDb.id } }),
+        prismaClient.webinar.deleteMany({
+          where: { presenterId: userInDb.id },
+        }),
+        prismaClient.user.delete({ where: { id: userInDb.id } }),
+      ]);
+    }
 
     revalidatePath('/');
 

@@ -131,14 +131,6 @@ const EditWebinarDialog = ({
       newErrors['cta.ctaLabel'] = 'CTA label is required';
     }
 
-    if (
-      !formData.cta.tags ||
-      (Array.isArray(formData.cta.tags) && formData.cta.tags.length === 0) ||
-      formData.cta.tags.toString().trim() === ''
-    ) {
-      newErrors['cta.tags'] = 'CTA tags are required';
-    }
-
     if (!formData.cta.ctaType) {
       newErrors['cta.ctaType'] = 'CTA type is required';
     }
@@ -353,28 +345,6 @@ const EditWebinarDialog = ({
               </div>
 
               <div>
-                <Label htmlFor="ctaTags" className="text-sm font-medium">
-                  CTA Tags <span className="text-red-500">*</span>
-                </Label>
-                <Input
-                  id="ctaTags"
-                  value={formData.cta.tags}
-                  onChange={(e) =>
-                    handleInputChange('cta', 'tags', e.target.value)
-                  }
-                  className={`mt-1 bg-gray-900 border-gray-700 text-white ${
-                    errors['cta.tags'] ? 'border-red-500' : ''
-                  }`}
-                  placeholder="Add Tags and press Enter"
-                />
-                {errors['cta.tags'] && (
-                  <p className="text-red-500 text-sm mt-1">
-                    {errors['cta.tags']}
-                  </p>
-                )}
-              </div>
-
-              <div>
                 <Label className="text-sm font-medium">
                   CTA Type <span className="text-red-500">*</span>
                 </Label>
@@ -441,8 +411,8 @@ const EditWebinarDialog = ({
                         {filteredAssistants?.length > 0 ? (
                           filteredAssistants.map((assistant) => (
                             <SelectItem
-                              key={assistant.name}
-                              value={assistant.name}
+                              key={assistant.id}
+                              value={assistant.id}
                               className="!bg-background/50 hover:!bg-white/10"
                             >
                               {assistant.name}

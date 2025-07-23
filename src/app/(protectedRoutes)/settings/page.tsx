@@ -9,6 +9,7 @@ import React from 'react';
 import { StripeConnectCard } from './_components/StripeConnectCard';
 import { AccountSettingsCard } from './_components/AccountSettingsCard';
 import { CompactDashboardCard } from './_components/CompactDashboardCard';
+import { addStripeId } from '@/actions/stripe';
 
 const page = async () => {
   const { user } = await onAuthenticateUser();
@@ -25,8 +26,6 @@ const page = async () => {
     calculateRevenue(user.id),
   ]);
 
-  const stripeLink = getStripeOAuthLink('api/stripe-connect', user.id);
-
   return (
     <div className="md:px-3 space-y-5">
       <div>
@@ -37,11 +36,7 @@ const page = async () => {
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <StripeConnectCard
-          isConnected={isConnected}
-          stripeLink={stripeLink}
-          userId={user.id}
-        />
+        <StripeConnectCard isConnected={isConnected} userId={user.id} />
 
         <AccountSettingsCard user={user} />
 

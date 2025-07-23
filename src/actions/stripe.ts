@@ -1,95 +1,54 @@
 'use server';
 
 import { prismaClient } from '@/lib/prismaClient';
-import { changeAttendenceType } from './attendence';
-import { onAuthenticateUser } from './auth';
-import { stripe } from '@/lib/stripe';
+import { v4 as uuidv4 } from 'uuid';
+import { revalidatePath } from 'next/cache';
 
-export const getAllProductsFromStripe = async () => {
+export const addStripeId = async (userId: string) => {
   try {
-    const currentUser = await onAuthenticateUser();
-    if (!currentUser.user) {
+    if (!userId) {
       return {
-        error: 'User not authenticated',
-        status: 401,
+        status: 400,
         success: false,
+        message: 'User ID is required',
       };
     }
 
-    if (!currentUser.user.stripeCustomerId) {
+    const existingUser = await prismaClient.user.findUnique({
+      where: { id: userId },
+      select: { stripeConnectId: true },
+    });
+
+    if (existingUser?.stripeConnectId) {
       return {
-        error: 'User does not have a Stripe customer ID',
-        status: 401,
-        success: false,
+        status: 200,
+        success: true,
+        message: 'Stripe account already connected',
+        stripeConnectId: existingUser.stripeConnectId,
       };
     }
 
-    const Products = await stripe.products.list(
-      {},
-      {
-        stripeAccount: currentUser.user.stripeCustomerId,
-      },
-    );
+    const demoStripeId = `acct_demo_${uuidv4().replace(/-/g, '')}`;
+
+    const updatedUser = await prismaClient.user.update({
+      where: { id: userId },
+      data: { stripeConnectId: demoStripeId, subscription: true },
+    });
+
+    revalidatePath('/settings');
 
     return {
-      products: Products.data,
-      success: true,
       status: 200,
+      success: true,
+      message: 'Demo Stripe account connected successfully',
+      stripeConnectId: updatedUser.stripeConnectId,
     };
   } catch (error: unknown) {
-    console.error('Error getting products from Stripe:', error);
+    console.error('Failed to add demo Stripe ID:', error);
     return {
-      error: 'Failed getting products from Stripe',
       status: 500,
       success: false,
-    };
-  }
-};
-
-export const createCheckoutLink = async (
-  priceId: string,
-  stripeId: string,
-  attendeeId: string,
-  webinarId: string,
-  bookCall: boolean = false,
-) => {
-  try {
-    const session = await stripe.checkout.sessions.create(
-      {
-        line_items: [
-          {
-            price: priceId,
-            quantity: 1,
-          },
-        ],
-        mode: 'payment',
-        success_url: `${process.env.NEXT_PUBLIC_BASE_URL}/`,
-        cancel_url: `${process.env.NEXT_PUBLIC_BASE_URL}/`,
-        metadata: {
-          attendeeId: attendeeId,
-          webinarId: webinarId,
-        },
-      },
-      {
-        stripeAccount: stripeId,
-      },
-    );
-
-    if (bookCall) {
-      await changeAttendenceType(attendeeId, webinarId, 'ADDED_TO_CART');
-    }
-
-    return {
-      success: true,
-      status: 200,
-      sessionUrl: session.url,
-    };
-  } catch (error: unknown) {
-    console.log('Error creating checkout link', error);
-    return {
-      error: 'Error creating checkout link',
-      status: 500,
-      success: false,
+      message: 'Failed to connect demo Stripe account',
     };
   }
 };
@@ -109,6 +68,8 @@ export const stripeDisconnect = async (id: string) => {
       data: { stripeConnectId: null },
     });
 
+    revalidatePath('/settings');
+
     return {
       status: 200,
       success: true,
@@ -123,3 +84,92 @@ export const stripeDisconnect = async (id: string) => {
     };
   }
 };
+
+// export const getAllProductsFromStripe = async () => {
+//   try {
+//     const currentUser = await onAuthenticateUser();
+//     if (!currentUser.user) {
+//       return {
+//         error: 'User not authenticated',
+//         status: 401,
+//         success: false,
+//       };
+//     }
+
+//     if (!currentUser.user.stripeCustomerId) {
+//       return {
+//         error: 'User does not have a Stripe customer ID',
+//         status: 401,
+//         success: false,
+//       };
+//     }
+
+//     const Products = await stripe.products.list(
+//       {},
+//       {
+//         stripeAccount: currentUser.user.stripeCustomerId,
+//       },
+//     );
+
+//     return {
+//       products: Products.data,
+//       success: true,
+//       status: 200,
+//     };
+//   } catch (error: unknown) {
+//     console.error('Error getting products from Stripe:', error);
+//     return {
+//       error: 'Failed getting products from Stripe',
+//       status: 500,
+//       success: false,
+//     };
+//   }
+// };
+
+// export const createCheckoutLink = async (
+//   priceId: string,
+//   stripeId: string,
+//   attendeeId: string,
+//   webinarId: string,
+//   bookCall: boolean = false,
+// ) => {
+//   try {
+//     const session = await stripe.checkout.sessions.create(
+//       {
+//         line_items: [
+//           {
+//             price: priceId,
+//             quantity: 1,
+//           },
+//         ],
+//         mode: 'payment',
+//         success_url: `${process.env.NEXT_PUBLIC_BASE_URL}/`,
+//         cancel_url: `${process.env.NEXT_PUBLIC_BASE_URL}/`,
+//         metadata: {
+//           attendeeId: attendeeId,
+//           webinarId: webinarId,
+//         },
+//       },
+//       {
+//         stripeAccount: stripeId,
+//       },
+//     );
+
+//     if (bookCall) {
+//       await changeAttendenceType(attendeeId, webinarId, 'ADDED_TO_CART');
+//     }
+
+//     return {
+//       success: true,
+//       status: 200,
+//       sessionUrl: session.url,
+//     };
+//   } catch (error: unknown) {
+//     console.log('Error creating checkout link', error);
+//     return {
+//       error: 'Error creating checkout link',
+//       status: 500,
+//       success: false,
+//     };
+//   }
+// };

@@ -9,43 +9,56 @@ import {
 } from 'lucide-react';
 import Link from 'next/link';
 import { toast } from 'sonner';
-import { stripeDisconnect } from '@/actions/stripe';
+import { addStripeId, stripeDisconnect } from '@/actions/stripe';
 import { useRouter } from 'next/navigation';
 
 type Props = {
   isConnected: boolean;
-  stripeLink: string;
   userId: string;
 };
 
-export const StripeConnectCard = ({
-  isConnected,
-  stripeLink,
-  userId,
-}: Props) => {
+export const StripeConnectCard = ({ isConnected, userId }: Props) => {
   const router = useRouter();
+
+  const handleConnect = async () => {
+    try {
+      const result = await addStripeId(userId);
+      if (result.success) {
+        toast.success('Demo Stripe Account Connected');
+        router.refresh();
+      } else {
+        toast.error(result.message || 'Failed to connect demo Stripe account');
+      }
+    } catch (error: unknown) {
+      console.error('Failed to Connect Demo Stripe Account: ', error);
+      toast.error('Server Failed to Connect Demo Stripe Account');
+    }
+  };
 
   const handleStripeDisconnect = async () => {
     try {
       const result = await stripeDisconnect(userId);
       if (result.success) {
-        toast.success('Stripe Account Disconnected');
+        toast.success('Demo Stripe Account Disconnected');
         router.refresh();
       } else {
-        toast.error('Failed to Disconnect Stripe Account');
+        toast.error('Failed to Disconnect Demo Stripe Account');
       }
     } catch (error: unknown) {
-      console.error('Failed to Disconnect Stripe Account: ', error);
-      toast.error('Server Failed to Disconnect Stripe Account');
+      console.error('Failed to Disconnect Demo Stripe Account: ', error);
+      toast.error('Server Failed to Disconnect Demo Stripe Account');
     }
   };
 
   return (
     <div className="p-4 border rounded-lg bg-background shadow-sm flex flex-col justify-between">
       <div>
-        <h2 className="text-lg font-semibold">Stripe Connect</h2>
-        <p className="text-sm text-muted-foreground mb-4">
-          Process payments by connecting your Stripe account.
+        <h2 className="text-lg font-semibold">Demo Stripe Connect</h2>
+        <p className="text-sm text-muted-foreground mt-2 mb-1">
+          <Link href="https://x.com/akramcodez" className=" text-blue-500">
+            Akram
+          </Link>{' '}
+          has created a demo Stripe Connect integration for testing purposes
         </p>
         <div
           className={`p-3 rounded-md flex items-center gap-3 text-sm font-medium ${
@@ -64,19 +77,17 @@ export const StripeConnectCard = ({
           </span>
         </div>
         <p className="text-xs text-muted-foreground mt-2">
-          Stripe will handle all payment processing, transfers, and refunds.
+          Demo Stripe account is compulsory to create webinars and products
         </p>
       </div>
       <div className="mt-4 flex flex-col sm:flex-row sm:justify-end gap-2">
         <Button
-          asChild
           variant={isConnected ? 'outline' : 'default'}
           className="w-full sm:w-auto themeBg text-white hoverthemeBg"
+          onClick={handleConnect}
         >
-          <Link href={stripeLink}>
-            {isConnected ? 'Reconnect' : 'Connect Stripe'}
-            <LucideArrowRight className="w-4 h-4 ml-2" />
-          </Link>
+          {isConnected ? 'Reconnect' : 'Connect Stripe'}
+          <LucideArrowRight className="w-4 h-4 ml-2" />
         </Button>
         {isConnected && (
           <Button

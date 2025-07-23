@@ -28,7 +28,7 @@ const page = async ({ searchParams }: Props) => {
     redirect('/sign-in');
   }
 
-  const webinars = await getWebinarByPresenterId(
+  const serverWebinars = await getWebinarByPresenterId(
     checkUser?.user?.id ?? '',
     webinarStatus as WebinarStatusEnum,
   );
@@ -43,8 +43,68 @@ const page = async ({ searchParams }: Props) => {
     });
   };
 
-  const upcomingWebinars = filterWebinars(webinars, 'upcoming');
-  const endedWebinars = filterWebinars(webinars, 'ended');
+  const sortWebinars = (
+    webinars: Webinar[],
+    type: 'all' | 'upcoming' | 'ended',
+  ) => {
+    if (!webinars || webinars.length === 0) return webinars;
+
+    return webinars.sort((a, b) => {
+      const timeA = new Date(a.startTime).getTime();
+      const timeB = new Date(b.startTime).getTime();
+      const currentTime = new Date().getTime();
+
+      const aIsOverdue =
+        timeA < currentTime &&
+        a.webinarStatus !== WebinarStatusEnum.ENDED &&
+        a.webinarStatus !== WebinarStatusEnum.CANCELLED;
+      const bIsOverdue =
+        timeB < currentTime &&
+        b.webinarStatus !== WebinarStatusEnum.ENDED &&
+        b.webinarStatus !== WebinarStatusEnum.CANCELLED;
+
+      if (aIsOverdue && !bIsOverdue) return -1;
+      if (!aIsOverdue && bIsOverdue) return 1;
+
+      if (aIsOverdue && bIsOverdue) {
+        return timeA - timeB;
+      }
+
+      switch (type) {
+        case 'upcoming':
+          return timeA - timeB;
+
+        case 'ended':
+          return timeB - timeA;
+
+        case 'all':
+          const aIsUpcoming = timeA > currentTime;
+          const bIsUpcoming = timeB > currentTime;
+
+          if (aIsUpcoming && !bIsUpcoming) return -1;
+          if (!aIsUpcoming && bIsUpcoming) return 1;
+
+          if (aIsUpcoming && bIsUpcoming) {
+            return timeA - timeB;
+          } else {
+            return timeB - timeA;
+          }
+
+        default:
+          return 0;
+      }
+    });
+  };
+
+  const upcomingWebinars = sortWebinars(
+    filterWebinars(serverWebinars, 'upcoming'),
+    'upcoming',
+  );
+  const endedWebinars = sortWebinars(
+    filterWebinars(serverWebinars, 'ended'),
+    'ended',
+  );
+  const webinars = sortWebinars(serverWebinars, 'all');
 
   const products = await getProductsByOwnerId(checkUser.user?.id);
 
@@ -91,6 +151,15 @@ const page = async ({ searchParams }: Props) => {
             <WebinarCard
               key={index}
               webinar={webinar}
+              webinarStatus={
+                webinar.startTime < new Date() &&
+                webinar.webinarStatus !== WebinarStatusEnum.ENDED &&
+                webinar.webinarStatus !== WebinarStatusEnum.CANCELLED
+                  ? 2
+                  : webinar.startTime > new Date()
+                  ? 1
+                  : 0
+              }
               products={productsForClient}
               assistants={allAgents?.data || []}
             />
@@ -114,6 +183,7 @@ const page = async ({ searchParams }: Props) => {
             <WebinarCard
               key={webinar.id}
               webinar={webinar}
+              webinarStatus={1}
               products={productsForClient}
               assistants={allAgents?.data || []}
             />
@@ -134,6 +204,13 @@ const page = async ({ searchParams }: Props) => {
             <WebinarCard
               key={webinar.id}
               webinar={webinar}
+              webinarStatus={
+                webinar.startTime < new Date() &&
+                webinar.webinarStatus !== WebinarStatusEnum.ENDED &&
+                webinar.webinarStatus !== WebinarStatusEnum.CANCELLED
+                  ? 2
+                  : 0
+              }
               products={productsForClient}
               assistants={allAgents?.data || []}
             />

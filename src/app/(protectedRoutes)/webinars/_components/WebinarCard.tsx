@@ -29,11 +29,17 @@ import { Assistant } from '@vapi-ai/server-sdk/api';
 
 type Props = {
   webinar: Webinar;
+  webinarStatus: number;
   products: ClientProduct[] | [];
   assistants: Assistant[] | [];
 };
 
-const WebinarCard = ({ webinar, products, assistants }: Props) => {
+const WebinarCard = ({
+  webinar,
+  products,
+  assistants,
+  webinarStatus,
+}: Props) => {
   const router = useRouter();
   const [isDeleting, setIsDeleting] = React.useState(false);
   const [editDialog, setEditDialog] = React.useState(false);
@@ -61,7 +67,15 @@ const WebinarCard = ({ webinar, products, assistants }: Props) => {
       <div className="w-full relative">
         <Link href={`/live-webinar/${webinar?.id}`} className="w-full">
           <div className="w-full h-full flex items-center">
-            <div className="w-full h-45 relative rounded-xl overflow-hidden mb-4 border-[3px] hoverthemeBorder">
+            <div
+              className={`w-full h-45 relative rounded-xl overflow-hidden mb-4 border-[3px] hoverthemeBorderDark ${
+                webinarStatus === 2
+                  ? ' border-green-800'
+                  : webinarStatus === 1
+                  ? ''
+                  : 'border-red-900'
+              }`}
+            >
               <Image
                 src={
                   webinar.thumbnail ? `${webinar.thumbnail}` : '/webinar.jpg'
