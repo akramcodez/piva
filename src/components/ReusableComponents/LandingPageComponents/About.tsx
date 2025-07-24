@@ -21,13 +21,13 @@ const About = () => {
           <div className="space-y-4">
             <p className="text-gray-300 text-md sm:text-[17px] leading-relaxed">
               Piva is an AI-powered platform for sales webinars. It automates
-              your webinars and uses AI agents to engage prospects effectively.
+              your webinars and uses AI agents to engage prospects effectively
             </p>
             <p className="text-gray-400 text-md leading-relaxed">
               If you appreciate the work behind this project, consider giving it
               a ⭐ on GitHub:{' '}
               <a
-                href="https://github.com/akramcodez/piva"
+                href="https://github.com/akramcodez/Piva"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-blue-400 underline hover:text-blue-300"

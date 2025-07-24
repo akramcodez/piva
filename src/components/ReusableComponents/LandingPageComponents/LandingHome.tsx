@@ -79,9 +79,9 @@ const LandingHome = ({ user }: Props) => {
           {user && (
             <Link
               href="/home"
-              className="flex items-center px-20 py-1 sm:py-1.5 2xl:py-2 mt-8 border-[0.1rem] border-[#2c8c88] rounded-lg animated-gradient-bg cursor-pointer"
+              className="flex items-center px-16 py-1 sm:py-1.5 2xl:py-2 mt-8 border-[0.1rem] border-[#2c8c88] rounded-lg animated-gradient-bg cursor-pointer"
             >
-              Start Now
+              Open Dashboard
             </Link>
           )}
         </div>

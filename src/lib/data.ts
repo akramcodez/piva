@@ -37,7 +37,7 @@ export const sidebarData = [
     id: 6,
     title: 'Give It Star',
     icon: Star,
-    link: 'https://github.com/akramcodez/pivaAi',
+    link: 'https://github.com/akramcodez/Piva',
   },
 ];
 

@@ -43,7 +43,7 @@ export default function Home() {
           id="workflow"
           className="flex items-center justify-center min-h-screen"
         >
-          <Workflow user={userExist} />
+          <Workflow />
         </section>
         <section
           id="about"
@@ -56,6 +56,3 @@ export default function Home() {
     </div>
   );
 }
-
-//TODO: create limit in book a call webinar creation
-//TODO: Color change of cherk sign-in

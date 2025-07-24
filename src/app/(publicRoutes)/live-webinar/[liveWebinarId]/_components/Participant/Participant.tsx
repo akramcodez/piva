@@ -197,7 +197,7 @@ const Participant = ({ apiKey, callId, webinar, product }: Props) => {
           )}
           {connectionStatus === 'connected' && (
             <>
-              <div className="mx-auto w-16 h-16 text-green-500">
+              <div className="mx-auto w-16 h-16 bg-background text-green-500">
                 <CircleCheckBig className="h-16 w-16" />
               </div>
             </>

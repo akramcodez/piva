@@ -8,13 +8,8 @@ import {
 } from 'react-icons/fi';
 import { RiRobot3Line } from 'react-icons/ri';
 import Link from 'next/link';
-import { User } from '@prisma/client';
 
-type Props = {
-  user?: User | null;
-};
-
-const Workflow = ({ user }: Props) => {
+const Workflow = () => {
   const workflowSteps = [
     {
       id: 1,
@@ -94,23 +89,14 @@ const Workflow = ({ user }: Props) => {
           ))}
         </div>
       </div>
-
-      {!user && (
-        <Link
-          href="/sign-in"
-          className="flex items-center px-20 py-1 sm:py-1.5 2xl:py-2 mt-8 border-[0.1rem] border-[#2c8c88] rounded-lg animated-gradient-bg cursor-pointer"
-        >
-          Create Account
-        </Link>
-      )}
-      {user && (
-        <Link
-          href="/home"
-          className="flex items-center px-20 py-1 sm:py-1.5 2xl:py-2 mt-8 border-[0.1rem] border-[#2c8c88] rounded-lg animated-gradient-bg cursor-pointer"
-        >
-          Open Dashboard
-        </Link>
-      )}
+      <Link
+        href="https://x.com/akramcodez"
+        target="_blank"
+        rel="noopener noreferrer"
+        className="flex items-center px-20 py-1 sm:py-1.5 2xl:py-2 mt-8 border-[0.1rem] border-[#2c8c88] rounded-lg themeBg hoverthemeBg cursor-pointer"
+      >
+        Watch Tutorial
+      </Link>
     </div>
   );
 };

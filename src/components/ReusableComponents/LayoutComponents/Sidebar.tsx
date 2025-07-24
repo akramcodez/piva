@@ -67,6 +67,16 @@ const Sidebar = () => {
                 <TooltipTrigger asChild>
                   <Link
                     href={item.link}
+                    target={
+                      item.link === 'https://github.com/akramcodez/Piva'
+                        ? '_blank'
+                        : undefined
+                    }
+                    rel={
+                      item.link === 'https://github.com/akramcodez/Piva'
+                        ? 'noopener noreferrer'
+                        : undefined
+                    }
                     className={`flex items-center gap-2 cursor-pointer rounded-lg p-2 ${
                       pathname.includes(item.link) ? 'iconBackground' : ''
                     }`}

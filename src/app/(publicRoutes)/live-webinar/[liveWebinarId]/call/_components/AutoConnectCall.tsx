@@ -6,12 +6,14 @@ import { vapi } from '@/lib/vapi/vapiclient';
 import { changeCallStatus } from '@/actions/attendence';
 import { CallStatusEnum } from '@prisma/client';
 import { toast } from 'sonner';
-import { Clock, Loader2, Mic, MicOff, PhoneOff } from 'lucide-react';
+import { Bot, Clock, Loader2, Mic, MicOff, PhoneOff } from 'lucide-react';
 import { RiRobot3Line } from 'react-icons/ri';
 import { cn } from '@/lib/utils';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
 import PurchaseDialogBox from '../../_components/Common/PurchaseDialogBox';
+import { Badge } from '@/components/ui/badge';
+import Image from 'next/image';
 
 const CallStatus = {
   CONNECTING: 'CONNECTING',
@@ -239,232 +241,316 @@ const AutoConnectCall = ({
   }, [userName, callTimeLimit, startCall, stopCall, setupAudio, cleanup]);
 
   return (
-    <div className="flex flex-col h-[calc(100vh-80px)] bg-background">
-      <div className="flex-1 flex flex-col md:flex-row p-4 gap-4 relative">
-        <div className="flex-1 bg-card rounded-xl overflow-hidden shadow-lg relative">
-          <div className="absolute top-4 left-4 bg-black/40 text-white px-3 py-1 rounded-full text-sm flex items-center gap-1 z-10">
-            <Mic
-              className={cn('h-4 e-4', assistantIsSpeaking ? 'themeColor' : '')}
-            />
-            <span>{assistantName}</span>
-          </div>
-
-          <div className="h-full flex items-center justify-center">
-            <div className="relative">
-              {assistantIsSpeaking && (
-                <>
-                  <div
-                    className="absolute inset-0 rounded-full border-4
-                    themeBgBorder animate-ping opacity-20"
-                    style={{ margin: '-8px' }}
-                  />
-                  <div
-                    className="absolute inset-0 rounded-full border-4
-                    themeBgBorder animate-ping opacity-10"
-                    style={{ margin: '-16px', animationDelay: '0.5s' }}
-                  />
-                </>
-              )}
-
-              <div
-                className={cn(
-                  'flex justify-center items-center rounded-full overflow-hidden border-4 p-6',
-                  assistantIsSpeaking ? 'themeBgBorder' : 'themeBgBorderLight',
-                )}
-              >
-                <RiRobot3Line className="w-[70px] h-[70px]" />
+    <div className="min-h-screen bg-background">
+      <div className="border-b border-border backdrop-blur-sm sticky top-0 z-40">
+        <div className="max-w-7xl px-4 py-3">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-3">
+              <div className="w-8 h-8 rounded-lg themeBg flex items-center justify-center">
+                <Bot className="w-4 h-4 text-white" />
               </div>
-              {assistantIsSpeaking && (
-                <div
-                  className="absolute -bottom-0.5 -right-2 themeBgDark 
-                text-white p-2 rounded-full"
-                >
-                  <Mic className="h-4 w-4" />
-                </div>
+              <div>
+                <h1 className="text-lg font-semibold truncate max-w-[200px] sm:max-w-none">
+                  {webinar.title}
+                </h1>
+                <p className="text-sm text-muted-foreground">AI Sales Call</p>
+              </div>
+            </div>
+            <div className="flex items-center gap-2">
+              {callStatus === CallStatus.ACTIVE && (
+                <>
+                  <Badge
+                    variant="outline"
+                    className="hidden sm:flex items-center gap-1.5"
+                  >
+                    <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse" />
+                    Live
+                  </Badge>
+
+                  <Badge
+                    variant="secondary"
+                    className={cn(
+                      'font-mono text-sm',
+                      timeRemaining < 30 &&
+                        'bg-destructive/10 text-destructive border-destructive/20',
+                    )}
+                  >
+                    <Clock className="w-3 h-3 mr-1" />
+                    {formatTime(timeRemaining)}
+                  </Badge>
+                </>
               )}
             </div>
           </div>
         </div>
-
-        <div className="flex-1 bg-card rounded-xl overflow-hidden shadow-lg relative">
-          <div
-            className="absolute top-4 left-4 bg-black/40 text-white px-3 py-1 
-            rounded-full text-sm flex items-center gap-2 z-10"
-          >
-            {isMicMuted ? (
-              <>
-                <MicOff className="h-4 w-4 text-destructive" />
-                <span>Muted</span>
-              </>
-            ) : (
-              <>
-                <Mic
-                  className={cn('h-4 w-4', userIsSpeaking ? 'themeColor' : '')}
-                />
-                <span>{userName}</span>
-              </>
-            )}
-          </div>
-
-          <div
-            className="absolute top-4 right-4 bg-black/40 text-white px-3 py-1
-            rounded-full text-sm flex items-center gap-2 z-10"
-          >
-            <Clock className="h-4 w-4" />
-            <span>{formatTime(timeRemaining)}</span>
-          </div>
-
-          <div className="h-full flex items-center justify-center">
-            <div className="relative">
-              {userIsSpeaking && !isMicMuted && (
-                <>
-                  <div
-                    className="absolute inset-0 rounded-full border-4
-                    themeBgBorder animate-ping opacity-20"
-                    style={{ margin: '-8px' }}
-                  ></div>
-                </>
-              )}
-
-              <div
-                className={cn(
-                  'flex justify-center items-center rounded-full overflow-hidden border-4',
-                  isMicMuted
-                    ? 'border-destructive/50'
-                    : userIsSpeaking
-                    ? 'themeBgBorder'
-                    : 'themeBgBorderLight',
-                )}
-              >
-                <Avatar className="w-[110px] h-[110px]">
-                  <AvatarImage src="/user-avatar.png" alt={userName} />
-                  <AvatarFallback>
-                    {userName.split('')?.[0].toUpperCase()}
-                  </AvatarFallback>
-                </Avatar>
-              </div>
-
-              {isMicMuted && (
-                <div
-                  className="absolute -bottom-2 -right-2 bg-destructive 
-                text-white p-2 rounded-full"
-                >
-                  <MicOff className="h-4 w-4" />
-                </div>
-              )}
-
-              {userIsSpeaking && !isMicMuted && (
-                <div
-                  className="absolute -bottom-0.5 -right-2 themeBgDark 
-                text-white p-2 rounded-full"
-                >
-                  <Mic className="h-4 w-4" />
-                </div>
-              )}
-            </div>
-          </div>
-        </div>
-
-        {callStatus === CallStatus.CONNECTING && (
-          <div
-            className="absolute inset-0 bg-background/80 flex items-center
-            justify-center gap-2 z-50"
-          >
-            <Loader2 className="h-10 w-10 animate-spin themeColor" />
-            <h3 className="text-xl font-medium">Connecting...</h3>
-          </div>
-        )}
-
-        {callStatus === CallStatus.FINISHED && (
-          <div
-            className="absolute inset-0 bg-background/90 flex items-center
-            justify-center flex-col gap-2 z-50"
-          >
-            <h3 className="text-xl font-medium">Call Ended</h3>
-            <p className="text-muted-foreground">Time Limit reached</p>
-          </div>
-        )}
       </div>
 
-      <div className="bg-card border-t border-border p-4 rounded-lg">
-        <div
-          className="max-w-3xl mx-auto flex item-center justify-between 
-          flex-wrap gap-3"
-        >
-          <div className="flex items-center gap-2">
-            {callStatus === CallStatus.ACTIVE && (
-              <>
-                <Clock className="h-6 w-6 text-muted-foreground" />
-                <span
+      <div className="flex flex-col h-[calc(95vh-80px)] bg-background z-0">
+        <div className="flex-1 flex flex-col md:flex-row p-4 gap-4 relative">
+          <div className="flex-1 bg-card rounded-xl overflow-hidden shadow-lg relative">
+            <div className="absolute top-4 left-4 bg-black/40 text-white px-3 py-1 rounded-full text-sm flex items-center gap-1 z-10">
+              <Mic
+                className={cn(
+                  'h-4 e-4',
+                  assistantIsSpeaking ? 'themeColor' : '',
+                )}
+              />
+              <span>{assistantName}</span>
+            </div>
+
+            <div className="h-full flex items-center justify-center">
+              <div className="relative">
+                {assistantIsSpeaking && (
+                  <>
+                    <div
+                      className="absolute inset-0 rounded-full border-4
+                    themeBgBorder animate-ping opacity-20"
+                      style={{ margin: '-8px' }}
+                    />
+                    <div
+                      className="absolute inset-0 rounded-full border-4
+                    themeBgBorder animate-ping opacity-10"
+                      style={{ margin: '-16px', animationDelay: '0.5s' }}
+                    />
+                  </>
+                )}
+
+                <div
                   className={cn(
-                    'text-sm font-lg',
-                    timeRemaining < 30
-                      ? 'text-destructive animate-pulse'
-                      : timeRemaining < 60
-                      ? 'text-amber-500'
-                      : 'text-muted-foreground',
+                    'flex justify-center items-center rounded-full overflow-hidden border-4 p-6',
+                    assistantIsSpeaking
+                      ? 'themeBgBorder'
+                      : 'themeBgBorderLight',
                   )}
                 >
-                  {formatTime(timeRemaining)}
-                </span>
-              </>
-            )}
+                  <RiRobot3Line className="w-[70px] h-[70px]" />
+                </div>
+                {assistantIsSpeaking && (
+                  <div
+                    className="absolute -bottom-0.5 -right-2 themeBgDark 
+                text-white p-2 rounded-full"
+                  >
+                    <Mic className="h-4 w-4" />
+                  </div>
+                )}
+              </div>
+            </div>
           </div>
 
-          <div className="flex items-center gap-4">
-            <button
-              onClick={toggleMicMute}
-              className={cn(
-                'p-3 rounded-full transition-all',
-                isMicMuted
-                  ? 'bg-destructive text-primary'
-                  : 'bg-secondary hover:bg-secondary/80 text-foreground border border-border',
-              )}
-              disabled={callStatus !== CallStatus.ACTIVE}
+          <div className="flex-1 bg-card rounded-xl overflow-hidden shadow-lg relative">
+            <div
+              className="absolute top-4 left-4 bg-black/40 text-white px-3 py-1 
+            rounded-full text-sm flex items-center gap-2 z-10"
             >
               {isMicMuted ? (
-                <MicOff className="h-6 w-6" />
+                <>
+                  <MicOff className="h-4 w-4 text-destructive" />
+                  <span>Muted</span>
+                </>
               ) : (
-                <Mic className="h-6 w-6" />
+                <>
+                  <Mic
+                    className={cn(
+                      'h-4 w-4',
+                      userIsSpeaking ? 'themeColor' : '',
+                    )}
+                  />
+                  <span>{userName}</span>
+                </>
               )}
-            </button>
+            </div>
 
-            <button
-              onClick={stopCall}
-              className="p-3 rounded-full bg-destructive text-primary hover:bg-destructive/90 transition-all"
-              aria-label="End call"
-              disabled={callStatus !== CallStatus.ACTIVE}
+            <div
+              className="absolute top-4 right-4 bg-black/40 text-white px-3 py-1
+            rounded-full text-sm flex items-center gap-2 z-10"
             >
-              <PhoneOff className="h-6 w-6" />
-            </button>
+              <Clock className="h-4 w-4" />
+              <span>{formatTime(timeRemaining)}</span>
+            </div>
+
+            <div className="h-full flex items-center justify-center">
+              <div className="relative">
+                {userIsSpeaking && !isMicMuted && (
+                  <>
+                    <div
+                      className="absolute inset-0 rounded-full border-4
+                    themeBgBorder animate-ping opacity-20"
+                      style={{ margin: '-8px' }}
+                    ></div>
+                  </>
+                )}
+
+                <div
+                  className={cn(
+                    'flex justify-center items-center rounded-full overflow-hidden border-4',
+                    isMicMuted
+                      ? 'border-destructive/50'
+                      : userIsSpeaking
+                      ? 'themeBgBorder'
+                      : 'themeBgBorderLight',
+                  )}
+                >
+                  <Avatar className="w-[110px] h-[110px]">
+                    <AvatarImage src="/user-avatar.png" alt={userName} />
+                    <AvatarFallback>
+                      {userName.split('')?.[0].toUpperCase()}
+                    </AvatarFallback>
+                  </Avatar>
+                </div>
+
+                {isMicMuted && (
+                  <div
+                    className="absolute -bottom-2 -right-2 bg-destructive 
+                text-white p-2 rounded-full"
+                  >
+                    <MicOff className="h-4 w-4" />
+                  </div>
+                )}
+
+                {userIsSpeaking && !isMicMuted && (
+                  <div
+                    className="absolute -bottom-0.5 -right-2 themeBgDark 
+                text-white p-2 rounded-full"
+                  >
+                    <Mic className="h-4 w-4" />
+                  </div>
+                )}
+              </div>
+            </div>
           </div>
 
-          <Button
-            variant={'outline'}
-            onClick={handleClick}
-            className="cursor-pointer mt-2"
-          >
-            Buy Now
-          </Button>
+          {callStatus === CallStatus.CONNECTING && (
+            <div
+              className="absolute inset-0 bg-background/80 flex items-center
+            justify-center gap-2 z-50"
+            >
+              <Loader2 className="h-10 w-10 animate-spin themeColor" />
+              <h3 className="text-xl font-medium">Connecting...</h3>
+            </div>
+          )}
 
-          <div className="hidden md:block">
-            {callStatus === CallStatus.ACTIVE && timeRemaining < 30 && (
-              <span className="text-destructive font-medium">
-                Call ending soon
-              </span>
-            )}
+          {callStatus === CallStatus.FINISHED && (
+            <div
+              className="absolute inset-0 bg-background/90 flex items-center
+            justify-center flex-col gap-2 z-50"
+            >
+              <h3 className="text-xl font-medium">Call Ended</h3>
+              <p className="text-muted-foreground">Time Limit reached</p>
+            </div>
+          )}
+        </div>
+
+        <div className="bg-card border-t border-border p-4 rounded-lg mx-2">
+          <div
+            className="max-w-3xl mx-auto flex item-center sm:justify-between 
+            flex-col sm:flex-row gap-3"
+          >
+            <div className="flex items-center gap-2">
+              {callStatus === CallStatus.ACTIVE && (
+                <>
+                  <Clock className="h-6 w-6 text-muted-foreground" />
+                  <span
+                    className={cn(
+                      'text-sm font-lg',
+                      timeRemaining < 30
+                        ? 'text-destructive animate-pulse'
+                        : timeRemaining < 60
+                        ? 'text-amber-500'
+                        : 'text-muted-foreground',
+                    )}
+                  >
+                    {formatTime(timeRemaining)}
+                  </span>
+                </>
+              )}
+            </div>
+
+            <div className="flex items-center gap-4">
+              <button
+                onClick={toggleMicMute}
+                className={cn(
+                  'p-3 rounded-2xl transition-all cursor-pointer',
+                  isMicMuted
+                    ? 'bg-destructive text-primary'
+                    : 'bg-secondary hover:bg-secondary/80 text-foreground border border-border',
+                )}
+                disabled={callStatus !== CallStatus.ACTIVE}
+              >
+                {isMicMuted ? (
+                  <MicOff className="h-5 w-5" />
+                ) : (
+                  <Mic className="h-5 w-5" />
+                )}
+              </button>
+
+              <button
+                onClick={stopCall}
+                className="p-3 rounded-2xl bg-red-900/70 text-primary hover:bg-destructive/90 transition-all cursor-pointer"
+                aria-label="End call"
+                disabled={callStatus !== CallStatus.ACTIVE}
+              >
+                <PhoneOff className="h-5 w-5" />
+              </button>
+            </div>
+
+            <div className="flex items-center gap-3">
+              {product && (
+                <div className="flex items-center gap-2 rounded-xl max-w-xs">
+                  <div className="flex-shrink-0">
+                    <div className="w-12 h-10">
+                      {product.image ? (
+                        <Image
+                          width={20}
+                          height={20}
+                          src={product.image}
+                          alt={product.name}
+                          className="w-full h-full object-cover rounded-lg"
+                        />
+                      ) : (
+                        <div className="w-6 h-6 bg-blue-500 rounded-sm"></div>
+                      )}
+                    </div>
+                  </div>
+                  <div className="min-w-0 flex-1">
+                    <p className="font-medium text-xs text-foreground truncate">
+                      {product.name}
+                    </p>
+                    <div className="flex items-center gap-2">
+                      <span className="text-md font-bold text-primary">
+                        ${product.price}
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              )}
+              <Button
+                variant={'outline'}
+                onClick={handleClick}
+                className="cursor-pointer"
+              >
+                Buy Now
+              </Button>
+            </div>
+
+            <div className="hidden md:block">
+              {callStatus === CallStatus.ACTIVE && timeRemaining < 30 && (
+                <span className="text-destructive font-medium">
+                  Call ending soon
+                </span>
+              )}
+            </div>
           </div>
         </div>
+        {purchaseDialog && (
+          <PurchaseDialogBox
+            open={purchaseDialog}
+            onOpenChange={setPurchaseDialog}
+            product={product}
+            userId={webinar.presenterId}
+            webinarId={webinar.id}
+          />
+        )}
       </div>
-      {purchaseDialog && (
-        <PurchaseDialogBox
-          open={purchaseDialog}
-          onOpenChange={setPurchaseDialog}
-          product={product}
-          userId={webinar.presenterId}
-          webinarId={webinar.id}
-        />
-      )}
     </div>
   );
 };

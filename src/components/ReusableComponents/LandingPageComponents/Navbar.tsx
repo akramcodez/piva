@@ -39,7 +39,7 @@ const Navbar = ({ user }: Props) => {
       </div>
       {!user && (
         <Link href="/sign-in">
-          <Button className="sm:flex items-center hidden animated-gradient-bg text-white border-[0.1rem] border-[#2c8c88]">
+          <Button className="sm:flex items-center hidden animated-gradient-bg text-white border-[0.1rem] border-[#2c8c88] cursor-pointer">
             Let&apos;s Start
           </Button>
         </Link>
@@ -72,14 +72,14 @@ const Navbar = ({ user }: Props) => {
             </div>
             {!user && (
               <Link className="text-sm cursor-pointer" href="/sign-in">
-                <Button className="mx-auto flex items-center w-[70%] h-[35px] text-white border animated-gradient-bg border-[#2c8c88]">
+                <Button className="mx-auto flex items-center w-[70%] h-[35px] text-white border animated-gradient-bg border-[#2c8c88] cursor-pointer">
                   Let&apos;s Start
                 </Button>
               </Link>
             )}
             {user && (
               <Link className="text-sm cursor-pointer" href="/home">
-                <Button className="mx-auto flex items-center w-[70%] h-[35px] text-white border animated-gradient-bg border-[#2c8c88]">
+                <Button className="mx-auto flex items-center w-[70%] h-[35px] text-white border animated-gradient-bg border-[#2c8c88] cursor-pointer">
                   Dashboard
                 </Button>
               </Link>

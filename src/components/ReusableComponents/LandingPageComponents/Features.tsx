@@ -12,14 +12,13 @@ const Features = () => {
       icon: <RiRobot3Line className="themeColor text-[30px] sm:text-[40px]" />,
       title: 'AI Sales Agents',
       description:
-        'Deploy intelligent AI agents to conduct dynamic sales conversations and qualify leads automatically.',
+        'AI voice agents pitch your products and convert leads into sales automatically',
     },
     {
       id: 2,
       icon: <LuZap className="themeColor text-[30px] sm:text-[40px]" />,
       title: 'Automated Webinars',
-      description:
-        'Host engaging, pre-recorded or AI-driven webinars that run on autopilot, anytime, anywhere.',
+      description: 'Run live AI-driven webinars that sell your products 24/7',
     },
     {
       id: 3,
@@ -28,14 +27,14 @@ const Features = () => {
       ),
       title: 'Sell Products Directly',
       description:
-        'Seamlessly integrate and sell your products directly within your automated webinars.',
+        'Seamlessly integrate and sell your products directly within your automated webinars',
     },
     {
       id: 4,
       icon: <CiEdit className="themeColor text-[30px] sm:text-[40px]" />,
       title: 'Customizable AI',
       description:
-        "Tailor your AI agents' scripts and behavior with easy-to-use prompt customization.",
+        "Tailor your AI agents' scripts and behavior with easy-to-use prompt customization",
     },
   ];
 
