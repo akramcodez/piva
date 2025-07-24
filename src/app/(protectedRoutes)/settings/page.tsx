@@ -2,14 +2,12 @@ import { onAuthenticateUser } from '@/actions/auth';
 import { calculateRevenue, countProducts } from '@/actions/product';
 import { countWebinars } from '@/actions/webinar';
 import { RiRobot3Line } from 'react-icons/ri';
-import { getStripeOAuthLink } from '@/lib/stripe/util';
 import { LucideDollarSign, LucidePackage, LucideVideo } from 'lucide-react';
 import { redirect } from 'next/navigation';
 import React from 'react';
 import { StripeConnectCard } from './_components/StripeConnectCard';
 import { AccountSettingsCard } from './_components/AccountSettingsCard';
 import { CompactDashboardCard } from './_components/CompactDashboardCard';
-import { addStripeId } from '@/actions/stripe';
 
 const page = async () => {
   const { user } = await onAuthenticateUser();
