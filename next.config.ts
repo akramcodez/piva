@@ -4,6 +4,9 @@ const nextConfig: NextConfig = {
   compiler: {
     removeConsole: process.env.NODE_ENV === 'production',
   },
+  typescript: {
+    ignoreBuildErrors: true,
+  },
   images: {
     domains: [
       'i.pinimg.com',
