@@ -249,6 +249,7 @@ const EditWebinarDialog = ({
                   <Input
                     id="date"
                     type="date"
+                    disabled
                     value={
                       formData.basicInfo.date
                         ? format(formData.basicInfo.date, 'yyyy-MM-dd')
@@ -265,7 +266,7 @@ const EditWebinarDialog = ({
                       errors['basicInfo.date'] ? 'border-red-500' : ''
                     }`}
                   />
-                  <Calendar className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400" />
+                  <Calendar className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-700" />
                 </div>
                 {errors['basicInfo.date'] && (
                   <p className="text-red-500 text-sm mt-1">
@@ -283,6 +284,7 @@ const EditWebinarDialog = ({
                     <Input
                       id="time"
                       type="time"
+                      disabled
                       value={formData.basicInfo.time}
                       onChange={(e) =>
                         handleInputChange('basicInfo', 'time', e.target.value)
@@ -291,7 +293,7 @@ const EditWebinarDialog = ({
                         errors['basicInfo.time'] ? 'border-red-500' : ''
                       }`}
                     />
-                    <Clock className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400" />
+                    <Clock className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-700" />
                   </div>
                   <Select
                     value={formData.basicInfo.timeFormat}
