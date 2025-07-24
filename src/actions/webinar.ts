@@ -84,14 +84,14 @@ export const createWebinar = async (formData: WebinarFormState) => {
       formData.basicInfo.time,
       formData.basicInfo.timeFormat || 'AM',
     );
-    const now = new Date();
+    // const now = new Date();
 
-    if (combinedDataTime < now) {
-      return {
-        status: 400,
-        message: 'Webinar Date and Time must be in the future',
-      };
-    }
+    // if (combinedDataTime < now) {
+    //   return {
+    //     status: 400,
+    //     message: 'Webinar Date and Time must be in the future',
+    //   };
+    // }
 
     const data: WebinarData = {
       title: formData.basicInfo.webinarName,
