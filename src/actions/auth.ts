@@ -18,6 +18,13 @@ export async function onAuthenticateUser() {
     });
 
     if (existingUser) {
+      if (!existingUser.stripeConnectId) {
+        try {
+          await addStripeId(existingUser.id);
+        } catch (error) {
+          console.error('Failed to add Stripe ID to existing user:', error);
+        }
+      }
       return { status: 200, user: existingUser };
     }
 
@@ -33,7 +40,13 @@ export async function onAuthenticateUser() {
     };
 
     const newUser = await createUserWithEmailConflictHandling(userData);
-    addStripeId(newUser.id);
+
+    try {
+      await addStripeId(newUser.id);
+      console.log('Stripe ID added successfully for user:', newUser.id);
+    } catch (stripeError) {
+      console.error('Failed to add Stripe ID:', stripeError);
+    }
 
     return { status: 201, user: newUser };
   } catch (error: unknown) {
