@@ -18,13 +18,6 @@ export async function onAuthenticateUser() {
     });
 
     if (existingUser) {
-      if (!existingUser.stripeConnectId) {
-        try {
-          await addStripeId(existingUser.id);
-        } catch (error) {
-          console.error('Failed to add Stripe ID to existing user:', error);
-        }
-      }
       return { status: 200, user: existingUser };
     }
 
@@ -107,10 +100,8 @@ export async function deleteAccount() {
       where: { clerkId: user.id },
     });
 
-    // Delete from Clerk regardless
     await client.users.deleteUser(user.id);
 
-    // If user exists in database, clean up all related data
     if (userInDb) {
       await prismaClient.$transaction([
         prismaClient.product.deleteMany({ where: { ownerId: userInDb.id } }),
