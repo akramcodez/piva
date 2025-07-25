@@ -2,7 +2,11 @@
 
 import React from 'react';
 import { Button } from '@/components/ui/button';
-import { LucideAlertCircle, LucideCheckCircle2 } from 'lucide-react';
+import {
+  LucideAlertCircle,
+  LucideArrowRight,
+  LucideCheckCircle2,
+} from 'lucide-react';
 import Link from 'next/link';
 import { toast } from 'sonner';
 import { addStripeId, stripeDisconnect } from '@/actions/stripe';
@@ -83,6 +87,7 @@ export const StripeConnectCard = ({ isConnected, userId }: Props) => {
             onClick={handleConnect}
           >
             Connect Demo Stripe
+            <LucideArrowRight className="w-4 h-4 ml-2" />
           </Button>
         )}
         {isConnected && (
