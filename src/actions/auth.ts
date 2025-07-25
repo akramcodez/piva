@@ -3,6 +3,7 @@
 import { clerkClient, currentUser } from '@clerk/nextjs/server';
 import { prismaClient } from '@/lib/prismaClient';
 import { revalidatePath } from 'next/cache';
+import { addStripeId } from './stripe';
 
 export async function onAuthenticateUser() {
   try {
@@ -32,6 +33,7 @@ export async function onAuthenticateUser() {
     };
 
     const newUser = await createUserWithEmailConflictHandling(userData);
+    addStripeId(newUser.id);
 
     return { status: 201, user: newUser };
   } catch (error: unknown) {

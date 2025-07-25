@@ -35,8 +35,6 @@ export const addStripeId = async (userId: string) => {
       data: { stripeConnectId: demoStripeId, subscription: true },
     });
 
-    revalidatePath('/settings');
-
     return {
       status: 200,
       success: true,
