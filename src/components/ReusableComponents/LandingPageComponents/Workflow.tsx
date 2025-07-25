@@ -90,7 +90,7 @@ const Workflow = () => {
         </div>
       </div>
       <Link
-        href="https://x.com/akramcodez"
+        href="https://x.com/akramcodez/status/1948605620090720565"
         target="_blank"
         rel="noopener noreferrer"
         className="flex items-center px-20 py-1 sm:py-1.5 2xl:py-2 mt-8 border-[0.1rem] border-[#2c8c88] rounded-lg themeBg hoverthemeBg cursor-pointer"

@@ -11,7 +11,7 @@ import {
   StreamVideo,
   StreamCall,
 } from '@stream-io/video-react-sdk';
-import { AlertCircle, Cast, CircleCheckBig, WifiOff } from 'lucide-react';
+import { AlertCircle, Cast, WifiOff } from 'lucide-react';
 import React, { useState, useRef, useEffect } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import LiveWebinarView from '../Common/LiveWebinarView';
@@ -195,13 +195,7 @@ const Participant = ({ apiKey, callId, webinar, product }: Props) => {
               </div>
             </>
           )}
-          {connectionStatus === 'connected' && (
-            <>
-              <div className="mx-auto w-16 h-16 bg-background text-green-500">
-                <CircleCheckBig className="h-16 w-16" />
-              </div>
-            </>
-          )}
+          {connectionStatus === 'connected' && <></>}
         </div>
       </div>
     );
