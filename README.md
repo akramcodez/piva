@@ -231,7 +231,7 @@ For support and questions:
 - Email: skcodewizard786@gmail.com
 - Twitter: [@akramcodez](https://twitter.com/akramcodez)
 
-## 🙏 Acknowledgments
+## Acknowledgments
 
 - [Next.js](https://nextjs.org/) - React framework
 - [Clerk](https://clerk.dev/) - Authentication
