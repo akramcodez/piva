@@ -95,7 +95,7 @@ export const metadata: Metadata = {
     title: 'Piva',
     description:
       'AI-Powered Webinar Platform',
-    images: ["https://www.akramcodez.tech/og-image.jpg"],
+    images: ["https://piva.akramcodez.tech/og-image.jpg"],
     creator: "@akramcodez",
   },
   category: 'Technology',
