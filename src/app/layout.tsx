@@ -81,10 +81,9 @@ export const metadata: Metadata = {
     siteName: "SK Akram",
     images: [
       {
-        url: "https://piva.akramcodez.tech/og-main-image.jpg",
+        url: "https://piva.akramcodez.tech/og-image.jpg",
         width: 1200,
         height: 630,
-        alt: "SK Akram Portfolio",
       },
     ],
     type: 'website',
@@ -95,7 +94,7 @@ export const metadata: Metadata = {
     title: 'Piva',
     description:
       'AI-Powered Webinar Platform',
-    images: ["https://piva.akramcodez.tech/og-main-image.jpg"],
+    images: ["https://piva.akramcodez.tech/og-image.jpg"],
     creator: "@akramcodez",
   },
   category: 'Technology',
