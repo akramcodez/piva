@@ -60,7 +60,7 @@ const About = () => {
                 </p>
 
                 <p className="text-gray-300 text-xs sm:text-sm leading-relaxed mb-6 opacity-90">
-                  18-year-old Full-Stack Web Developer and Computer Science
+                  19-year-old Full-Stack Web Developer and Computer Science
                   student at Amity University. Specializing in MERN stack
                   development with expertise in backend systems and modern web
                   technologies.
