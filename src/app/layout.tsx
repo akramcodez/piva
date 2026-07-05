@@ -20,7 +20,7 @@ const ubuntu = Ubuntu({
 export const metadata: Metadata = {
   title: 'Piva',
   description: 'AI-Powered Webinar Platform',
-  metadataBase: new URL("https://piva.akramcodez.tech"),
+  metadataBase: new URL("https://piva.akramcodez.com"),
   authors: [
     {
       name: "SK Akram",
@@ -77,11 +77,11 @@ export const metadata: Metadata = {
     title: 'Piva',
     description:
       'AI-Powered Webinar Platform',
-    url: "https://piva.akramcodez.tech",
+    url: "https://piva.akramcodez.com",
     siteName: "SK Akram",
     images: [
       {
-        url: "https://piva.akramcodez.tech/og-image.jpg",
+        url: "https://piva.akramcodez.com/og-image.jpg",
         width: 1200,
         height: 630,
       },
@@ -94,7 +94,7 @@ export const metadata: Metadata = {
     title: 'Piva',
     description:
       'AI-Powered Webinar Platform',
-    images: ["https://piva.akramcodez.tech/og-image.jpg"],
+    images: ["https://piva.akramcodez.com/og-image.jpg"],
     creator: "@akramcodez",
   },
   category: 'Technology',
