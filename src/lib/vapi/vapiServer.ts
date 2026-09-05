@@ -9,7 +9,7 @@ export function getVapiClient() {
     },
   };
 
-  const key = process.env.VAPI_PRIVATE_KEY!;
+  const key = process.env.VAPI_PRIVATE_KEY || 'vapi_test_key';
 
   const token = jwt.sign(payload, key, { expiresIn: 3600 });
 

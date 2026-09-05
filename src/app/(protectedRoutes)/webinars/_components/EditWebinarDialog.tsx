@@ -23,7 +23,7 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { ClientProduct } from '@/lib/type';
-import { Assistant } from '@vapi-ai/server-sdk/api';
+import { AppAssistant } from '@/lib/type';
 import Link from 'next/link';
 import { updateWebinar } from '@/actions/webinar';
 import { toast } from 'sonner';
@@ -34,7 +34,7 @@ type Props = {
   isOpen: boolean;
   onClose: () => void;
   products: ClientProduct[] | [];
-  assistants: Assistant[] | [];
+  assistants: AppAssistant[] | [];
 };
 
 const EditWebinarDialog = ({

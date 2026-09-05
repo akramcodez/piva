@@ -1,9 +1,9 @@
-import { Assistant } from '@vapi-ai/server-sdk/api';
 import { create } from 'zustand';
+import { AppAssistant } from '@/lib/type';
 
 type AiAgentStore = {
-  assistant: Assistant | null;
-  setAssistant: (assistant: Assistant) => void;
+  assistant: AppAssistant | null;
+  setAssistant: (assistant: AppAssistant) => void;
   clearAiAssistant: () => void;
 };
 

@@ -9,14 +9,14 @@ import CreateWebinarButton from '../CreateWebinarButton';
 import { Plus } from 'lucide-react';
 import { toast } from 'sonner';
 import { ClientProduct } from '@/lib/type';
-import { Assistant } from '@vapi-ai/server-sdk/api';
+import { AppAssistant } from '@/lib/type';
 import ProductDialog from '@/app/(protectedRoutes)/products/_components/ProductDialog';
 import Link from 'next/link';
 
 type Props = {
   user: User;
   stripeProducts: ClientProduct[] | [];
-  assistants: Assistant[] | [];
+  assistants: AppAssistant[] | [];
 };
 
 const Header = ({ user, stripeProducts, assistants }: Props) => {

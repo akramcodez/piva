@@ -16,14 +16,14 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { ClientProduct } from '@/lib/type';
-import { Assistant } from '@vapi-ai/server-sdk/api';
+import { AppAssistant } from '@/lib/type';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { redirect } from 'next/navigation';
 
 type Props = {
   stripeProducts: ClientProduct[] | [];
-  assistants: Assistant[] | [];
+  assistants: AppAssistant[] | [];
   isModelOpen: boolean;
   setIsModelOpen: (isModelOpen: boolean) => void;
 };

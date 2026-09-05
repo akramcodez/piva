@@ -25,13 +25,13 @@ import {
 } from '@/components/ui/dropdown-menu';
 import EditWebinarDialog from './EditWebinarDialog';
 import { ClientProduct } from '@/lib/type';
-import { Assistant } from '@vapi-ai/server-sdk/api';
+import { AppAssistant } from '@/lib/type';
 
 type Props = {
   webinar: Webinar;
   webinarStatus: number;
   products: ClientProduct[] | [];
-  assistants: Assistant[] | [];
+  assistants: AppAssistant[] | [];
 };
 
 const WebinarCard = ({

@@ -1,8 +1,8 @@
 import { vi, describe, it, expect, beforeEach } from 'vitest';
-import { createWebinar, updateWebinar, getWebinarById, deleteWebinar } from '../webinar';
+import { createWebinar, deleteWebinar } from '../webinar';
 import { prismaClient } from '@/lib/prismaClient';
 import { onAuthenticateUser } from '../auth';
-import { CtaTypeEnum, WebinarStatusEnum } from '@prisma/client';
+import { CtaTypeEnum } from '@prisma/client';
 
 vi.mock('@/lib/prismaClient');
 const prismaMock = prismaClient as any;
@@ -104,7 +104,7 @@ describe('Webinar Actions', () => {
       const createdWebinar = { id: 'webinar-id-123' };
       
       // Setup transaction mock
-      prismaMock.$transaction.mockImplementation(async (callback) => {
+      prismaMock.$transaction.mockImplementation(async (callback: any) => {
         return callback(prismaMock);
       });
       

@@ -1,5 +1,5 @@
 import { vi, describe, it, expect, beforeEach } from 'vitest';
-import { onAuthenticateUser, deleteAccount } from '../auth';
+import { onAuthenticateUser } from '../auth';
 import { prismaClient } from '@/lib/prismaClient';
 import * as clerkNextjsServer from '@clerk/nextjs/server';
 

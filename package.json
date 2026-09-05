@@ -98,5 +98,19 @@
     "typescript": "^5",
     "vitest": "^4.1.10",
     "vitest-mock-extended": "^5.1.1"
+  },
+  "overrides": {
+    "react-day-picker": {
+      "react": "$react",
+      "date-fns": "$date-fns"
+    },
+    "mml-react": {
+      "react": "$react",
+      "react-dom": "$react-dom"
+    },
+    "react-popper": {
+      "react": "$react",
+      "react-dom": "$react-dom"
+    }
   }
 }

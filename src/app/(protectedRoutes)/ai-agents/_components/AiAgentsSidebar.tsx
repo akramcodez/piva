@@ -4,7 +4,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { useAiAgentStore } from '@/store/useAiAgentStore';
-import { Assistant } from '@vapi-ai/server-sdk/api';
+import { AppAssistant } from '@/lib/type';
 import { Plus, Search } from 'lucide-react';
 import React, { useState } from 'react';
 import CreateAssistantModel from './CreateAssistantModel';
@@ -19,7 +19,7 @@ import {
 import Link from 'next/link';
 
 type Props = {
-  aiAgents: Assistant[] | [];
+  aiAgents: AppAssistant[] | [];
   user: User | null;
 };
 

@@ -1,5 +1,8 @@
 import type { User, Webinar } from '@prisma/client';
 import { AttendedTypeEnum, CallStatusEnum } from '@prisma/client';
+import { Assistant, CreateAssistantDto } from '@vapi-ai/server-sdk/api';
+
+export type AppAssistant = Assistant & Omit<CreateAssistantDto, 'serverMessages' | 'name' | 'metadata'> & { id: string };
 
 export type validationError = Record<string, string>;
 

@@ -4,6 +4,7 @@ const nextConfig: NextConfig = {
   compiler: {
     removeConsole: process.env.NODE_ENV === 'production',
   },
+  output: 'standalone',
   typescript: {
     ignoreBuildErrors: true,
   },

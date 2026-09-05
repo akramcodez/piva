@@ -2,11 +2,12 @@
 
 import { aiAgentPrompt } from '@/lib/data';
 import { getVapiClient } from '@/lib/vapi/vapiServer';
+import { AppAssistant } from '@/lib/type';
 
 export const getAllAssistants = async () => {
   try {
     const vapiClient = getVapiClient();
-    const getAllAgents = await vapiClient.assistants.list();
+    const getAllAgents = (await vapiClient.assistants.list()) as unknown as AppAssistant[];
 
     return {
       success: true,
