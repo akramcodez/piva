@@ -7,16 +7,16 @@ RUN apk add --no-cache libc6-compat
 WORKDIR /app
 
 # Install dependencies based on the preferred package manager
-COPY package.json package-lock.json* ./
-COPY prisma ./prisma/
+COPY package.json package-lock.json* /app/
+COPY prisma /app/prisma/
 # Install with overrides
 RUN npm ci
 
 # Rebuild the source code only when needed
 FROM base AS builder
 WORKDIR /app
-COPY --from=deps /app/node_modules ./node_modules
-COPY . .
+COPY --from=deps /app/node_modules /app/node_modules
+COPY . /app
 
 # Next.js telemetry is disabled
 ENV NEXT_TELEMETRY_DISABLED=1
@@ -38,7 +38,7 @@ ENV NEXT_TELEMETRY_DISABLED=1
 RUN addgroup --system --gid 1001 nodejs
 RUN adduser --system --uid 1001 nextjs
 
-COPY --from=builder /app/public ./public
+COPY --from=builder /app/public /app/public
 
 # Set the correct permission for prerender cache
 RUN mkdir .next
@@ -46,9 +46,9 @@ RUN chown nextjs:nodejs .next
 
 # Automatically leverage output traces to reduce image size
 # https://nextjs.org/docs/advanced-features/output-file-tracing
-COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
-COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
-COPY --from=builder --chown=nextjs:nodejs /app/prisma ./prisma
+COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone /app/
+COPY --from=builder --chown=nextjs:nodejs /app/.next/static /app/.next/static
+COPY --from=builder --chown=nextjs:nodejs /app/prisma /app/prisma
 
 USER nextjs
 
